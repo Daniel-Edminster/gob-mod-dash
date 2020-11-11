@@ -5,6 +5,7 @@ export default class Round {
   constructor(number, existing) {
     this.number = number;
     this.theme = existing ? existing.theme : null;
+    this.participants = existing ? existing.participants : null;
     if (existing) {
       this.threads = existing.threads;
       this.pools = existing.pools;

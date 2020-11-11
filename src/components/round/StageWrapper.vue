@@ -12,7 +12,7 @@
 		:postId="round.threads.signup"
 		:signups="round.pools.signup"
 	/>
-	
+	<div v-else>Participants commited to round</div>
 </template>
 
 <script>

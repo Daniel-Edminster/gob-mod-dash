@@ -27,6 +27,7 @@ export default {
   },
   provide() {
     return {
+      setParticipants: this.setParticipants,
       setPool: this.setPool,
       setTheme: this.setTheme,
       setThread: this.setThread
@@ -53,6 +54,10 @@ export default {
     setTheme(value) {
       console.log(`Setting theme for round ${this.round.number} to ${value}`);
       this.round.theme = value;
+      this.saveRounds();
+    },
+    setParticipants(value) {
+      this.round.participants = value;
       this.saveRounds();
     },
     saveRounds() {

@@ -24,8 +24,8 @@ export default {
 	methods: {
 		async fetchNominations() {
 			const comments = await reddit.fetchComments(this.postId);
-			const themePool = mapCommentsToNoms(comments);
-			this.setPool("theme", themePool);
+			const pool = mapCommentsToNoms(comments);
+			this.setPool("theme", pool);
 		},
 	},
 };
