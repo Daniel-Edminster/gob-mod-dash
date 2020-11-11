@@ -13,8 +13,15 @@
 		:signups="round.pools.signup"
 	/>
   <TeamIndex 
-    v-if="round.participants && !round.songs"
+    v-if="round.participants && !round.songs && !round.active"
     :participants="round.participants"
+    :teams="round.teams"
+  />
+  <LaunchIndex
+    v-if="round.teams && round.active"
+    :number="round.number"
+    :theme="round.theme"
+    :postId="round.threads.launch"
     :teams="round.teams"
   />
 </template>
@@ -23,6 +30,7 @@
 // this component handles displaying the appropriate component
 // based on what stage the round is at. As it contains a lot of imports
 // and if checks, it's its own component.
+import LaunchIndex from "@/components/launch/LaunchIndex"
 import TeamIndex from "@/components/team/TeamIndex";
 import ThemeIndex from "@/components/theme/ThemeIndex";
 import SignupIndex from "@/components/signup/SignupIndex"
@@ -30,6 +38,7 @@ import SignupIndex from "@/components/signup/SignupIndex"
 export default {
 	name: "StageWrapper",
 	components: {
+    LaunchIndex,
     TeamIndex,
     ThemeIndex,
     SignupIndex

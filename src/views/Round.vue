@@ -27,8 +27,11 @@ export default {
   },
   provide() {
     return {
+      checkComment: this.checkComment,
       clearProperty: this.clearProperty,
       returnAngels: this.returnAngels,
+      setActive: this.setActive,
+      setComment: this.setComment,
       setParticipants: this.setParticipants,
       setPool: this.setPool,
       setTeams: this.setTeams,
@@ -46,12 +49,34 @@ export default {
 				console.log("No round found");
 			}
     },
+    checkComment(comment) {
+      const { type, number } = comment;
+      if (type === 'team') {
+        const team = this.round.teams.find(team => team.number === number);
+        if (team.comment) return true;
+        return false;
+      }
+    },
     clearProperty(key) {
       this.round[key] = null;
       this.saveRounds();
     },
     returnAngels(angels) {
       this.round.participants = angels;
+    },
+    setActive() {
+      this.round.active = true;
+    },
+    setComment(comment, id) {
+      const { type, number } = comment;
+      if (type === 'team') {
+        const team = this.round.teams.find(team => team.number === number);
+        team.comment = id;
+        this.saveRounds();
+        console.log(team);
+      } else if (type === 'song') {
+        console.log('setting song comment id');
+      }
     },
     setThread(key, value) {
       this.round.threads[key] = value;

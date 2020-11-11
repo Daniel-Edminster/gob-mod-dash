@@ -1,9 +1,9 @@
 <template>
 	<div>
+    <button @click="setParticipants(signups)">Commit Participants to Round</button>
 		<ul>
 			<li v-for="signup in signups" :key="signup.name">{{ signup }}</li>
 		</ul>
-    <button @click="setParticipants(signups)">Commit Participants to Round</button>
 	</div>
 </template>
 

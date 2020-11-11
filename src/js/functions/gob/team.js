@@ -10,6 +10,7 @@ export function createTeams(participants) {
   doublesMode(singles, doubles, teams, lengths);
   triplesMode(singles, doubles, triples, teams, lengths);
   const angels = compileAngels(singles);
+  addTeamNumbers(teams);
   return {teams, angels};
 }
 
@@ -18,6 +19,20 @@ function compileAngels(singles) {
   Object.values(singles).forEach(list => {
     while(list.length > 0) array.push(list.pop())
   })
+  return array;
+}
+
+function addTeamNumbers(teams) {
+  teams.forEach((team, index) => {
+    team.number = index + 1;
+  })
+}
+
+function singlesMode(singles, lengths) {
+  const array = [];
+  while (singles[lengths.shortest].length > 0) {
+    array.push(createTeamFromSingles(singles));
+  }
   return array;
 }
 
@@ -84,7 +99,7 @@ function populateSingleFromDoubles(lengths, singles, doubles) {
 
 function removeUnusedRoles(user, shortest) {
   const roles = user.roles.filter(role => role === shortest);
-  user.roles = [roles];
+  user.roles = [roles[0]];
   return user;
 }
 
@@ -188,20 +203,12 @@ function measureDoubles(doubles) {
   return lengths;
 }
 
-function singlesMode(singles, lengths) {
-  const array = [];
-  while (singles[lengths.shortest].length > 0) {
-    array.push(createTeamFromSingles(singles));
-  }
-  return array;
-}
-
 function createTeamFromSingles(singles) {
   const pools = Object.values(singles);
-  const team = {};
+  const team = { members: []};
   pools.forEach(pool => {
     const user = pool.pop();
-    team[user.roles[0]] = user;
+    team.members.push(user);
   })
   return team;
 }

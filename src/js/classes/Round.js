@@ -7,6 +7,7 @@ export default class Round {
     this.theme = existing ? existing.theme : null;
     this.participants = existing ? existing.participants : null;
     this.teams = existing ? existing.teams : null;
+    this.active = existing ? existing.active : false;
     if (existing) {
       this.threads = existing.threads;
       this.pools = existing.pools;

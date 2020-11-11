@@ -34,6 +34,8 @@ class Reddit extends snoowrap {
     return this.getSubmission(postId);
   }
 
+  // getSubmission is fine to use instead of fetchPost
+
   submitPost = async (post) => {
     const options = {
       subredditName: this.subreddit,
@@ -46,6 +48,17 @@ class Reddit extends snoowrap {
       return submission;
     } catch (err) {
       console.log(err);
+      return null;
+    }
+  }
+
+  submitComment = async (postId, comment) => {
+    try {
+      const submission = await this.getSubmission(postId);
+      const result = await submission.reply(comment);
+      return result;
+    } catch (err) {
+      console.log(err)
       return null;
     }
   }
