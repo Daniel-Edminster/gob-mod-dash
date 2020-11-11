@@ -1,11 +1,18 @@
 <template>
 	<ThemeIndex
 		v-if="!round.theme"
-    :number="round.number"
+		:number="round.number"
 		:postId="round.threads.theme"
 		:nominations="round.pools.theme"
 	/>
-  <div v-else>Theme has been decided: {{ round.theme }}</div>
+	<SignupIndex
+		v-if="!round.participants"
+		:number="round.number"
+    :theme="round.theme"
+		:postId="round.threads.signup"
+		:signups="round.pools.signup"
+	/>
+	
 </template>
 
 <script>
@@ -13,11 +20,13 @@
 // based on what stage the round is at. As it contains a lot of imports
 // and if checks, it's its own component.
 import ThemeIndex from "@/components/theme/ThemeIndex";
+import SignupIndex from "@/components/signup/SignupIndex"
 
 export default {
 	name: "StageWrapper",
 	components: {
-		ThemeIndex,
+    ThemeIndex,
+    SignupIndex
 	},
 	props: {
 		round: {
