@@ -28,6 +28,7 @@ export default {
   provide() {
     return {
       setPool: this.setPool,
+      setTheme: this.setTheme,
       setThread: this.setThread
     }
   },
@@ -43,10 +44,18 @@ export default {
     },
     setThread(key, value) {
       this.round.threads[key] = value;
-      this.$store.dispatch('rounds/saveRounds');
+      this.saveRounds();
     },
     setPool(key, value) {
       this.round.pools[key] = value;
+      this.saveRounds();
+    },
+    setTheme(value) {
+      console.log(`Setting theme for round ${this.round.number} to ${value}`);
+      this.round.theme = value;
+      this.saveRounds();
+    },
+    saveRounds() {
       this.$store.dispatch('rounds/saveRounds');
     }
   },

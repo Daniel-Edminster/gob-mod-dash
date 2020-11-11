@@ -13,3 +13,24 @@ export function mapCommentsToNoms(comments) {
   })
   return array;
 }
+
+export function determineWinningTheme(nominations) {
+  // Find max score
+  const highScore =
+    Math.max.apply(Math, nominations.map((nomination) => nomination.score));
+
+  // populate new array with equally highest scoring nominations
+  let highestNominations = [];
+  nominations.forEach((nomination) => {
+    if (nomination.score == highScore) {
+      highestNominations.push(nomination);
+    }
+  });
+
+  // sort best nominations by created date
+  highestNominations.sort((a, b) => {
+    return a.date - b.date;
+  })
+
+  return highestNominations[0];
+}

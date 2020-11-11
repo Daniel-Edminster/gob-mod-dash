@@ -5,6 +5,7 @@
 		:postId="round.threads.theme"
 		:nominations="round.pools.theme"
 	/>
+  <div v-else>Theme has been decided: {{ round.theme }}</div>
 </template>
 
 <script>
