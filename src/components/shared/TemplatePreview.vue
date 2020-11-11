@@ -1,7 +1,7 @@
 <template>
 	<div id="template-preview">
-		<h4>{{ template.title }}</h4>
-		<VueMarkdownIt :source="parsedContent" />
+		<h4>{{ parseString(template.title) }}</h4>
+		<VueMarkdownIt :source="parseString(template.body)" />
 	</div>
 </template>
 
@@ -18,20 +18,20 @@ export default {
 			type: Object,
 			required: true,
 		},
-		round: {
+		metadata: {
 			type: Object,
 			required: false,
 			default: null,
 		},
 	},
-	computed: {
-		parsedContent() {
-			if (this.round) {
-				return parseMacros(this.template.body, this.round);
-			} else {
-				return this.template.body;
-			}
-		},
-	},
+  methods: {
+    parseString(string) {
+      if (this.metadata) {
+        return parseMacros(string, this.metadata);
+      } else {
+        return string;
+      }
+    }
+  }
 };
 </script>

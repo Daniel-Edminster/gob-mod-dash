@@ -25,6 +25,11 @@ export default {
       round: null
     }
   },
+  provide() {
+    return {
+      setThread: this.setThread
+    }
+  },
   methods: {
     fetchRound(id) {
 			const number = id;
@@ -34,7 +39,11 @@ export default {
 			} else {
 				console.log("No round found");
 			}
-		},
+    },
+    setThread(key, value) {
+      this.round.threads[key] = value;
+      this.$store.dispatch('templates/saveTemplates');
+    }
   },
   created() {
     this.fetchRound(this.id);

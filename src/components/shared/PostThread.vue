@@ -1,16 +1,16 @@
 <template>
   Post Thread Component
   <TemplatePicker />
-  <TemplatePreview v-if="template" :content="template.body" :metadata="metadata" />
+  <TemplatePreview v-if="template" :template="template" :metadata="metadata" />
   <button v-if="template" @click="submitPost">Post to reddit</button>
 </template>
 
 <script>
 import TemplatePicker from "../shared/TemplatePicker";
 import TemplatePreview from "../shared/TemplatePreview";
-// import { parseMacros } from "@/js/functions/utils";
+import { parseMacros } from "@/js/functions/utils";
 
-// import reddit from "@/js/api/reddit.js";
+import reddit from "@/js/api/reddit.js";
 
 export default {
   name: 'PostThread',
@@ -35,9 +35,24 @@ export default {
       template: null
     }
   },
+  provide() {
+    return {
+      setTemplate: this.setTemplate
+    }
+  },
+  inject: ['setThread'],
   methods: {
-    submitPost() {
-      console.log("Submitting post")
+    setTemplate(name) {
+      this.template = this.$store.getters['templates/getTemplateByName'](name);
+    },
+    async submitPost() {
+      const post = {
+        title: parseMacros(this.template.title, this.metadata),
+        body: parseMacros(this.template.body, this.metadata)
+      }
+      console.log("Submitting to reddit", post);
+      const submission = await reddit.submitPost(post);
+      this.setThread(this.thread, submission.name);
     }
   }
 }

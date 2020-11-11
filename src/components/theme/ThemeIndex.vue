@@ -1,7 +1,7 @@
 <template>
   <div>Theme Index</div>
-  <div v-if="!postId"><PostThread thread="theme" /></div>
-  <div v-if="postId">Fetch Nominations</div>
+  <div v-if="!postId"><PostThread thread="theme" :metadata="metadata" /></div>
+  <div v-if="postId">Fetch Nominations from {{ postId }}</div>
   <div v-if="nominations">Determine Winning Theme</div>
 </template>
 
@@ -27,6 +27,13 @@ export default {
       type: Array,
       required: false,
       default: null
+    }
+  },
+  computed: {
+    metadata() {
+      return {
+        number: this.number
+      }
     }
   }
 }
