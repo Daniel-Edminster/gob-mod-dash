@@ -27,6 +27,7 @@ export default {
   },
   provide() {
     return {
+      setPool: this.setPool,
       setThread: this.setThread
     }
   },
@@ -42,7 +43,11 @@ export default {
     },
     setThread(key, value) {
       this.round.threads[key] = value;
-      this.$store.dispatch('templates/saveTemplates');
+      this.$store.dispatch('rounds/saveRounds');
+    },
+    setPool(key, value) {
+      this.round.pools[key] = value;
+      this.$store.dispatch('rounds/saveRounds');
     }
   },
   created() {

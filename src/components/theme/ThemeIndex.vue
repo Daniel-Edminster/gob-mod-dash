@@ -1,16 +1,18 @@
 <template>
   <div>Theme Index</div>
   <div v-if="!postId"><PostThread thread="theme" :metadata="metadata" /></div>
-  <div v-if="postId">Fetch Nominations from {{ postId }}</div>
+  <div v-if="postId"><FetchNominations :postId="postId" /></div>
   <div v-if="nominations">Determine Winning Theme</div>
 </template>
 
 <script>
+import FetchNominations from "./FetchNominations"
 import PostThread from "../shared/PostThread"
 
 export default {
   name: "ThemeIndex",
   components: {
+    FetchNominations,
     PostThread
   },
   props: {
