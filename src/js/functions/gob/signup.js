@@ -8,11 +8,11 @@ export function mapCommentsToSignups(comments) {
   comments.forEach((signup) => {
       if (signup.author.name.length > 0 && signup.author.name != "[deleted]") {
           let user = {};
-          user.roles = {};
+          user.roles = [];
           roles.forEach((role) => {
               if (signup.body.toLowerCase().includes(role)) {
                   user.name = signup.author.name;
-                  user.roles[role] = true;
+                  user.roles.push(role);
               }
           });
           if(Object.keys(user.roles).length > 0) signupPool.add(user);

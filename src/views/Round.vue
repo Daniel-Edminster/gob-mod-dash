@@ -27,8 +27,11 @@ export default {
   },
   provide() {
     return {
+      clearProperty: this.clearProperty,
+      returnAngels: this.returnAngels,
       setParticipants: this.setParticipants,
       setPool: this.setPool,
+      setTeams: this.setTeams,
       setTheme: this.setTheme,
       setThread: this.setThread
     }
@@ -42,6 +45,13 @@ export default {
 			} else {
 				console.log("No round found");
 			}
+    },
+    clearProperty(key) {
+      this.round[key] = null;
+      this.saveRounds();
+    },
+    returnAngels(angels) {
+      this.round.participants = angels;
     },
     setThread(key, value) {
       this.round.threads[key] = value;
@@ -58,6 +68,10 @@ export default {
     },
     setParticipants(value) {
       this.round.participants = value;
+      this.saveRounds();
+    },
+    setTeams(value) {
+      this.round.teams = value;
       this.saveRounds();
     },
     saveRounds() {
