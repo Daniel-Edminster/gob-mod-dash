@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import rounds from "./rounds"
+import templates from "./templates"
 
 export default createStore({
   state: {
@@ -9,6 +10,7 @@ export default createStore({
   actions: {
   },
   modules: {
-    rounds
+    rounds,
+    templates
   }
 })

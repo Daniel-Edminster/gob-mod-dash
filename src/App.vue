@@ -2,7 +2,7 @@
   <div id="nav">
     <router-link to="/">Home</router-link> | 
     <router-link :to="{ name: 'Rounds'}">Rounds</router-link> | 
-    Templates
+    <router-link :to="{ name: 'Templates'}">Templates</router-link>
   </div>
   <router-view/>
 </template>

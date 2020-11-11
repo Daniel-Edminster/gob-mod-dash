@@ -1,10 +1,12 @@
 import Round from "@/js/classes/Round"
 
+const array = localStorage.rounds ? JSON.parse(localStorage.rounds) : [];
+
 const rounds = {
   namespaced: true,
   state() {
     return {
-      rounds: []
+      rounds: array
     }
   },
   getters: {
@@ -41,9 +43,8 @@ const rounds = {
       }
     },
     saveRounds({ state }) {
-      // window.localStorage.rounds = JSON.stringify(state.rounds);
-      // localStorage.setItem('rounds', JSON.stringify(state.rounds));
-      console.log("Saving rounds", state.rounds);
+      console.log("Saving Rounds");
+      localStorage.setItem('rounds', JSON.stringify(state.rounds));
     },
   }
 }

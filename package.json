@@ -9,8 +9,10 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "snoowrap": "^1.21.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
+    "vue3-markdown-it": "^1.0.5",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
