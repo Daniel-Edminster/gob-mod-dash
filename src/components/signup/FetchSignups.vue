@@ -15,11 +15,6 @@ export default {
 			required: true,
 		},
 	},
-	data() {
-		return {
-			signups: null,
-		};
-	},
 	inject: ["setPool"],
 	methods: {
 		async fetchSignups() {

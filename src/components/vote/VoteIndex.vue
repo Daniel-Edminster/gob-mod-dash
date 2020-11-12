@@ -4,22 +4,28 @@
   <PostThread v-if="!postId && comments && !allSongsCommented" thread="voting" :metadata="metadata" />
   <PostComments v-if="postId && comments && !allSongsCommented" :postId="postId" :comments="comments" />
   <SongsList :songs="songs" />
-  <div v-if="allSongsCommented">Almost done! Just need to tabulate the votes!</div>
+  <FetchVotes v-if="allSongsCommented && !votes" :postId="postId" />
+  <TabulateVotes v-if="allSongsCommented && votes && !allSongsVotedOn" :votes="votes" :songs="songs" />
+  <div v-if="allSongsVotedOn">All Songs voted on. Announce the winners!</div>
 </template>
 
 <script>
 import CommentGenerator from "./CommentGenerator"
+import FetchVotes from "./FetchVotes"
 import PostComments from "../shared/PostComments"
 import PostThread from "../shared/PostThread"
 import SongsList from "./SongsList"
+import TabulateVotes from "./TabulateVotes"
 
 export default {
   name: 'VoteIndex',
   components: {
     CommentGenerator,
+    FetchVotes,
     PostComments,
     PostThread,
-    SongsList
+    SongsList,
+    TabulateVotes
   },
   props: {
     number: {
@@ -38,6 +44,11 @@ export default {
     songs: {
       type: Array,
       required: true
+    },
+    votes: {
+      type: Array,
+      required: false,
+      default: null
     }
   },
   data() {
@@ -57,6 +68,12 @@ export default {
         if (!song.comment) return false;
       }
       return true;
+    },
+    allSongsVotedOn() {
+      for (const song of this.songs) {
+        if (!song.voted) return false;
+      }
+      return true;
     }
   },
   provide() {
@@ -68,6 +85,9 @@ export default {
     setComments(comments) {
       this.comments = comments;
     }
+  },
+  mounted() {
+    console.log(this.votes);
   }
 }
 </script>

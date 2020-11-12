@@ -9,15 +9,40 @@ export function mapSongsToComments(songs) {
   })
   return comments;
 }
-/*
-[Watch Me Burn](http://beta.gameofbands.com/song/index.php?song=1756 
-  "by /u/FreshLennon - music, /u/drv168 - lyrics, and /u/partyeefee - vocals")[Soundcloud Link](https://soundcloud.com/fresh-lennon/watch-me-burn "RES-inline-song")
-
-[Streetlights Flickered Out](http://beta.gameofbands.com/song/index.php?song=2 "by Projekct - music, Grantimatter - lyrics, SeamusRyan - vocals")[Soundcloud Link](http://soundcloud.com/indiscipline87/streetlights-flickered-out "RES-inline-song")
-
-  */
 
 function mapSongToComment(song) {
   const gobUrl = 'http://beta.gameofbands.com/song/index.php?song=';
   return `[${song.name}](${gobUrl}${song.id} "by /u/${song.music} - music, /u/${song.lyrics} - lyrics, /u/${song.vocals} - vocals")[Soundcloud Link](${song.url} "RES-inline-song")`;
+}
+
+export function mapCommentsToVotes(comments) {
+  const map = new Map();
+  comments.forEach(comment => {
+    map.set(comment.id, { track: 0, music: 0, lyrics: 0, vocals: 0})
+    comment.replies.forEach(reply => {
+      const replyVotes = mapReplyToVotes(reply);
+      const votes = map.get(comment.id);
+      console.log("Votes:", votes);
+      updateVotes(replyVotes, votes)
+    })
+  })
+  return map;
+}
+
+function updateVotes(newVotes, votes) {
+  votes.track += newVotes.track;
+  votes.music += newVotes.music;
+  votes.lyrics += newVotes.lyrics;
+  votes.vocals += newVotes.vocals;
+}
+
+function mapReplyToVotes(reply) {
+  const votes = { track: 0, music: 0, lyrics: 0, vocals: 0};
+  console.log(votes);
+  if (reply.body.includes('[](/t)')) votes.track++;
+  if (reply.body.includes('[](/m)')) votes.music++;
+  if (reply.body.includes('[](/l)')) votes.lyrics++;
+  if (reply.body.includes('[](/v)')) votes.vocals++;
+  console.log(votes);
+  return votes;
 }

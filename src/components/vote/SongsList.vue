@@ -1,7 +1,7 @@
 <template>
   <ul>
     <li v-for="song in songs" :key="song.id">
-      {{ song.name }}
+      {{ song.name }} | {{ song.comment }}
     </li>
   </ul>
 </template>

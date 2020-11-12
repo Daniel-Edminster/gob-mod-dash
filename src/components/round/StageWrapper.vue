@@ -31,6 +31,7 @@
     :theme="round.theme"
     :postId="round.threads.voting"
     :songs="round.songs"
+    :votes="round.pools.voting"
   />
 </template>
 
