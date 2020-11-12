@@ -18,7 +18,7 @@ const config = {
 class Reddit extends snoowrap {
   constructor() {
     super(config);
-    this.subreddit = "auxometer";
+    this.subreddit = process.env.VUE_APP_REDDIT_SUBREDDIT;
   }
 
   fetchComments = async (postId) => {
