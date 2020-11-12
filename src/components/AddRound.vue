@@ -3,6 +3,7 @@
 		<label for="number">Round Number</label>
 		<input id="number" name="number" type="text" v-model="number" />
 		<button type="submit">Create Round</button>
+    <p v-if="message">{{ message }}</p>
 	</form>
 </template>
 
@@ -11,12 +12,14 @@ export default {
   name: "AddRound",
   data() {
     return {
-      number: null
+      number: null,
+      message: null
     }
   },
   methods: {
-    submitNew() {
-      this.$store.dispatch('rounds/createRound', this.number);
+    async submitNew() {
+      const result = await this.$store.dispatch('rounds/createRound', this.number);
+      this.message = result;
     }
   }
 }

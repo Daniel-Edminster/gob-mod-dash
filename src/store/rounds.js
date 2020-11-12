@@ -36,10 +36,15 @@ const rounds = {
         return round.number === number;
       })
       if (roundExists) {
-        console.log("Round already exists");
+        const message = `Round ${number} already exists!`
+        console.log(message);
+        return message;
       } else {
+        const message = `Created Round ${number}`;
+        console.log(message);
         commit('createRound', number);
         dispatch('saveRounds');
+        return message;
       }
     },
     saveRounds({ state }) {

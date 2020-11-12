@@ -8,6 +8,7 @@ export default class Round {
     this.participants = existing ? existing.participants : null;
     this.teams = existing ? existing.teams : null;
     this.active = existing ? existing.active : false;
+    this.songs = existing ? existing.songs : null;
     if (existing) {
       this.threads = existing.threads;
       this.pools = existing.pools;

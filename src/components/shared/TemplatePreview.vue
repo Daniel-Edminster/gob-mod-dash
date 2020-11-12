@@ -35,3 +35,9 @@ export default {
   }
 };
 </script>
+
+<style>
+div#template-preview {
+  text-align: left;
+}
+</style>
