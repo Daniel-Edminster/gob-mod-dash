@@ -26,7 +26,10 @@ export default {
       default: null
     }
   },
-  inject: ['setActive']
+  inject: ['setActive'],
+  mounted() {
+    console.log(this.participants);
+  }
 }
 </script>
 

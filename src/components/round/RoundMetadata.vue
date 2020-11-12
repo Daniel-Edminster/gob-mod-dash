@@ -13,15 +13,18 @@
 			}}<button @click="clearProperty('teams')">Clear Teams</button>
 		</p>
 		<RoundThreads :threads="round.threads" />
+    <RoundPools :pools="round.pools" />
 	</div>
 </template>
 
 <script>
+import RoundPools from "./RoundPools";
 import RoundThreads from "./RoundThreads";
 
 export default {
 	name: "RoundMetadata",
 	components: {
+    RoundPools,
 		RoundThreads,
 	},
 	props: {
