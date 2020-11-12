@@ -1,6 +1,9 @@
 <template>
-  <a :href="`http://www.reddit.com/by_id/${postId}`">Signups Thread ({{ postId }})</a><br />
-  <button @click="fetchSignups()">Fetch Signups</button>
+	<a :href="`http://www.reddit.com/by_id/${postId}`"
+		>Signups Thread ({{ postId }})</a
+	><br />
+	<button @click="fetchSignups()">Fetch Signups</button>
+	<p v-if="message">{{ message }}</p>
 </template>
 
 <script>
@@ -15,13 +18,24 @@ export default {
 			required: true,
 		},
 	},
+	data() {
+		return {
+			message: null,
+		};
+	},
 	inject: ["setPool"],
 	methods: {
 		async fetchSignups() {
 			const comments = await reddit.fetchComments(this.postId);
-      const pool = mapCommentsToSignups(comments);
-      console.log(pool);
-			this.setPool("signup", pool);
+			if (comments.length == 0) {
+				this.message = "No comments found in signup thread :(";
+				console.log("No comments in signup thread :(");
+				return;
+			} else {
+				const pool = mapCommentsToSignups(comments);
+				console.log(pool);
+				this.setPool("signup", pool);
+			}
 		},
 	},
 };

@@ -1,6 +1,7 @@
 <template>
   <a :href="`http://www.reddit.com/by_id/${postId}`">Theme Nomination Thread ({{ postId }})</a><br />
   <button @click="fetchNominations()">Fetch Nominations</button>
+  <p v-if="message">{{ message }}</p>
 </template>
 
 <script>
@@ -17,15 +18,22 @@ export default {
 	},
 	data() {
 		return {
-			nominations: null,
+      nominations: null,
+      message: null
 		};
 	},
 	inject: ["setPool"],
 	methods: {
 		async fetchNominations() {
-			const comments = await reddit.fetchComments(this.postId);
-			const pool = mapCommentsToNoms(comments);
-			this.setPool("theme", pool);
+      const comments = await reddit.fetchComments(this.postId);
+      if (comments.length == 0) {
+        console.log("No comments :(")
+        this.message = "No comments in thread :("
+        return;
+      } else {
+        const pool = mapCommentsToNoms(comments);
+        this.setPool("theme", pool);
+      }
 		},
 	},
 };
