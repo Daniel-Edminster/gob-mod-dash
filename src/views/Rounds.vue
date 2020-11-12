@@ -1,6 +1,6 @@
 <template>
-  <RoundsList />
   <AddRound />
+  <RoundsList />
 </template>
 
 <script>

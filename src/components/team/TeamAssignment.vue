@@ -3,9 +3,6 @@
 		There are {{ participants.length }} participants awaiting team assignment
 	</p>
 	<button @click="assignTeams">Assign Teams</button>
-  <ul>
-  <li v-for="user in participants" :key="user.name">{{user}},</li>
-</ul>
   <AngelsList v-if="angels" :angels="angels" />
   <TeamsList v-if="teams" :teams="teams" />
 	<ParticipantTable :participants="triples" />
@@ -15,7 +12,7 @@
 
 <script>
 import AngelsList from './AngelsList';
-import ParticipantTable from "./ParticipantTable";
+import ParticipantTable from "../shared/ParticipantTable";
 import TeamsList from "./TeamsList";
 import { createTeams } from "@/js/functions/gob/team";
 

@@ -5,6 +5,7 @@ export function assignVotesToSongs(songs, votes) {
     if (!song.voted) {
       votes.forEach(vote => {
         if (song.comment === vote[0]) addVotesToSong(song, vote[1]);
+        song.voted = true;
       })
     }
   })
@@ -25,5 +26,4 @@ function addVotesToSong(song, votes) {
   song.musicvote = music.toString();
   song.lyricsvote = lyrics.toString();
   song.vocalsvote = vocals.toString();
-  song.voted = true;
 }

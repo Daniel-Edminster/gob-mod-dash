@@ -5,7 +5,7 @@
         <tr><th colspan="3">Metadata</th></tr>
 				<tr>
 					<th>Property</th>
-					<th>Value / Size</th>
+					<th>Value</th>
 					<th>Action</th>
 				</tr>
 			</thead>
@@ -15,31 +15,31 @@
 					<td>
 						{{ round.number }}
 					</td>
-					<td></td>
+					<td>n/a</td>
 				</tr>
 				<tr v-if="round.theme">
 					<td>Theme</td>
 					<td>{{ round.theme }}</td>
-					<td><button>Clear Theme</button></td>
+					<td><button>Clear</button></td>
 				</tr>
 				<tr v-if="round.participants">
 					<td>Participants</td>
 					<td>{{ round.participants.length }}</td>
 					<td>
 						<button @click="clearProperty('participants')">
-							Clear Participants
+							Clear
 						</button>
 					</td>
 				</tr>
 				<tr v-if="round.teams">
 					<td>Teams</td>
 					<td>{{ round.teams.length }}</td>
-					<td><button @click="clearProperty('teams')">Clear Teams</button></td>
+					<td><button @click="clearProperty('teams')">Clear</button></td>
 				</tr>
 				<tr v-if="round.songs">
 					<td>Songs</td>
 					<td>{{ round.songs.length }}</td>
-					<td><button @click="clearProperty('songs')">Clear Songs</button></td>
+					<td><button @click="clearProperty('songs')">Clear</button></td>
 				</tr>
 			</tbody>
 		</table>

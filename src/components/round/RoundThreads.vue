@@ -59,3 +59,13 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+table {
+	border: 1px solid black;
+}
+
+thead {
+	background-color: lightgrey;
+}
+</style>

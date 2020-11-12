@@ -7,10 +7,7 @@
   <SongsList :songs="songs" />
   <FetchVotes v-if="allSongsCommented && !votes" :postId="postId" />
   <TabulateVotes v-if="allSongsCommented && votes && !allSongsVotedOn" :votes="votes" :songs="songs" />
-  <div v-if="allSongsVotedOn">All Songs voted on. Announce the winners!
-    <SongsList :songs="songs" />
-
-  </div>
+  <div v-if="allSongsVotedOn">All Songs voted on. Announce the winners!</div>
 </template>
 
 <script>

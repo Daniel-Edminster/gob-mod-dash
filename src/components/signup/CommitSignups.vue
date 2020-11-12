@@ -1,14 +1,18 @@
 <template>
 	<div>
     <button @click="setParticipants(signups)">Commit Participants to Round</button>
-		<ul>
-			<li v-for="signup in signups" :key="signup.name">{{ signup }}</li>
-		</ul>
+		<ParticipantTable :participants="signups" />
 	</div>
 </template>
 
 <script>
+import ParticipantTable from "../shared/ParticipantTable";
+
 export default {
+  name: 'CommitSignups',
+  components: {
+    ParticipantTable
+  },
 	props: {
 		signups: {
 			type: Array,
