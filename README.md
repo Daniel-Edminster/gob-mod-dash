@@ -45,7 +45,7 @@ GOB credentials:
 VUE_APP_GAME_OF_BANDS_API_KEY
 ```
 
-Then use `npm run serve' to launch the app.
+Then use `npm run serve` to launch the app.
 
 If you run into any 403 errors with the reddit api, check to make sure your credentials are correct, that your linked user has access to and ideally is a mod of the appropriate subreddit, and that you don't have 2FA turned on.
 
