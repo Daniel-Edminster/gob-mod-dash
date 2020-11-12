@@ -70,7 +70,7 @@ export default {
 
 <style scoped>
 div#round-metadata {
-  background-color: #322838;
+  background-color: #24252d;
   color: white;
 	padding-bottom: 15px;
 	display: flex;

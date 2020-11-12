@@ -39,5 +39,6 @@ export default {
 <style>
 div#template-preview {
   text-align: left;
+  padding: 15px;
 }
 </style>

@@ -1,5 +1,4 @@
 <template>
-  Vote Index
   <p v-if="comments">Comments Generated</p>
   <CommentGenerator v-if="!comments && !allSongsCommented" :songs="songs" />
   <PostThread v-if="!postId && comments && !allSongsCommented" thread="voting" :metadata="metadata" />

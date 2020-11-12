@@ -45,6 +45,10 @@ export default {
 </script>
 
 <style scoped>
+div#template-editor {
+  padding: 15px;
+}
+
 label {
 	text-transform: uppercase;
 	font-size: 0.9rem;

@@ -70,4 +70,23 @@ a:hover {
 a:active {
 	color: rgb(235, 195, 162);
 }
+
+button {
+  background-color: #5290bd;
+  color: white;
+  border-radius: 5px;
+  border: none;
+  padding: 8px;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #70a0c0;
+}
+
+input {
+  background-color: black;
+  color: white;
+  margin: 8px;
+}
 </style>
