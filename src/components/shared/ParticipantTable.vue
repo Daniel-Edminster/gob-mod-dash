@@ -1,4 +1,5 @@
 <template>
+  <h4>{{ heading }}</h4>
 	<table>
 		<thead>
 			<tr>
@@ -32,7 +33,12 @@ export default {
 		participants: {
 			type: Array,
 			required: true,
-		},
+    },
+    heading: {
+      type: String,
+      required: false,
+      default: 'Participants'
+    }
 	},
 	computed: {
 		music() {
@@ -59,3 +65,25 @@ export default {
 	},
 };
 </script>
+
+<style scoped>
+table {
+	border: 1px solid black;
+  border-spacing: 1px;
+}
+
+td {
+  padding: 3px;
+  width: 25%;
+}
+
+thead {
+  background-color: #2d2b38;
+  color: white;
+}
+
+tbody {
+  background-color: #3c3548;
+  font-size: .9rem;
+}
+</style>

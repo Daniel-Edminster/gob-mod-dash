@@ -1,8 +1,6 @@
 <template>
   <ul>
-    <li v-for="team in teams" :key="team.number">
-      <TeamItem v-for="team in teams" :key="team.number" :team="team" />
-    </li>
+    <TeamItem v-for="team in teams" :key="team.number" :team="team" />
   </ul>
 </template>
 
@@ -22,3 +20,13 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  text-align: left;
+}
+</style>

@@ -29,7 +29,7 @@ export default {
 			const comments = await reddit.fetchComments(this.postId);
 			if (comments.length == 0) {
 				this.message = "No comments found in signup thread :(";
-				console.log("No comments in signup thread :(");
+				console.log(this.message);
 				return;
 			} else {
 				const pool = mapCommentsToSignups(comments);

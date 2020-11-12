@@ -3,7 +3,8 @@
 		<router-link to="/">Home</router-link> |
 		<router-link :to="{ name: 'Rounds' }">Rounds</router-link> |
 		<router-link :to="{ name: 'Templates' }">Templates</router-link> |
-		<router-link :to="{ name: 'Help' }">Help</router-link>
+		<router-link :to="{ name: 'Help' }">Help</router-link> | 
+		<router-link :to="{ name: 'Settings' }">Settings</router-link>
 	</div>
 	<div id="main-content">
 		<router-view />
@@ -11,12 +12,17 @@
 </template>
 
 <style lang="scss">
+* {
+  box-sizing: border-box;
+}
+
 #app {
 	font-family: Avenir, Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	color: #2c3e50;
+  font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif;
 }
 
 body {
@@ -25,6 +31,7 @@ body {
 	width: 100vw;
 	height: 100vh;
   background-color: #2d2b38;
+  
 }
 
 #nav {
@@ -82,6 +89,7 @@ button {
 
 button:hover {
   background-color: #70a0c0;
+  cursor: pointer;
 }
 
 input {

@@ -23,6 +23,7 @@ Further improvements:
 - saving updated information to the gob api
 - date macros
 - notifications for async functions such as api calls
+- edit theme readability before commit 
 
 ---
 

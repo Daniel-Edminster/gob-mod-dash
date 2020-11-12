@@ -1,6 +1,5 @@
 <template>
-	<div id="round-metadata">
-		<table id="metadata">
+  <table id="metadata">
 			<thead>
         <tr><th colspan="3">Metadata</th></tr>
 				<tr>
@@ -42,40 +41,30 @@
 					<td><button @click="clearProperty('songs')">Clear</button></td>
 				</tr>
 			</tbody>
+      <tfoot v-if="round.active">
+        <tr>
+          <td colspan="3">
+            Round is active
+          </td>
+        </tr>
+      </tfoot>
 		</table>
-		<RoundThreads :threads="round.threads" />
-		<RoundPools :pools="round.pools" />
-	</div>
 </template>
 
 <script>
-import RoundPools from "./RoundPools";
-import RoundThreads from "./RoundThreads";
-
 export default {
-	name: "RoundMetadata",
-	components: {
-		RoundPools,
-		RoundThreads,
-	},
-	props: {
-		round: {
-			type: Object,
-			required: true,
-		},
-	},
-	inject: ["clearProperty"],
-};
+  name: 'RoundMetadata',
+  props: {
+    round: {
+      type: Object,
+      required: true
+    }
+  },
+	inject: ["clearProperty"]
+}
 </script>
 
 <style scoped>
-div#round-metadata {
-  background-color: #24252d;
-  color: white;
-	padding-bottom: 15px;
-	display: flex;
-	justify-content: space-evenly;
-}
 table {
 	border: 1px solid black;
   border-spacing: 1px;
@@ -94,5 +83,10 @@ thead {
 tbody {
   background-color: #3c3548;
   font-size: .9rem;
+}
+
+tfoot {
+  font-size: .8rem;
+  font-weight: bold;
 }
 </style>

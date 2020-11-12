@@ -14,9 +14,12 @@
 			:signups="round.pools.signup"
 		/>
 		<TeamIndex
-			v-if="round.participants && !round.songs && !round.active"
+			v-if="
+				round.participants && !round.songs && !round.active && !round.complete
+			"
 			:participants="round.participants"
 			:teams="round.teams"
+			:active="round.active"
 		/>
 		<LaunchIndex
 			v-if="round.teams && round.active"
@@ -25,10 +28,16 @@
 			:postId="round.threads.launch"
 			:lateId="round.threads.late"
 			:teams="round.teams"
-			:songs="round.songs"
+			:active="round.active"
+			:complete="round.complete"
+			:participants="round.participants"
+		/>
+		<RoundOver
+			v-if="round.complete && !round.songs"
+      :number="round.number"
 		/>
 		<VoteIndex
-			v-if="!round.active && round.threads.late && round.songs"
+			v-if="!round.active && round.complete && round.songs"
 			:number="round.number"
 			:theme="round.theme"
 			:postId="round.threads.voting"
@@ -45,13 +54,15 @@
 import LaunchIndex from "@/components/launch/LaunchIndex";
 import TeamIndex from "@/components/team/TeamIndex";
 import ThemeIndex from "@/components/theme/ThemeIndex";
+import RoundOver from "./RoundOver";
 import SignupIndex from "@/components/signup/SignupIndex";
 import VoteIndex from "@/components/vote/VoteIndex";
 
 export default {
 	name: "StageWrapper",
 	components: {
-		LaunchIndex,
+    LaunchIndex,
+    RoundOver,
 		TeamIndex,
 		ThemeIndex,
 		SignupIndex,
@@ -68,9 +79,11 @@ export default {
 
 <style scoped>
 div#stage-wrapper {
-  background-color: #2d2b38;
-  color: white;
-  display: flex;
-  flex-direction: column;
+	background-color: #2d2b38;
+	color: white;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
 }
 </style>

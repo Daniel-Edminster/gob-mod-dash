@@ -5,9 +5,9 @@
 	<button @click="assignTeams">Assign Teams</button>
 	<AngelsList v-if="angels" :angels="angels" />
 	<TeamsList v-if="teams" :teams="teams" />
-	<ParticipantTable :participants="triples" />
-	<ParticipantTable :participants="duals" />
-	<ParticipantTable :participants="singles" />
+	<ParticipantTable :participants="triples" heading="Triples" />
+	<ParticipantTable :participants="duals" heading="Doubles" />
+	<ParticipantTable :participants="singles" heading="Singles" />
 </template>
 
 <script>

@@ -1,17 +1,17 @@
 <template>
-  <RoundMetadata v-if="round" :round="round" />
+  <RoundDashboard v-if="round" :round="round" />
   <StageWrapper v-if="round" :round="round" />
   <div v-else>Round {{ id }} does not exist</div>
 </template>
 
 <script>
-import RoundMetadata from "@/components/round/RoundMetadata";
+import RoundDashboard from "@/components/round/RoundDashboard";
 import StageWrapper from "@/components/round/StageWrapper";
 
 export default {
   name: 'Round',
   components: {
-    RoundMetadata,
+    RoundDashboard,
     StageWrapper
   },
   props: {
@@ -69,12 +69,15 @@ export default {
     },
     endRound() {
       this.round.active = false;
+      this.round.complete = true;
+      this.saveRounds();
     },
     returnAngels(angels) {
       this.round.participants = angels;
     },
     setActive() {
       this.round.active = true;
+      this.saveRounds();
     },
     setComment(comment, id) {
       const { type, number } = comment;

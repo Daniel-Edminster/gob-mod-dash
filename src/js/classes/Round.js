@@ -8,6 +8,8 @@ export default class Round {
     this.participants = null;
     this.teams = null;
     this.active = false;
+    this.complete = false;
+    this.grace = false;
     this.songs = null;
     this.threads = {};
     this.pools = {};
