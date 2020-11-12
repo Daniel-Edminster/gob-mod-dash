@@ -4,8 +4,9 @@
 			<li v-for="nom in nominations" :key="nom.url">{{ nom.body }}</li>
 		</ul>
     <h4>Winning Theme</h4>
-		<p>{{ winningTheme.body }}</p>
-    <button @click="setTheme(winningTheme.body)">Commit Theme to Round</button>
+		<p v-if="!theme">{{ winningTheme.body }}<button @click="editTheme()">Approve and Edit Theme</button></p>
+    <p v-if="theme"><input type="text" v-model="theme" />
+    <button @click="setTheme(theme)">Commit Theme to Round</button></p>
 	</div>
 </template>
 
@@ -18,13 +19,23 @@ export default {
 			type: Array,
 			required: true,
 		},
-	},
+  },
+  data() {
+    return {
+      theme: null
+    }
+  },
 	computed: {
 		winningTheme() {
 			return determineWinningTheme(this.nominations);
 		},
 	},
-	inject: ["setTheme"],
+  inject: ["setTheme"],
+  methods: {
+    editTheme() {
+      this.theme = this.winningTheme.body;
+    }
+  }
 };
 </script>
 

@@ -43,8 +43,18 @@
 			</tbody>
       <tfoot v-if="round.active">
         <tr>
-          <td colspan="3">
+          <td class="good" colspan="3">
             Round is active
+          </td>
+        </tr>
+        <tr v-if="!round.threads.launch">
+          <td class="needs-action" colspan="3">
+            Launch thread pending!
+          </td>
+        </tr>
+        <tr v-if="!round.threads.late">
+          <td class="needs-action" colspan="3">
+            Late Recruitment thread pending!
           </td>
         </tr>
       </tfoot>
@@ -88,5 +98,13 @@ tbody {
 tfoot {
   font-size: .8rem;
   font-weight: bold;
+}
+
+td.good {
+  color: greenyellow;
+}
+
+td.needs-action {
+  color: salmon;
 }
 </style>
