@@ -2,7 +2,25 @@
 
 Alpha for now.
 
-GOB mods: This is ready to play with on your own localhost, super easy to set up.
+GOB mods: This is ready to play with on your own localhost, super easy to set up. See below for installation instructions.
+
+Currently this mod dash can do the following:
+
+- create a new round
+- create templates for posting threads to reddit
+- post theme nomination thread, fetch nominations and commit theme to round
+- post signup thread, fetch signups and commit participants to round
+- allocate teams (enhanced drag-drop interface soon!)
+- post launch thread to reddit and populate with team comments
+- retrieve song information from the gob api (it will use the round number)
+- post voting thread to reddit, fetch vote comments and add them to songs
+
+Further improvements:
+
+- more customisable team manager so adjustments can be made before launching round
+- team veteran/noob balancing and incompatibility checks
+- congrats thread posting
+- saving updated information to the gob api
 
 Just run `npm i` to install dependencies, then set up your `.env` file with the following:
 
