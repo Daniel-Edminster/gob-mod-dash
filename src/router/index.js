@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import HelpMe from '../views/HelpMe.vue'
 import Home from '../views/Home.vue'
 import Rounds from "../views/Rounds"
 import Round from "../views/Round"
@@ -32,6 +33,11 @@ const routes = [
     name: 'Template',
     props: true,
     component: Template
+  },
+  {
+    path: '/help',
+    name: 'Help',
+    component: HelpMe
   }
 ]
 

@@ -1,5 +1,6 @@
 <template>
-	<div>
+	<div id="round-metadata">
+    <div id="metadata">
 		Number: {{ round.number }}<br />
 		<p v-if="round.theme">Theme: {{ round.theme }}<button>Clear Theme</button></p>
 		<p v-if="round.participants">
@@ -12,8 +13,11 @@
 			Teams: {{ round.teams.length
 			}}<button @click="clearProperty('teams')">Clear Teams</button>
 		</p>
+    </div>
+    <div id="tables">
 		<RoundThreads :threads="round.threads" />
     <RoundPools :pools="round.pools" />
+    </div>
 	</div>
 </template>
 
@@ -36,3 +40,11 @@ export default {
 	inject: ["clearProperty"],
 };
 </script>
+
+<style scoped>
+div#tables {
+  display: flex;
+  justify-content: space-evenly;
+
+}
+</style>
