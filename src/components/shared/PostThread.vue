@@ -1,5 +1,5 @@
 <template>
-  Post Thread Component
+  <h4>Post Thread: {{ thread }}</h4>
   <TemplatePicker />
   <TemplatePreview v-if="template" :template="template" :metadata="metadata" />
   <button v-if="template" @click="submitPost">Post to reddit</button>

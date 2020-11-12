@@ -27,6 +27,7 @@
 			%num = round number<br />
 			%theme = round theme
 		</div>
+    <p>Note: Macros will only update when the template is previewed in the Round view.</p>
 	</div>
 </template>
 

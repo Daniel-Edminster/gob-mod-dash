@@ -42,9 +42,14 @@ export default {
 </script>
 
 <style scoped>
+div#round-metadata {
+  border-bottom: 1px solid black;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+}
+
 div#tables {
   display: flex;
   justify-content: space-evenly;
-
 }
 </style>

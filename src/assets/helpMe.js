@@ -24,4 +24,8 @@ You can then fetch relevant information from each thread. This information will 
 - teams
 - songs
 - active (true between the launch/late and voting stages)
+
+Feel free to edit the thread IDs to pull information from existing game of bands threads. Strange things might happen if you use IDs that aren't for that stage (like signups to theme for instance). Further handlers will be required there probably.
+
+If a round gets stuck at a particular stage (like signups) try deleting the corresponding pool. This is how the app knows which component to display.
 `
