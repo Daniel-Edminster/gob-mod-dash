@@ -2,14 +2,15 @@
   <CommentGenerator v-if="!comments && !allTeamsCommented" :teams="teams" />
   <PostThread v-if="!postId && comments" thread="launch" :metadata="metadata" />
   <PostComments v-if="postId && comments && !allTeamsCommented" :postId="postId" :comments="comments" />
-  <div v-if="allTeamsCommented">Launch Complete!<br />
-  Remember to post the Late Recruitment thread!</div>
+  <PostThread v-if="!lateId && allTeamsCommented" thread="late" :metadata="metadata" />
+  <RoundOver v-if="allTeamsCommented && postId && lateId" :number="number" />
 </template>
 
 <script>
 import CommentGenerator from "./CommentGenerator";
 import PostComments from "../shared/PostComments";
 import PostThread from "../shared/PostThread";
+import RoundOver from "./RoundOver"
 
 // should keep track of which teams already have comment threads
 // in case the task gets interrupted.
@@ -19,7 +20,8 @@ export default {
   components: {
     CommentGenerator,
     PostComments,
-    PostThread
+    PostThread,
+    RoundOver
   },
   props: {
     number: {
@@ -31,6 +33,11 @@ export default {
       required: true,
     },
     postId: {
+      type: String,
+      required: false,
+      default: null
+    },
+    lateId: {
       type: String,
       required: false,
       default: null
@@ -54,7 +61,6 @@ export default {
     },
     allTeamsCommented() {
       for (const team of this.teams) {
-        console.log(team);
         if (!team.comment) return false;
       }
       return true;

@@ -22,7 +22,15 @@
     :number="round.number"
     :theme="round.theme"
     :postId="round.threads.launch"
+    :lateId="round.threads.late"
     :teams="round.teams"
+  />
+  <VoteIndex
+    v-if="!round.active && round.threads.late && round.songs"
+    :number="round.number"
+    :theme="round.theme"
+    :postId="round.threads.voting"
+    :songs="round.songs"
   />
 </template>
 
@@ -34,6 +42,7 @@ import LaunchIndex from "@/components/launch/LaunchIndex"
 import TeamIndex from "@/components/team/TeamIndex";
 import ThemeIndex from "@/components/theme/ThemeIndex";
 import SignupIndex from "@/components/signup/SignupIndex"
+import VoteIndex from "@/components/vote/VoteIndex"
 
 export default {
 	name: "StageWrapper",
@@ -41,7 +50,8 @@ export default {
     LaunchIndex,
     TeamIndex,
     ThemeIndex,
-    SignupIndex
+    SignupIndex,
+    VoteIndex
 	},
 	props: {
 		round: {

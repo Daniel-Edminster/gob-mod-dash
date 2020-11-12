@@ -29,11 +29,13 @@ export default {
     return {
       checkComment: this.checkComment,
       clearProperty: this.clearProperty,
+      endRound: this.endRound,
       returnAngels: this.returnAngels,
       setActive: this.setActive,
       setComment: this.setComment,
       setParticipants: this.setParticipants,
       setPool: this.setPool,
+      setSongs: this.setSongs,
       setTeams: this.setTeams,
       setTheme: this.setTheme,
       setThread: this.setThread
@@ -61,6 +63,9 @@ export default {
       this.round[key] = null;
       this.saveRounds();
     },
+    endRound() {
+      this.round.active = false;
+    },
     returnAngels(angels) {
       this.round.participants = angels;
     },
@@ -77,6 +82,10 @@ export default {
       } else if (type === 'song') {
         console.log('setting song comment id');
       }
+    },
+    setSongs(songs) {
+      this.round.songs = songs;
+      this.saveRounds();
     },
     setThread(key, value) {
       this.round.threads[key] = value;
