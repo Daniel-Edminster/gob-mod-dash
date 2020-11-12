@@ -57,6 +57,10 @@ export default {
         const team = this.round.teams.find(team => team.number === number);
         if (team.comment) return true;
         return false;
+      } else if (type === 'song') {
+        const song = this.round.songs.find(song => song.id === number);
+        if (song.comment) return true;
+        return false;
       }
     },
     clearProperty(key) {
@@ -78,9 +82,10 @@ export default {
         const team = this.round.teams.find(team => team.number === number);
         team.comment = id;
         this.saveRounds();
-        console.log(team);
       } else if (type === 'song') {
-        console.log('setting song comment id');
+        const song = this.round.songs.find(song => song.id === number);
+        song.comment = id;
+        this.saveRounds();
       }
     },
     setSongs(songs) {

@@ -10,10 +10,6 @@ export function mapTeamsToComments(teams) {
   return comments;
 }
 
-export function mapCommentsToCheckIns(comments) {
-  console.log(comments);
-}
-
 // we should make a template for this
 function mapTeamToComment(team) {
   const lines = [];
@@ -24,4 +20,8 @@ function mapTeamToComment(team) {
   })
   const string = lines.join('\n');
   return string;
+}
+
+export function mapCommentsToCheckIns(comments) {
+  console.log(comments);
 }
