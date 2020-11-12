@@ -41,7 +41,8 @@ export default {
 	},
 	inject: ["endRound", "setActive"],
 	mounted() {
-		console.log(this.participants);
+    console.log(this.participants);
+    console.log(this.teams);
 	},
 };
 </script>

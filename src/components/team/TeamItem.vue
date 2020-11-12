@@ -2,7 +2,7 @@
   <div>
     <p>Team {{ team.number }}</p>
     <ul>
-      <li v-for="user in team.members" :key="user.name">
+      <li v-for="user in team.members" :class="user.experience" :key="user.name">
         {{ user.roles[0] }}: {{ user.name }}
       </li>
     </ul>
@@ -39,5 +39,18 @@ ul {
   list-style-type: none;
   padding: 0;
   text-align: left;
+}
+
+
+li.noob {
+  color: white;
+}
+
+li.bandit {
+  color: greenyellow;
+}
+
+li.veteran {
+  color: orange;
 }
 </style>

@@ -17,7 +17,7 @@
 		</thead>
 		<tbody>
 			<tr v-for="participant in participants" :key="participant.name">
-				<td>{{ participant.name }}</td>
+				<td :class="participant.experience">{{ participant.name }}</td>
 				<td><span v-if="participant.roles.includes('music')">Y</span></td>
 				<td><span v-if="participant.roles.includes('lyrics')">Y</span></td>
 				<td><span v-if="participant.roles.includes('vocals')">Y</span></td>
@@ -62,7 +62,7 @@ export default {
 			});
 			return num;
 		},
-	},
+  }
 };
 </script>
 
@@ -75,6 +75,18 @@ table {
 td {
   padding: 3px;
   width: 25%;
+}
+
+td.noob {
+  color: white;
+}
+
+td.bandit {
+  color: greenyellow;
+}
+
+td.veteran {
+  color: orange;
 }
 
 thead {

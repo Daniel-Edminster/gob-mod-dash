@@ -8,7 +8,8 @@ Currently this mod dash can do the following:
 
 - create a new round
 - create templates for posting threads to reddit
-- post theme nomination thread, fetch nominations and commit theme to round
+- post theme nomination thread, fetch nominations
+- approve and edit winning theme, commit to round
 - post signup thread, fetch signups and commit participants to round
 - allocate teams (enhanced drag-drop interface soon!)
 - post launch thread to reddit and populate with team comments
@@ -23,7 +24,6 @@ Further improvements:
 - saving updated information to the gob api
 - date macros
 - notifications for async functions such as api calls
-- edit theme readability before commit 
 
 ---
 

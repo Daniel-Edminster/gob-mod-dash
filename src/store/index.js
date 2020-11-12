@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import bandits from "./bandits"
 import rounds from "./rounds"
 import templates from "./templates"
 
@@ -10,6 +11,7 @@ export default createStore({
   actions: {
   },
   modules: {
+    bandits,
     rounds,
     templates
   }
