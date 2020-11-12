@@ -70,18 +70,29 @@ export default {
 
 <style scoped>
 div#round-metadata {
-	border-bottom: 1px solid black;
-	margin-bottom: 15px;
+  background-color: #322838;
+  color: white;
 	padding-bottom: 15px;
 	display: flex;
 	justify-content: space-evenly;
 }
-
 table {
 	border: 1px solid black;
+  border-spacing: 1px;
+  margin: 15px;
+}
+
+td {
+  padding: 3px;
 }
 
 thead {
-	background-color: lightgrey;
+  background-color: #2d2b38;
+  color: white;
+}
+
+tbody {
+  background-color: #3c3548;
+  font-size: .9rem;
 }
 </style>

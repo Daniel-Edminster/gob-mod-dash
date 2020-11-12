@@ -34,4 +34,9 @@ ul {
   padding: 0;
   margin: 0;
 }
+
+li {
+  font-size: .9rem;
+  text-align: left;
+}
 </style>

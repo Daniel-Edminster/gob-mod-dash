@@ -40,13 +40,23 @@ export default {
 </script>
 
 <style scoped>
-ul {
-	list-style-type: none;
-	padding: 0;
-	margin: 0;
+table {
+	border: 1px solid black;
+  border-spacing: 1px;
+  margin: 15px;
+}
+
+td {
+  padding: 3px;
 }
 
 thead {
-  background: lightgrey;
+  background-color: #2d2b38;
+  color: white;
+}
+
+tbody {
+  background-color: #3c3548;
+  font-size: .9rem;
 }
 </style>

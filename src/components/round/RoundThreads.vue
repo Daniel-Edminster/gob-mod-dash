@@ -63,9 +63,26 @@ export default {
 <style scoped>
 table {
 	border: 1px solid black;
+  border-spacing: 1px;
+  margin: 15px;
+}
+
+td {
+  padding: 3px;
 }
 
 thead {
-	background-color: lightgrey;
+  background-color: #2d2b38;
+  color: white;
+}
+
+tbody {
+  background-color: #3c3548;
+  font-size: .9rem;
+}
+
+input {
+  background-color: black;
+  color: white;
 }
 </style>

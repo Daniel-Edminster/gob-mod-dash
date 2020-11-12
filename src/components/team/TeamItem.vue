@@ -27,6 +27,7 @@ div {
   margin: 5px;
   padding: 5px;
   flex-grow: 1;
+  background-color: #3c3548;
 }
 
 p {

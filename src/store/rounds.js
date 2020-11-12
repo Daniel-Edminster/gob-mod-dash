@@ -25,7 +25,7 @@ const rounds = {
   mutations: {
     createRound(state, number) {
       const rounds = state.rounds;
-      const round = new Round(number, null);
+      const round = new Round(number);
       rounds.push(round);
     }
   },
