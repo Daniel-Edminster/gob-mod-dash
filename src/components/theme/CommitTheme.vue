@@ -4,7 +4,7 @@
 			<li v-for="nom in nominations" :key="nom.url">{{ nom.body }}</li>
 		</ul>
     <h4>Winning Theme</h4>
-		{{ winningTheme.body }}
+		<p>{{ winningTheme.body }}</p>
     <button @click="setTheme(winningTheme.body)">Commit Theme to Round</button>
 	</div>
 </template>

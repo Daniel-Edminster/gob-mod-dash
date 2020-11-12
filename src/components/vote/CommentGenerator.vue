@@ -1,4 +1,5 @@
 <template>
+  <h4>Vote Comment Generator</h4>
   <button @click="generateComments()">Generate Comments</button>
 </template>
 

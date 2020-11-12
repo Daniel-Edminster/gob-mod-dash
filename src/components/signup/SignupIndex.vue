@@ -1,5 +1,4 @@
 <template>
-  <div>Signup Index</div>
   <div v-if="!postId"><PostThread thread="signup" :metadata="metadata" /></div>
   <div v-if="postId && !signups"><FetchSignups :postId="postId" /></div>
   <div v-if="signups"><CommitSignups :signups="signups" /></div>

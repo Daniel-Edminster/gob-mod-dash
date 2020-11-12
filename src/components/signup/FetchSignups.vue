@@ -1,7 +1,7 @@
 <template>
 	<a :href="`http://www.reddit.com/by_id/${postId}`"
-		>Signups Thread ({{ postId }})</a
-	><br />
+		>Signups Thread</a
+	><p>Press the button to fetch signups from thread.</p>
 	<button @click="fetchSignups()">Fetch Signups</button>
 	<p v-if="message">{{ message }}</p>
 </template>

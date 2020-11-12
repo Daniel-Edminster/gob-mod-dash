@@ -21,6 +21,7 @@ Further improvements:
 - team veteran/noob balancing and incompatibility checks
 - congrats thread posting
 - saving updated information to the gob api
+- date macros
 
 Just run `npm i` to install dependencies, then set up your `.env` file with the following:
 

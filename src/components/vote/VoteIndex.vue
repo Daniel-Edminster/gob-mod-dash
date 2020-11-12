@@ -1,12 +1,16 @@
 <template>
   Vote Index
+  <p v-if="comments">Comments Generated</p>
   <CommentGenerator v-if="!comments && !allSongsCommented" :songs="songs" />
   <PostThread v-if="!postId && comments && !allSongsCommented" thread="voting" :metadata="metadata" />
   <PostComments v-if="postId && comments && !allSongsCommented" :postId="postId" :comments="comments" />
   <SongsList :songs="songs" />
   <FetchVotes v-if="allSongsCommented && !votes" :postId="postId" />
   <TabulateVotes v-if="allSongsCommented && votes && !allSongsVotedOn" :votes="votes" :songs="songs" />
-  <div v-if="allSongsVotedOn">All Songs voted on. Announce the winners!</div>
+  <div v-if="allSongsVotedOn">All Songs voted on. Announce the winners!
+    <SongsList :songs="songs" />
+
+  </div>
 </template>
 
 <script>
@@ -14,7 +18,7 @@ import CommentGenerator from "./CommentGenerator"
 import FetchVotes from "./FetchVotes"
 import PostComments from "../shared/PostComments"
 import PostThread from "../shared/PostThread"
-import SongsList from "./SongsList"
+import SongsList from "../shared/SongsList"
 import TabulateVotes from "./TabulateVotes"
 
 export default {

@@ -24,6 +24,7 @@
     :postId="round.threads.launch"
     :lateId="round.threads.late"
     :teams="round.teams"
+    :songs="round.songs"
   />
   <VoteIndex
     v-if="!round.active && round.threads.late && round.songs"

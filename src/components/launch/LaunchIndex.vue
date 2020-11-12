@@ -3,7 +3,7 @@
   <PostThread v-if="!postId && comments" thread="launch" :metadata="metadata" />
   <PostComments v-if="postId && comments && !allTeamsCommented" :postId="postId" :comments="comments" />
   <PostThread v-if="!lateId && allTeamsCommented" thread="late" :metadata="metadata" />
-  <RoundOver v-if="allTeamsCommented && postId && lateId" :number="number" />
+  <RoundOver v-if="allTeamsCommented && postId && lateId" :number="number" :songs="songs" />
 </template>
 
 <script>
@@ -45,6 +45,11 @@ export default {
     teams: {
       type: Array,
       required: true
+    },
+    songs: {
+      type: Array,
+      required: false,
+      default: null
     }
   },
   data() {

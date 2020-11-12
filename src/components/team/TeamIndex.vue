@@ -1,5 +1,4 @@
 <template>
-  Team Index<br />
   <TeamAssignment v-if="!teams" :participants="participants" />
   <TeamManager v-if="teams" :teams="teams" :participants="participants" />
 </template>

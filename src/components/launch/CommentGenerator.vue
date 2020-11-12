@@ -1,4 +1,5 @@
 <template>
+  <h4>Launch Thread Team Comment Generator</h4>
   <button @click="generateComments()">Generate Comments</button>
 </template>
 

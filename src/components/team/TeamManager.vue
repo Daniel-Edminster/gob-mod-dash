@@ -1,5 +1,6 @@
 <template>
-  Team Manager
+  <h4>Team Manager</h4>
+  <p>Here is where you will be able to adjust teams before beginning the round.</p>
   <button @click="setActive()">Activate Round</button>
   <ul>
     <TeamItem v-for="team in teams" :key="team.number" :team="team" />
