@@ -6,7 +6,7 @@
     <h4>Winning Theme</h4>
 		<p v-if="!theme">{{ winningTheme.body }}<button @click="editTheme()">Approve and Edit Theme</button></p>
     <p v-if="theme"><input type="text" v-model="theme" />
-    <button @click="setTheme(theme)">Commit Theme to Round</button></p>
+    <button @click="setProperty('theme', theme)">Commit Theme to Round</button></p>
 	</div>
 </template>
 
@@ -30,7 +30,7 @@ export default {
 			return determineWinningTheme(this.nominations);
 		},
 	},
-  inject: ["setTheme"],
+  inject: ["setProperty"],
   methods: {
     editTheme() {
       this.theme = this.winningTheme.body;

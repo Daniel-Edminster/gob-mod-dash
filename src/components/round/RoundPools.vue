@@ -9,7 +9,7 @@
 		</thead>
 		<tbody>
 			<tr v-for="(value, key) in pools" :key="key">
-				<td>{{ key }}</td>
+				<td class="thread">{{ key }}</td>
 				<td>
 					{{ value ? value.length : "" }}
 				</td>
@@ -50,6 +50,14 @@ td {
   padding: 3px;
 }
 
+td.thread {
+  text-transform: uppercase;
+  text-align: right;
+  font-size: .7rem;
+  font-weight: bold;
+  padding: 0 5px;
+}
+
 thead {
   background-color: #2d2b38;
   color: white;
@@ -59,4 +67,5 @@ tbody {
   background-color: #3c3548;
   font-size: .9rem;
 }
+
 </style>

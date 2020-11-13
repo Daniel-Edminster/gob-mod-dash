@@ -9,7 +9,7 @@
   <div v-else>
     Round is currently active. <button @click="endRound()">End Round</button>
   </div>
-	<ParticipantTable :participants="participants" heading="Unplaced" />
+	<ParticipantTable v-if="participants.length > 0" :participants="participants" heading="Unplaced" />
 	<TeamsList :teams="teams" />
 </template>
 

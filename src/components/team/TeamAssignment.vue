@@ -52,14 +52,14 @@ export default {
 			);
 		},
 	},
-	inject: ["returnAngels", "setTeams"],
+	inject: ["returnAngels", "setProperty"],
 	methods: {
 		assignTeams() {
 			const { teams, angels } = createTeams(this.participants);
 			this.teams = teams;
 			this.angels = angels;
 			if (teams.length > 0) {
-				this.setTeams(teams);
+				this.setProperty('teams', teams);
 				this.returnAngels(angels);
 			} else {
 				console.log("No teams created. Insufficient Participants.");

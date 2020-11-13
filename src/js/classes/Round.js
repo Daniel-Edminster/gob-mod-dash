@@ -11,6 +11,7 @@ export default class Round {
     this.complete = false;
     this.grace = false;
     this.songs = null;
+    this.winners = null;
     this.threads = {};
     this.pools = {};
     this.constructor.stages.forEach(stage => {

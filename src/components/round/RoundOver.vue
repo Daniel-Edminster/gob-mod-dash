@@ -3,7 +3,7 @@
 	<button @click="fetchSongs()">Fetch Songs</button
 	><span v-if="message">{{ message }}</span>
 	<div v-if="songs">
-		<button @click="commitSongs()">Commit Songs to Round</button>
+		<button @click="setProperty('songs', songs)">Commit Songs to Round</button>
 		<SongsList :songs="songs" />
 	</div>
 </template>
@@ -29,17 +29,14 @@ export default {
 			songs: null,
 		};
 	},
-	inject: ["setSongs"],
+	inject: ["setProperty"],
 	methods: {
 		async fetchSongs() {
 			const obj = await gob.fetchSongs(this.number);
 			const { status, data } = obj;
 			if (status.code === 200) this.songs = data;
 			this.message = `${status.code} ${status.text}.`;
-		},
-		commitSongs() {
-			this.setSongs(this.songs);
-		},
+		}
 	},
 };
 </script>

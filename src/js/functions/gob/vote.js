@@ -1,15 +1,19 @@
 export function assignVotesToSongs(songs, votes) {
-  console.log(songs);
-  console.log(votes);
   songs.forEach(song => {
-    if (!song.voted) {
+    if (song.voted === false || !song.voted) {
       votes.forEach(vote => {
         if (song.comment === vote[0]) addVotesToSong(song, vote[1]);
         song.voted = true;
       })
     }
   })
-  console.log(songs);
+}
+
+export function clearVotesFromSongs(songs) {
+  songs.forEach(song => {
+    clearVotesFromSong(song);
+    song.voted = false;
+  })
 }
 
 // this was just easier to do manually, rather than looping over the votes object.
@@ -26,4 +30,11 @@ function addVotesToSong(song, votes) {
   song.musicvote = music.toString();
   song.lyricsvote = lyrics.toString();
   song.vocalsvote = vocals.toString();
+}
+
+function clearVotesFromSong(song) {
+  song.votes = 0;
+  song.musicvote = 0;
+  song.lyricsvote = 0;
+  song.vocalsvote = 0;
 }

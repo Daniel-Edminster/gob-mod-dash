@@ -37,13 +37,14 @@
       :number="round.number"
 		/>
 		<VoteIndex
-			v-if="!round.active && round.complete && round.songs"
+			v-if="!round.active && round.complete && round.songs && !round.winners"
 			:number="round.number"
 			:theme="round.theme"
 			:postId="round.threads.voting"
 			:songs="round.songs"
 			:votes="round.pools.voting"
 		/>
+    <div v-if="round.winners">Congrats Module</div>
 	</div>
 </template>
 

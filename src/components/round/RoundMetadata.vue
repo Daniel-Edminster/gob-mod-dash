@@ -58,6 +58,18 @@
           </td>
         </tr>
       </tfoot>
+      <tfoot v-if="round.complete">
+        <tr>
+          <td class="neutral" colspan="3">
+            Round is complete
+          </td>
+        </tr>
+        <tr v-if="!round.songs">
+          <td class="needs-action" colspan="3">
+            Awaiting song information
+          </td>
+        </tr>
+      </tfoot>
 		</table>
 </template>
 
@@ -106,5 +118,9 @@ td.good {
 
 td.needs-action {
   color: salmon;
+}
+
+td.neutral {
+  color: orange;
 }
 </style>

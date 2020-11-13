@@ -33,11 +33,8 @@ export default {
       returnAngels: this.returnAngels,
       setActive: this.setActive,
       setComment: this.setComment,
-      setParticipants: this.setParticipants,
+      setProperty: this.setProperty,
       setPool: this.setPool,
-      setSongs: this.setSongs,
-      setTeams: this.setTeams,
-      setTheme: this.setTheme,
       setThread: this.setThread,
       swapBandits: this.swapBandits
     }
@@ -92,10 +89,6 @@ export default {
         this.saveRounds();
       }
     },
-    setSongs(songs) {
-      this.round.songs = songs;
-      this.saveRounds();
-    },
     setThread(key, value) {
       this.round.threads[key] = value;
       this.saveRounds();
@@ -104,16 +97,8 @@ export default {
       this.round.pools[key] = value;
       this.saveRounds();
     },
-    setTheme(value) {
-      this.round.theme = value;
-      this.saveRounds();
-    },
-    setParticipants(value) {
-      this.round.participants = value;
-      this.saveRounds();
-    },
-    setTeams(value) {
-      this.round.teams = value;
+    setProperty(key, value) {
+      this.round[key] = value;
       this.saveRounds();
     },
     saveRounds() {
