@@ -1,6 +1,6 @@
 <template>
 	<div id="template-preview">
-		<h4>{{ parseString(template.title) }}</h4>
+		<h4 v-if="template.title">{{ parseString(template.title) }}</h4>
 		<VueMarkdownIt :source="parseString(template.body)" />
 	</div>
 </template>
@@ -39,6 +39,6 @@ export default {
 <style>
 div#template-preview {
   text-align: left;
-  padding: 15px;
+  padding: 0 15px 15px 15px;
 }
 </style>

@@ -1,13 +1,23 @@
+// export function mapTeamsToComments(teams) {
+//   const comments = [];
+//   teams.forEach(team => {
+//     const comment = {};
+//     comment.body = mapTeamToComment(team);
+//     comment.number = team.number;
+//     comment.type = 'team';
+//     comments.push(comment);
+//   })
+//   return comments;
+// }
+
 export function mapTeamsToComments(teams) {
-  const comments = [];
-  teams.forEach(team => {
+  return teams.map(team => {
     const comment = {};
     comment.body = mapTeamToComment(team);
     comment.number = team.number;
     comment.type = 'team';
-    comments.push(comment);
+    return comment;
   })
-  return comments;
 }
 
 // we should make a template for this

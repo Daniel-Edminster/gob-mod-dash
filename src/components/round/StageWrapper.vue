@@ -44,7 +44,7 @@
 			:songs="round.songs"
 			:votes="round.pools.voting"
 		/>
-    <div v-if="round.winners">Congrats Module</div>
+    <CongratsIndex v-if="round.winners" :winners="round.winners" :teams="round.teams" />
 	</div>
 </template>
 
@@ -52,6 +52,7 @@
 // this component handles displaying the appropriate component
 // based on what stage the round is at. As it contains a lot of imports
 // and if checks, it's its own component.
+import CongratsIndex from "@/components/congrats/CongratsIndex";
 import LaunchIndex from "@/components/launch/LaunchIndex";
 import TeamIndex from "@/components/team/TeamIndex";
 import ThemeIndex from "@/components/theme/ThemeIndex";
@@ -62,6 +63,7 @@ import VoteIndex from "@/components/vote/VoteIndex";
 export default {
 	name: "StageWrapper",
 	components: {
+    CongratsIndex,
     LaunchIndex,
     RoundOver,
 		TeamIndex,

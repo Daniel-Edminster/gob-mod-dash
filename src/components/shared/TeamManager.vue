@@ -10,7 +10,7 @@
     Round is currently active. <button @click="endRound()">End Round</button>
   </div>
 	<ParticipantTable v-if="participants.length > 0" :participants="participants" heading="Unplaced" />
-	<TeamsList :teams="teams" />
+	<TeamsList :teams="teams" :obscure="!active"/>
 </template>
 
 <script>

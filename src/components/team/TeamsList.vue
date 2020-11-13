@@ -1,6 +1,6 @@
 <template>
   <ul>
-    <TeamItem v-for="team in teams" :key="team.number" :team="team" />
+    <TeamItem v-for="team in teams" :key="team.number" :team="team" :obscure="obscure" />
   </ul>
 </template>
 
@@ -16,6 +16,11 @@ export default {
     teams: {
       type: Array,
       required: true
+    },
+    obscure: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   }
 }

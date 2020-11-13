@@ -1,13 +1,11 @@
 export function mapSongsToComments(songs) {
-  const comments = [];
-  songs.forEach(song => {
+  return songs.map(song => {
     const comment = {};
     comment.body = mapSongToComment(song);
     comment.number = song.id;
     comment.type = 'song';
-    comments.push(comment);
+    return comment;
   })
-  return comments;
 }
 
 function mapSongToComment(song) {
