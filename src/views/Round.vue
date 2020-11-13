@@ -38,7 +38,8 @@ export default {
       setSongs: this.setSongs,
       setTeams: this.setTeams,
       setTheme: this.setTheme,
-      setThread: this.setThread
+      setThread: this.setThread,
+      swapBandits: this.swapBandits
     }
   },
   methods: {
@@ -104,7 +105,6 @@ export default {
       this.saveRounds();
     },
     setTheme(value) {
-      console.log(`Setting theme for round ${this.round.number} to ${value}`);
       this.round.theme = value;
       this.saveRounds();
     },
@@ -118,6 +118,13 @@ export default {
     },
     saveRounds() {
       this.$store.dispatch('rounds/saveRounds');
+    },
+    swapBandits(held, team) {
+      const heldIndex = held.team.members.findIndex(element => element.name === held.user.name);
+      const replacedIndex = team.members.findIndex(element => element.roles[0] === held.user.roles[0]);
+      const replacedUser = team.members[replacedIndex];
+      team.members[replacedIndex] = held.user;
+      held.team.members[heldIndex] = replacedUser;
     }
   },
   created() {

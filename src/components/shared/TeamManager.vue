@@ -38,11 +38,34 @@ export default {
 			type: Boolean,
 			required: true,
 		},
-	},
-	inject: ["endRound", "setActive"],
-	mounted() {
-    console.log(this.participants);
-    console.log(this.teams);
-	},
+  },
+  data() {
+    return {
+      heldBandit: null
+    }
+  },
+  inject: ["endRound", "setActive"],
+  provide() {
+    return {
+      clearHeldBandit: this.clearHeldBandit,
+      getHeldBandit: this.getHeldBandit,
+      grabBandit: this.grabBandit
+    }
+  },
+  methods: {
+    grabBandit(user, team) {
+      this.heldBandit = { user, team }
+    },
+    getHeldBandit() {
+      if(this.heldBandit) {
+        return this.heldBandit;
+      } else {
+        return null;
+      }
+    },
+    clearHeldBandit() {
+      this.heldBandit = null;
+    }
+  }
 };
 </script>

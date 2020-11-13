@@ -11,15 +11,14 @@ Currently this mod dash can do the following:
 - post theme nomination thread, fetch nominations
 - approve and edit winning theme, commit to round
 - post signup thread, fetch signups and commit participants to round
-- allocate teams (enhanced drag-drop interface soon!)
+- allocate teams with a shiny drag and drop interface to balance vets and noobs
 - post launch thread to reddit and populate with team comments
 - retrieve song information from the gob api (it will use the round number)
 - post voting thread to reddit, fetch vote comments and add them to songs
 
 Further improvements:
 
-- more customisable team manager so adjustments can be made before launching round
-- team veteran/noob balancing and incompatibility checks
+- team incompatibility checks
 - congrats thread posting
 - saving updated information to the gob api
 - date macros
