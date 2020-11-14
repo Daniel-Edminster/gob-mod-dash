@@ -2,7 +2,7 @@
 	<div id="stage-wrapper">
 		<ThemeIndex
 			v-if="!round.theme"
-			:number="round.number"
+			:metadata="metadata"
 			:postId="round.threads.theme"
 			:nominations="round.pools.theme"
 		/>
@@ -84,7 +84,8 @@ export default {
 		metadata() {
 			return {
 				number: this.round.number,
-				theme: this.round.theme,
+        theme: this.round.theme,
+        dates: this.round.dates
 			};
 		},
 	},

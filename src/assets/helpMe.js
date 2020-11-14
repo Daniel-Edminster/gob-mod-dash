@@ -3,6 +3,8 @@ export default `
 
 Currently the dash will save its info to localStorage, so you'll need to create rounds and templates yourself for now.
 
+Note that **comments** and the **congrats** thread are constructed programmatically currently, owing to their additional complexity.
+
 Also ignore the barebones styling, this hasn't been started yet. :)
 
 ## Templates

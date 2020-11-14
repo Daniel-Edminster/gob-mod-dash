@@ -19,6 +19,36 @@
 					</td>
 					<td>n/a</td>
 				</tr>
+        <tr>
+					<td>Begin Date</td>
+          <td v-if="editing === 'begin'">
+            <DatePickerWrapper :date="{key: 'begin', value: round.dates.begin}" />
+          </td>
+					<td v-else>
+						{{ round.dates.begin }}
+					</td>
+					<td v-if="editing === 'begin'">
+            <button @click="clearEditing">Done</button>
+          </td>
+          <td v-else>
+            <button @click="setEditing('begin')">Edit</button>
+          </td>
+				</tr>
+        <tr>
+					<td>End Date</td>
+					<td v-if="editing === 'end'">
+						<DatePickerWrapper :date="{key: 'end', value: round.dates.end}" />
+					</td>
+					<td v-else>
+            {{ round.dates.end }}
+          </td>
+          <td v-if="editing === 'end'">
+            <button @click="clearEditing">Done</button>
+          </td>
+          <td v-else>
+            <button @click="setEditing('end')">Edit</button>
+          </td>
+				</tr>
 				<tr v-if="round.theme">
 					<td>Theme</td>
 					<td>{{ round.theme }}</td>
@@ -92,7 +122,7 @@
 					<td class="needs-action" colspan="3">Voting thread pending!</td>
 				</tr>
         <tr v-if="round.threads.voting && !round.winners">
-					<td class="needs-action" colspan="3">Await voting information!</td>
+					<td class="needs-action" colspan="3">Awaiting voting information!</td>
 				</tr>
 				<tr v-if="round.winners && !round.threads.congrats">
 					<td class="needs-action" colspan="3">Congrats thread pending!</td>
@@ -109,20 +139,38 @@
 </template>
 
 <script>
+import DatePickerWrapper from '../shared/DatePickerWrapper'
+
 export default {
-	name: "RoundMetadata",
+  name: "RoundMetadata",
+  components: {
+    DatePickerWrapper
+  },
+  data() {
+    return {
+      editing: null
+    }
+  },
 	props: {
 		round: {
 			type: Object,
 			required: true,
 		},
-	},
-	inject: ["clearBoolean", "clearProperty"],
+  },
+  inject: ["clearBoolean", "clearProperty"],
+  methods: {
+    setEditing(value) {
+      this.editing = value;
+    },
+    clearEditing() {
+      this.editing = null;
+    }
+  }
 };
 </script>
 
 <style scoped>
-table {
+table#metadata {
 	border: 1px solid black;
 	border-spacing: 1px;
 	margin: 15px;

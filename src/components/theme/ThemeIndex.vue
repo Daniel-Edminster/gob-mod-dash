@@ -17,8 +17,8 @@ export default {
     PostThread
   },
   props: {
-    number: {
-      type: String,
+    metadata: {
+      type: Object,
       required: true
     },
     postId: {
@@ -30,13 +30,6 @@ export default {
       type: Array,
       required: false,
       default: null
-    }
-  },
-  computed: {
-    metadata() {
-      return {
-        number: this.number
-      }
     }
   }
 }

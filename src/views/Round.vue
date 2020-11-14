@@ -33,7 +33,8 @@ export default {
 			endRound: this.endRound,
 			returnAngels: this.returnAngels,
 			setActive: this.setActive,
-			setComment: this.setComment,
+      setComment: this.setComment,
+      setDate: this.setDate,
 			setProperty: this.setProperty,
 			setPool: this.setPool,
 			setSongComment: this.setSongComment,
@@ -92,10 +93,16 @@ export default {
 				song.comment = id;
 				this.saveRounds();
 			}
-		},
+    },
+    setDate(key, value) {
+      this.round.dates[key] = value;
+      console.log(this.round);
+      this.saveRounds();
+    },
 		setSongComment(id, value) {
 			const song = this.round.songs.find((song) => song.id === id);
-			song.comment = value;
+      song.comment = value;
+      this.saveRounds();
 		},
 		setThread(key, value) {
 			this.round.threads[key] = value;
