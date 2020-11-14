@@ -1,11 +1,9 @@
 export default `
 # Helpful Info
 
-Currently the dash will save its info to localStorage, so you'll need to create rounds and templates yourself for now.
+Currently the dash will save its info to localStorage. The app comes with default templates for **theme nomination**, **signups**, **launch**, **late recruitment** and **voting** threads.
 
 Note that **comments** and the **congrats** thread are constructed programmatically currently, owing to their additional complexity.
-
-Also ignore the barebones styling, this hasn't been started yet. :)
 
 ## Templates
 
@@ -17,15 +15,27 @@ Begin by creating a round. For now, enter the number you want to create. This wi
 
 Click on the newly created round to go to the Round view. This view will dynamically display the correct component, depending on what stage the round is at.
 
-Here you can select a template to use to post as a thread, with preview. Each thread's postId is saved to the threads object on the round, which has a key for each stage.
+Here you can control every aspect of the round. The structure follows a "Canvas, Collect, Commit" pattern where first a thread is posted, then that thread is scraped for info, then the user has a chance to review the info before committing it to the round metadata.
 
-You can then fetch relevant information from each thread. This information will be stored in the pools object of the round, which has the same keys as the threads. The pools should be considered the temporary intermediaries between the reddit threads and the committed round information. When you commit something to the round after fetching comments from reddit, the information will committed to one of the following properties of the round object:
+Thread IDs are stored in the \`round.threads\` object, and scraped info in the \`round.pools\` object. Pools should be considered the temporary intermediaries between the reddit threads and the committed round information. Both \`.threads\` and \`.pools\` use the same keys:
 
 - theme
-- participants
-- teams
-- songs
-- active (true between the launch/late and voting stages)
+- signup
+- launch
+- late
+- voting
+- congrats
+
+Committed information is stored in the following:
+
+- \`round.theme\`
+- \`round.participants\`
+- \`round.teams\`
+- \`round.songs\`
+- \`round.winners\`. 
+- Vote information goes directly onto the song objects.
+
+The round object also has several booleans: \`active\` and \`complete\`. When both are false, the round is pre-launch. The round must be activated to post the launch and late threads. Teams can be managed as long as active is true and complete is false. Ending the round will set complete to true, at which stage the voting can begin.
 
 Feel free to edit the thread IDs to pull information from existing game of bands threads. Strange things might happen if you use IDs that aren't for that stage (like signups to theme for instance). Further handlers will be required there probably. Also note that the new signup format was implemented properly in round 83, so signup threads before then may yield strange results.
 
