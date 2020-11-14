@@ -1,5 +1,5 @@
 <template>
-	<p v-if="comments && !postId">Comments Generated</p>
+	<p v-if="comments && !postId">{{ comments.length }} Comments Generated</p>
 	<CommentGenerator v-if="!comments && !allTeamsCommented" :teams="teams" />
 	<PostThread v-if="!postId && comments" thread="launch" :metadata="metadata" />
 	<PostComments

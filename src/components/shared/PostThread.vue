@@ -1,6 +1,6 @@
 <template>
   <h4>Post Thread: {{ thread }}</h4>
-  <TemplatePicker />
+  <TemplatePicker v-if="!forceTemplate" />
   <TemplatePreview v-if="template" :template="template" :metadata="metadata" />
   <button v-if="template" @click="submitPost">Post to reddit</button>
 </template>
@@ -24,6 +24,11 @@ export default {
       required: true
     },
     metadata: {
+      type: Object,
+      required: false,
+      default: null
+    },
+    forceTemplate: {
       type: Object,
       required: false,
       default: null
@@ -54,6 +59,9 @@ export default {
       const submission = await reddit.submitPost(post);
       this.setThread(this.thread, submission.name);
     }
+  },
+  created() {
+    this.template = this.forceTemplate ? this.forceTemplate : null;
   }
 }
 </script>

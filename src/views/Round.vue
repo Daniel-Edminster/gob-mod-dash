@@ -28,6 +28,7 @@ export default {
   provide() {
     return {
       checkComment: this.checkComment,
+      clearBoolean: this.clearBoolean,
       clearProperty: this.clearProperty,
       endRound: this.endRound,
       returnAngels: this.returnAngels,
@@ -43,11 +44,8 @@ export default {
     fetchRound(id) {
 			const number = id;
 			const round = this.$store.getters["rounds/getRoundByNumber"](number);
-			if (round) {
-				this.round = round;
-			} else {
-				console.log("No round found");
-			}
+			if (round) return round;
+			return null;
     },
     checkComment(comment) {
       const { type, number } = comment;
@@ -61,6 +59,10 @@ export default {
         return false;
       }
     },
+    clearBoolean(key) {
+      this.round[key] = false;
+      this.saveRounds();
+    },
     clearProperty(key) {
       this.round[key] = null;
       this.saveRounds();
@@ -72,6 +74,7 @@ export default {
     },
     returnAngels(angels) {
       this.round.participants = angels;
+      this.saveRounds();
     },
     setActive() {
       this.round.active = true;
@@ -113,7 +116,8 @@ export default {
     }
   },
   created() {
-    this.fetchRound(this.id);
+    this.round = this.fetchRound(this.id);
+    console.log(this.round);
   }
 }
 </script>

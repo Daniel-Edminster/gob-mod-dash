@@ -32,10 +32,7 @@
 			:complete="round.complete"
 			:participants="round.participants"
 		/>
-		<RoundOver
-			v-if="round.complete && !round.songs"
-      :number="round.number"
-		/>
+		<RoundOver v-if="round.complete && !round.songs" :number="round.number" />
 		<VoteIndex
 			v-if="!round.active && round.complete && round.songs && !round.winners"
 			:number="round.number"
@@ -44,7 +41,12 @@
 			:songs="round.songs"
 			:votes="round.pools.voting"
 		/>
-    <CongratsIndex v-if="round.winners" :winners="round.winners" :teams="round.teams" />
+		<CongratsIndex
+			v-if="round.winners"
+			:winners="round.winners"
+			:teams="round.teams"
+			:metadata="metadata"
+		/>
 	</div>
 </template>
 
@@ -63,9 +65,9 @@ import VoteIndex from "@/components/vote/VoteIndex";
 export default {
 	name: "StageWrapper",
 	components: {
-    CongratsIndex,
-    LaunchIndex,
-    RoundOver,
+		CongratsIndex,
+		LaunchIndex,
+		RoundOver,
 		TeamIndex,
 		ThemeIndex,
 		SignupIndex,
@@ -75,6 +77,14 @@ export default {
 		round: {
 			type: Object,
 			required: true,
+		},
+	},
+	computed: {
+		metadata() {
+			return {
+				number: this.round.number,
+				theme: this.round.theme,
+			};
 		},
 	},
 };

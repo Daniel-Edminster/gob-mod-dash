@@ -1,6 +1,8 @@
 export function constructWinnersThread(winners, teams) {
-  const lines = constructRoleWinners(winners, teams);
-  console.log(lines);
+  const lines = constructHeader();
+  const awardLines = constructRoleWinners(winners, teams);
+  lines.push(...awardLines);
+  return lines.join('\n');
 }
 
 function constructRoleWinners(winners, teams) {
@@ -37,7 +39,7 @@ function constructRoleWinner(song, role, teams) {
 function constructRoleWinnerWithoutUser(song, role) {
   const key = convertRoleToKey(role);
   console.log("Constructing a song without a user", song, role);
-  return `[*song.name*](${song.url} "Award ${key})`;
+  return `[*${song.name}*](${song.url} "Award ${key}")`;
 }
 
 function constructTrackWinner(song, teams) {
@@ -45,7 +47,7 @@ function constructTrackWinner(song, teams) {
 }
 
 function constructTrackWinnerWithoutTeam(song) {
-  return `[${song.name}](${song.url} "Award Track)`;
+  return `[${song.name}](${song.url} "Award Track")`;
 }
 
 function convertRoleToKey(role) {
@@ -64,4 +66,17 @@ function addLineToLines(line, lines) {
   lines.push('');
   lines.push('---');
   lines.push('');
+}
+
+function constructHeader() {
+  const lines = [];
+  lines.push(`Congratulations to the winners of [Round %num: %theme](http://beta.gameofbands.com/round/?round=%num)!`);
+  lines.push('');
+  lines.push(`As a reminder, all bandits and "fandits" past and present should vote, and you can't win if you don't play!`);
+  lines.push('');
+  lines.push(`And now we present to you the winners:`);
+  lines.push('');
+  lines.push('---');
+  lines.push('');
+  return lines;
 }

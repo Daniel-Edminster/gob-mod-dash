@@ -1,7 +1,10 @@
 <template>
-  <table id="metadata">
+	<div>
+		<table id="metadata">
 			<thead>
-        <tr><th colspan="3">Metadata</th></tr>
+				<tr>
+					<th colspan="3">Round Metadata</th>
+				</tr>
 				<tr>
 					<th>Property</th>
 					<th>Value</th>
@@ -25,9 +28,7 @@
 					<td>Participants</td>
 					<td>{{ round.participants.length }}</td>
 					<td>
-						<button @click="clearProperty('participants')">
-							Clear
-						</button>
+						<button @click="clearProperty('participants')">Clear</button>
 					</td>
 				</tr>
 				<tr v-if="round.teams">
@@ -41,86 +42,92 @@
 					<td><button @click="clearProperty('songs')">Clear</button></td>
 				</tr>
 			</tbody>
-      <tfoot v-if="round.active">
-        <tr>
-          <td class="good" colspan="3">
-            Round is active
-          </td>
-        </tr>
-        <tr v-if="!round.threads.launch">
-          <td class="needs-action" colspan="3">
-            Launch thread pending!
-          </td>
-        </tr>
-        <tr v-if="!round.threads.late">
-          <td class="needs-action" colspan="3">
-            Late Recruitment thread pending!
-          </td>
-        </tr>
-      </tfoot>
-      <tfoot v-if="round.complete">
-        <tr>
-          <td class="neutral" colspan="3">
-            Round is complete
-          </td>
-        </tr>
-        <tr v-if="!round.songs">
-          <td class="needs-action" colspan="3">
-            Awaiting song information
-          </td>
-        </tr>
-      </tfoot>
+			<tfoot v-if="round.active">
+				<tr>
+					<td class="good" colspan="3">Round is active</td>
+				</tr>
+				<tr v-if="!round.threads.launch">
+					<td class="needs-action" colspan="3">Launch thread pending!</td>
+				</tr>
+				<tr v-if="!round.threads.late">
+					<td class="needs-action" colspan="3">
+						Late Recruitment thread pending!
+					</td>
+				</tr>
+			</tfoot>
+			<tfoot v-if="round.complete">
+				<tr>
+					<td class="neutral" colspan="3">Round is complete</td>
+				</tr>
+				<tr v-if="!round.songs">
+					<td class="needs-action" colspan="3">Awaiting song information</td>
+				</tr>
+			</tfoot>
 		</table>
+		<button v-if="round.active" @click="clearBoolean('active')">Clear Active</button>
+		<button v-if="round.complete" @click="clearBoolean('complete')">Clear Complete</button>
+	</div>
 </template>
 
 <script>
 export default {
-  name: 'RoundMetadata',
-  props: {
-    round: {
-      type: Object,
-      required: true
-    }
-  },
-	inject: ["clearProperty"]
-}
+	name: "RoundMetadata",
+	props: {
+		round: {
+			type: Object,
+			required: true,
+		},
+	},
+	inject: ["clearBoolean", "clearProperty"],
+};
 </script>
 
 <style scoped>
 table {
 	border: 1px solid black;
-  border-spacing: 1px;
-  margin: 15px;
+	border-spacing: 1px;
+	margin: 15px;
 }
 
-td {
-  padding: 3px;
+tbody td {
+	padding: 8px 10px;
 }
 
-thead {
-  background-color: #2d2b38;
-  color: white;
-}
-
-tbody {
-  background-color: #3c3548;
-  font-size: .9rem;
-}
-
-tfoot {
+tbody > tr > td:first-child {
+  text-transform: uppercase;
+  text-align: right;
   font-size: .8rem;
   font-weight: bold;
 }
 
+thead {
+	background-color: #2d2b38;
+	color: white;
+}
+
+thead > tr:first-child > th {
+  padding: 5px;
+}
+
+tbody {
+	background-color: #3c3548;
+	font-size: 0.9rem;
+}
+
+tfoot {
+	font-size: 0.8rem;
+	font-weight: bold;
+}
+
 td.good {
-  color: greenyellow;
+	color: greenyellow;
 }
 
 td.needs-action {
-  color: salmon;
+	color: salmon;
 }
 
 td.neutral {
-  color: orange;
+	color: orange;
 }
 </style>
