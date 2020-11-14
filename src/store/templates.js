@@ -1,6 +1,7 @@
 import Template from "@/js/classes/Template";
+import defaultTemplates from "@/assets/templates/"
 
-const array = localStorage.templates ? JSON.parse(localStorage.templates) : [];
+const array = localStorage.templates ? JSON.parse(localStorage.templates) : defaultTemplates;
 
 const templates = {
   namespaced: true,

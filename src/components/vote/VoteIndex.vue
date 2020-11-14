@@ -11,7 +11,6 @@
 		:postId="postId"
 		:comments="comments"
 	/>
-	<SongsList :songs="songs" />
 	<FetchVotes v-if="allSongsCommented && !votes" :postId="postId" />
 	<TabulateVotes
 		v-if="allSongsCommented && votes"
@@ -20,6 +19,7 @@
 		:allSongsVotedOn="allSongsVotedOn"
 	/>
 	<CommitWinners v-if="allSongsVotedOn" :songs="songs" />
+	<SongsList :songs="songs" />
 </template>
 
 <script>
@@ -43,14 +43,10 @@ export default {
 		TabulateVotes,
 	},
 	props: {
-		number: {
-			type: String,
-			required: true,
-		},
-		theme: {
-			type: String,
-			required: true,
-		},
+		metadata: {
+      type: Object,
+      required: true,
+    },
 		postId: {
 			type: String,
 			required: false,
@@ -72,12 +68,6 @@ export default {
 		};
 	},
 	computed: {
-		metadata() {
-			return {
-				number: this.number,
-				theme: this.theme,
-			};
-		},
 		allSongsCommented() {
       if (!this.postId) return false;
 			for (const song of this.songs) {

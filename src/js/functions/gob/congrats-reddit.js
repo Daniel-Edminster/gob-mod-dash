@@ -10,7 +10,7 @@ function constructRoleWinners(winners, teams) {
   for (const [role, songs] of Object.entries(winners)) {
     songs.forEach(song => {
       if (role === 'track') {
-        if (+song.teamnumber > 0) {
+        if (+song.teamnumber > 0 && teamExists(+song.teamnumber, teams)) {
           const line = constructTrackWinner(song, teams);
           addLineToLines(line, lines);
         } else {
@@ -18,7 +18,7 @@ function constructRoleWinners(winners, teams) {
           addLineToLines(line, lines);
         }
       } else {
-        if (+song.teamnumber > 0) {
+        if (+song.teamnumber > 0 && teamExists(+song.teamnumber, teams)) {
           const line = constructRoleWinner(song, role, teams);
           addLineToLines(line, lines);
         } else {
@@ -90,4 +90,9 @@ function constructHeader() {
   lines.push('---');
   lines.push('');
   return lines;
+}
+
+function teamExists(number, teams) {
+  const team = teams.find(team => team.number === number);
+  console.log(team);
 }

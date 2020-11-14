@@ -40,14 +40,10 @@ export default {
     TeamManager
 	},
 	props: {
-		number: {
-			type: String,
-			required: true,
-		},
-		theme: {
-			type: String,
-			required: true,
-		},
+		metadata: {
+      type: Object,
+      required: true,
+    },
 		postId: {
 			type: String,
 			required: false,
@@ -82,12 +78,6 @@ export default {
 		};
 	},
 	computed: {
-		metadata() {
-			return {
-				number: this.number,
-				theme: this.theme,
-			};
-		},
 		allTeamsCommented() {
 			for (const team of this.teams) {
 				if (!team.comment) return false;

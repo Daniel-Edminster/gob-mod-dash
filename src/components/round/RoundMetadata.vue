@@ -177,7 +177,7 @@ table#metadata {
 }
 
 tbody td {
-	padding: 8px 10px;
+	padding: 2px 10px;
 }
 
 tbody > tr > td:first-child {
@@ -221,4 +221,5 @@ td.neutral {
 td.static {
 	color: grey;
 }
+
 </style>
