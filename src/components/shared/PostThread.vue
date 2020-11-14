@@ -3,6 +3,7 @@
   <TemplatePicker v-if="!forceTemplate" />
   <TemplatePreview v-if="template" :template="template" :metadata="metadata" />
   <button v-if="template" @click="submitPost">Post to reddit</button>
+  <p v-if="message">{{ message }}</p>
 </template>
 
 <script>
@@ -36,8 +37,8 @@ export default {
   },
   data() {
     return {
-      content: "",
-      template: null
+      template: null,
+      message: null
     }
   },
   provide() {
@@ -55,9 +56,15 @@ export default {
         title: parseMacros(this.template.title, this.metadata),
         body: parseMacros(this.template.body, this.metadata)
       }
+      this.message = "Posting to reddit..."
       console.log("Submitting to reddit", post);
       const submission = await reddit.submitPost(post);
-      this.setThread(this.thread, submission.name);
+      if (submission) {
+        this.setThread(this.thread, submission.name);
+        this.message = `Success! Thread posted to /r/${reddit.subreddit}`
+      } else {
+        this.message = "Post failed."
+      }
     }
   },
   created() {
