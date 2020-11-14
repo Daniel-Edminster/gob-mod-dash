@@ -1,6 +1,6 @@
 const body = `Team assignments are listed in the comments below.
 
-This round will end at **%end**. Songs are to be submitted [here](http://gameofbands.com/user_submitsong) by the end-of-round deadline. Submissions will be linked in a single voting post the next day.  Voting will begin one day after the deadline and run for seven days, upon which votes will be tallied, results posted, and flair awarded.
+This round will end at **[%end](%ewts)**. Songs are to be submitted [here](http://gameofbands.com/user_submitsong) by the end-of-round deadline. Submissions will be linked in a single voting post the next day.  Voting will begin one day after the deadline and run for seven days, upon which votes will be tallied, results posted, and flair awarded.
 
 This round's theme is **%theme**!  Team assignments are listed below.
 

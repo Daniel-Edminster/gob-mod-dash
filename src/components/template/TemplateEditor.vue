@@ -23,12 +23,14 @@
 			</div>
 		</form>
 		<div>Template saves automatically</div>
-		<div id="macros">
-			%num = round number<br />
-			%theme = round theme<br />
-      %begin = round begin date<br />
-      %end = round end date
-		</div>
+		<ul id="macros">
+			<li>%num = round number</li>
+			<li>%theme = round theme</li>
+      <li>%begin = round begin date</li>
+      <li>%end = round end date</li>
+      <li>%bwts = worldtimeserver link for round begin date</li>
+      <li>%ewts = worldtimeserver link for round end date</li>
+		</ul>
     <p>Note: Macros will only update when the template is previewed in the Round view.</p>
 	</div>
 </template>
@@ -49,6 +51,13 @@ export default {
 <style scoped>
 div#template-editor {
   padding: 15px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
 }
 
 label {

@@ -25,7 +25,6 @@ Coming soon:
 - team incompatibility checks
 - saving updated information to the gob api
 - toast notifications for async functions such as api calls
-- template macro for WorldTimeServer date conversion
 - styling updates, including trophies on song list after determining winners
 
 ---

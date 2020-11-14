@@ -52,7 +52,7 @@
 				<tr v-if="round.theme">
 					<td>Theme</td>
 					<td>{{ round.theme }}</td>
-					<td><button>Clear</button></td>
+					<td><button @click="clearProperty('theme')">Clear</button></td>
 				</tr>
 				<tr v-if="round.participants">
 					<td>Participants</td>
