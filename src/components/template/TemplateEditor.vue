@@ -25,7 +25,9 @@
 		<div>Template saves automatically</div>
 		<div id="macros">
 			%num = round number<br />
-			%theme = round theme
+			%theme = round theme<br />
+      %begin = round begin date<br />
+      %end = round end date
 		</div>
     <p>Note: Macros will only update when the template is previewed in the Round view.</p>
 	</div>

@@ -7,7 +7,8 @@ GOB mods: This is ready to play with on your own localhost, super easy to set up
 Currently this mod dash can do the following:
 
 - create a new round
-- create templates for posting threads to reddit
+- set begin and end dates for the round's active period
+- create templates for posting threads to reddit, with macros for num, theme and dates
 - post theme nomination thread, fetch nominations
 - approve and edit winning theme, commit to round
 - post signup thread, fetch signups and commit participants to round
@@ -15,13 +16,13 @@ Currently this mod dash can do the following:
 - post launch thread to reddit and populate with team comments
 - retrieve song information from the gob api (it will use the round number)
 - post voting thread to reddit, fetch vote comments and add them to songs
+- tabulate votes to determine winners
+- post congrats thread, concluding the round
 
-Further improvements:
+Coming soon:
 
 - team incompatibility checks
-- congrats thread posting
 - saving updated information to the gob api
-- date macros
 - notifications for async functions such as api calls
 
 ---
