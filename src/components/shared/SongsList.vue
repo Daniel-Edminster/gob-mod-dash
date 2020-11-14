@@ -16,7 +16,14 @@
 			<tr v-for="song in songs" :key="song.id">
 				<td>{{ song.name }}</td>
 				<td>{{ song.id }}</td>
-				<td>{{ song.comment }}</td>
+        <td v-if="editing === song.id">
+          <input type="text" :id="`input-${song.id}`" :value="song.comment" />
+          <button v-if="editing === song.id" @click="cancelEditing">Cancel</button>
+          <button v-if="editing === song.id" :name="song.id" @click="confirmEdit($event)">Confirm</button>
+        </td>
+				<td v-else>{{ song.comment }}
+          <button v-if="!editing" :name="song.id" @click="setEditing($event)">Edit</button>
+        </td>
         <td>{{ song.teamnumber }}</td>
 				<td>{{ song.votes }}</td>
 				<td>{{ song.musicvote }}</td>
@@ -35,7 +42,29 @@ export default {
 			type: Array,
 			required: true,
 		},
-	},
+  },
+  data() {
+    return {
+      editing: false
+    }
+  },
+  inject: ['setSongComment'],
+  methods: {
+    setEditing(event) {
+      this.editing = event.target.name;
+    },
+    cancelEditing() {
+      this.editing = null;
+    },
+    confirmEdit(event) {
+      const key = event.target.name;
+      const input = document.getElementById(`input-${key}`);
+      const value = input.value;
+      console.log(`Setting thread ${key} to ${value}`);
+      this.setSongComment(key, value);
+      this.editing = null;
+    }
+  }
 };
 </script>
 

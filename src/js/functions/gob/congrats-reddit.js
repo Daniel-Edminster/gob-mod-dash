@@ -32,18 +32,29 @@ function constructRoleWinners(winners, teams) {
 }
 
 function constructRoleWinner(song, role, teams) {
-  console.log("With user", song, role, teams)
-  return 'Not implemented yet';
+  const key = convertRoleToKey(role);
+  const team = teams.find(team => team.number === +song.teamnumber);
+  const user = team.members.find(user => {
+    return user.roles.includes(key.toLowerCase());
+  })
+  return `[**/u/${user.name}** for *${song.name}*](${song.url} "Award ${key}")`
 }
 
 function constructRoleWinnerWithoutUser(song, role) {
   const key = convertRoleToKey(role);
-  console.log("Constructing a song without a user", song, role);
   return `[*${song.name}*](${song.url} "Award ${key}")`;
 }
 
 function constructTrackWinner(song, teams) {
-  console.log(song, teams);
+  const team = teams.find(team => team.number === +song.teamnumber);
+  let string = `[${song.name} by `;
+  team.members.forEach((user, index, array) => {
+    if (index === array.length - 1) string+= 'and ';
+    string += `**/u/${user.name}**`;
+    if (index < array.length - 1) string += ', ';
+  })
+  string += `](${song.url} "Award Track")`;
+  return string;
 }
 
 function constructTrackWinnerWithoutTeam(song) {

@@ -58,19 +58,21 @@ export default {
 			this.counter--;
 			if (this.counter <= 0) this.$refs.teamItem.classList.remove("drag-hover");
 		},
-		obscureText(className) {
-			const spans = document.getElementsByClassName(className);
-			spans.forEach((span) => {
-				span.classList.add(`obscured`);
+		obscureText() {
+			const classes = ["noob", "bandit", "veteran"];
+			classes.forEach((className) => {
+				const spans = document.getElementsByClassName(className);
+				spans.forEach((span) => {
+					span.classList.add(`obscured`);
+				});
 			});
 		},
 	},
 	mounted() {
-		if (this.obscure === true) {
-			this.obscureText("noob");
-			this.obscureText("bandit");
-			this.obscureText("veteran");
-		}
+		if (this.obscure === true) this.obscureText();
+	},
+	updated() {
+		if (this.obscure === true) this.obscureText();
 	},
 };
 </script>
@@ -108,20 +110,20 @@ li {
 }
 
 .obscured {
-  overflow: hidden;
-  white-space: nowrap;
-  position: relative;
+	overflow: hidden;
+	white-space: nowrap;
+	position: relative;
 }
 
 .obscured:before {
-  visibility: visible;
-  color: black;
-  padding-left: 15px;
-  position: absolute;
-  left: 0;
-  right: 0;
-  text-align: right;
-  padding-right: 5px;
+	visibility: visible;
+	color: #303030;
+	padding-left: 15px;
+	position: absolute;
+	left: 0;
+	right: 0;
+	text-align: right;
+	padding-right: 5px;
 }
 
 .noob {
@@ -129,11 +131,11 @@ li {
 }
 
 .noob.obscured {
-  background-color: white;
+	background-color: white;
 }
 
 .noob.obscured::before {
-  content: "Newbie";
+	content: "Newbie";
 }
 
 .bandit {
@@ -141,11 +143,11 @@ li {
 }
 
 .bandit.obscured {
-  background-color: greenyellow;
+	background-color: greenyellow;
 }
 
 .bandit.obscured::before {
-  content: "Bandit";
+	content: "Bandit";
 }
 
 .veteran {
@@ -153,11 +155,11 @@ li {
 }
 
 .veteran.obscured {
-  background-color: orange;
+	background-color: orange;
 }
 
 .veteran.obscured::before {
-  content: "Veteran";
+	content: "Veteran";
 }
 
 span {

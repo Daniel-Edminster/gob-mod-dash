@@ -10,6 +10,7 @@ export default class Round {
     this.active = false;
     this.complete = false;
     this.grace = false;
+    this.concluded = false;
     this.songs = null;
     this.winners = null;
     this.threads = {};

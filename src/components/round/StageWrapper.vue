@@ -46,6 +46,7 @@
 			:winners="round.winners"
 			:teams="round.teams"
 			:metadata="metadata"
+      :postId="round.threads.congrats"
 		/>
 	</div>
 </template>

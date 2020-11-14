@@ -42,10 +42,33 @@
 					<td><button @click="clearProperty('songs')">Clear</button></td>
 				</tr>
 			</tbody>
+			<tfoot v-if="!round.active && !round.complete">
+				<tr v-if="!round.threads.theme">
+					<td class="needs-action" colspan="3">
+						Theme Nomination thread pending!
+					</td>
+				</tr>
+        <tr v-if="round.threads.theme && !round.theme">
+          <td class="needs-action" colspan="3">Awaiting theme nominations!</td>
+        </tr>
+				<tr v-if="round.theme && !round.threads.signup">
+					<td class="needs-action" colspan="3">Signup thread pending!</td>
+				</tr>
+        <tr v-if="round.threads.signup && !round.participants">
+					<td class="needs-action" colspan="3">Awaiting signups!</td>
+				</tr>
+        <tr v-if="round.participants && !round.teams">
+					<td class="needs-action" colspan="3">Awaiting team allocation!</td>
+				</tr>
+        <tr v-if="round.teams">
+					<td class="needs-action" colspan="3">Check teams and activate round!</td>
+				</tr>
+			</tfoot>
 			<tfoot v-if="round.active">
 				<tr>
 					<td class="good" colspan="3">Round is active</td>
 				</tr>
+
 				<tr v-if="!round.threads.launch">
 					<td class="needs-action" colspan="3">Launch thread pending!</td>
 				</tr>
@@ -57,15 +80,31 @@
 			</tfoot>
 			<tfoot v-if="round.complete">
 				<tr>
-					<td class="neutral" colspan="3">Round is complete</td>
+					<td v-if="!round.threads.congrats" class="neutral" colspan="3">
+						Round is over.
+					</td>
+					<td v-else class="static" colspan="3">Round is concluded</td>
 				</tr>
 				<tr v-if="!round.songs">
-					<td class="needs-action" colspan="3">Awaiting song information</td>
+					<td class="needs-action" colspan="3">Awaiting song information!</td>
+				</tr>
+				<tr v-if="round.songs && !round.threads.voting">
+					<td class="needs-action" colspan="3">Voting thread pending!</td>
+				</tr>
+        <tr v-if="round.threads.voting && !round.winners">
+					<td class="needs-action" colspan="3">Await voting information!</td>
+				</tr>
+				<tr v-if="round.winners && !round.threads.congrats">
+					<td class="needs-action" colspan="3">Congrats thread pending!</td>
 				</tr>
 			</tfoot>
 		</table>
-		<button v-if="round.active" @click="clearBoolean('active')">Clear Active</button>
-		<button v-if="round.complete" @click="clearBoolean('complete')">Clear Complete</button>
+		<button v-if="round.active" @click="clearBoolean('active')">
+			Clear Active
+		</button>
+		<button v-if="round.complete" @click="clearBoolean('complete')">
+			Clear Complete
+		</button>
 	</div>
 </template>
 
@@ -94,10 +133,10 @@ tbody td {
 }
 
 tbody > tr > td:first-child {
-  text-transform: uppercase;
-  text-align: right;
-  font-size: .8rem;
-  font-weight: bold;
+	text-transform: uppercase;
+	text-align: right;
+	font-size: 0.8rem;
+	font-weight: bold;
 }
 
 thead {
@@ -106,7 +145,7 @@ thead {
 }
 
 thead > tr:first-child > th {
-  padding: 5px;
+	padding: 5px;
 }
 
 tbody {
@@ -129,5 +168,9 @@ td.needs-action {
 
 td.neutral {
 	color: orange;
+}
+
+td.static {
+	color: grey;
 }
 </style>

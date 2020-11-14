@@ -47,6 +47,8 @@ VUE_APP_GAME_OF_BANDS_API_KEY
 
 Then use `npm run serve` to launch the app.
 
+The reddit app should be the `script` option in order to post threads.
+
 If you run into any 403 errors with the reddit api, check to make sure your credentials are correct, that your linked user has access to and ideally is a mod of the appropriate subreddit, and that you don't have 2FA turned on.
 
 The mod thing makes a difference for threads in contest mode - you'll only see a single upvote on comments in a contest mode thread.

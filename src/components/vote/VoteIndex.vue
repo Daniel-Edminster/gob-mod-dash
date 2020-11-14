@@ -79,12 +79,14 @@ export default {
 			};
 		},
 		allSongsCommented() {
+      if (!this.postId) return false;
 			for (const song of this.songs) {
 				if (!song.comment) return false;
 			}
 			return true;
 		},
 		allSongsVotedOn() {
+      if (!this.postId) return false;
 			for (const song of this.songs) {
 				if (!song.voted) return false;
 			}

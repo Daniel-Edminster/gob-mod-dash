@@ -1,10 +1,17 @@
 <template>
 	<div>
-    <p v-if="!screenReady">Fetching <span class="bandit">bandit</span> and <span class="veteran">veteran</span> information...</p>
-    <button v-if="!screened && screenReady" @click="screenParticipants()">Screen Participants</button>
-    <button v-if="screened" @click="setProperty('participants', screened)">Commit Participants to Round</button>
+		<p v-if="!screenReady">
+			Fetching <span class="bandit">bandit</span> and
+			<span class="veteran">veteran</span> information...
+		</p>
+		<button v-if="!screened && screenReady" @click="screenParticipants()">
+			Screen Participants
+		</button>
+		<button v-if="screened" @click="setProperty('participants', screened)">
+			Commit Participants to Round
+		</button>
 		<ParticipantTable v-if="!screened" :participants="signups" />
-    <ParticipantTable v-else :participants="screened" />
+		<ParticipantTable v-else :participants="screened" />
 	</div>
 </template>
 
@@ -38,7 +45,6 @@ export default {
 	methods: {
 		screenParticipants() {
 			if (this.screenReady) {
-				console.log("Screening is ready");
 				const array = this.signups.map((signup) => {
 					const user = signup;
 					user.experience = "noob";
@@ -49,7 +55,6 @@ export default {
 					return user;
 				});
 				this.screened = array;
-				console.log(this.screened);
 			} else {
 				console.log(
 					"Bandit information unavailable. Check GOB Api connection."
@@ -58,8 +63,10 @@ export default {
 		},
 	},
 	created() {
-		this.$store.dispatch("bandits/fetchBandits");
-		this.$store.dispatch("bandits/fetchVeterans");
+		if (!this.screenReady) {
+			this.$store.dispatch("bandits/fetchBandits");
+			this.$store.dispatch("bandits/fetchVeterans");
+		}
 	},
 };
 </script>
@@ -72,10 +79,10 @@ ul {
 }
 
 .bandit {
-  color: greenyellow;
+	color: greenyellow;
 }
 
 .veteran {
-  color: orange;
+	color: orange;
 }
 </style>
