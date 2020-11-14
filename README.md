@@ -33,9 +33,9 @@ Coming soon:
 
 ## Installation
 
-Clone the repo iwth `git clone https://github.com/retrotheft/gob-mod-dash.git` or equivalent.
+Clone the repo with `git clone https://github.com/retrotheft/gob-mod-dash.git` or equivalent.
 
-Navigate to the f`gob-mod-dash` folder, and type `npm install` to install dependencies, then set up your `.env` file with the following (entering your own relevant details in the quotes):
+Navigate to the `gob-mod-dash` folder, and type `npm install` to install dependencies, then set up your `.env` file with the following (entering your own relevant details in the quotes):
 
 Reddit Credentials:
 ```
