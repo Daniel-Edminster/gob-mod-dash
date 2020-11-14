@@ -12,7 +12,7 @@ Currently this mod dash can do the following:
 - post theme nomination thread, fetch nominations
 - approve and edit winning theme, commit to round
 - post signup thread, fetch signups and commit participants to round
-- allocate teams with a shiny drag and drop interface to balance vets and noobs
+- allocate teams and balance vets/noobs before launching round
 - post launch thread to reddit and populate with team comments
 - retrieve song information from the gob api (it will use the round number)
 - post voting thread to reddit, fetch vote comments and add them to songs
@@ -21,6 +21,7 @@ Currently this mod dash can do the following:
 
 Coming soon:
 
+- create teams and manage angels during round
 - team incompatibility checks
 - saving updated information to the gob api
 - toast notifications for async functions such as api calls
