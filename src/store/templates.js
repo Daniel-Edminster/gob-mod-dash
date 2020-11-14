@@ -38,9 +38,11 @@ const templates = {
       })
       if (existing) {
         console.log("Template with that name already exists");
+        return "Template with that name already exists";
       } else {
         commit('createTemplate', name);
         dispatch('saveTemplates');
+        return `Template "${name}" created`
       }
     },
     saveTemplates({ state }) {

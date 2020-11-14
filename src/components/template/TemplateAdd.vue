@@ -1,9 +1,11 @@
 <template>
 	<form @submit.prevent="submitNew">
-		<label for="name">Enter a name for the new template: (3 characters or more)</label><br />
+		<label for="name"
+			>Enter a name for the new template: (3 characters or more)</label
+		><br />
 		<input id="name" name="name" type="text" v-model="name" />
 		<button type="submit">Create Template</button>
-    <p v-if="message">{{ message }}</p>
+		<p v-if="message">{{ message }}</p>
 	</form>
 </template>
 
@@ -17,7 +19,7 @@ export default {
 		};
 	},
 	methods: {
-		submitNew() {
+		async submitNew() {
       if (!this.name) {
         this.message = "Please enter a name";
         console.log(this.message);
@@ -27,8 +29,7 @@ export default {
 				return;
 			} else {
         console.log("Creating template", this.name);
-        this.message = "Template created";
-				this.$store.dispatch("templates/createTemplate", this.name);
+				this.message = await this.$store.dispatch("templates/createTemplate", this.name);
 			}
 		},
 	},
