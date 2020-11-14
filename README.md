@@ -26,6 +26,7 @@ Coming soon:
 - saving updated information to the gob api
 - toast notifications for async functions such as api calls
 - styling updates, including trophies on song list after determining winners
+- more informative rounds list
 
 ---
 
@@ -35,22 +36,22 @@ Just run `npm i` to install dependencies, then set up your `.env` file with the 
 
 Reddit Credentials:
 ```
-VUE_APP_REDDIT_SCRIPT_USER_AGENT
-VUE_APP_REDDIT_SCRIPT_CLIENT_ID
-VUE_APP_REDDIT_SCRIPT_CLIENT_SECRET
-VUE_APP_REDDIT_USERNAME
-VUE_APP_REDDIT_PASSWORD
-VUE_APP_REDDIT_SUBREDDIT
+VUE_APP_REDDIT_SCRIPT_USER_AGENT = ''
+VUE_APP_REDDIT_SCRIPT_CLIENT_ID = ''
+VUE_APP_REDDIT_SCRIPT_CLIENT_SECRET = ''
+VUE_APP_REDDIT_USERNAME = ''
+VUE_APP_REDDIT_PASSWORD = ''
+VUE_APP_REDDIT_SUBREDDIT = ''
 ```
 GOB credentials:
 
 ```
-VUE_APP_GAME_OF_BANDS_API_KEY
+VUE_APP_GAME_OF_BANDS_API_KEY = ''
 ```
 
 Then use `npm run serve` to launch the app.
 
-The reddit app should be the `script` option in order to post threads.
+Your reddit app should be the `script` option in order to post threads.
 
 If you run into any 403 errors with the reddit api, check to make sure your credentials are correct, that your linked user has access to and ideally is a mod of the appropriate subreddit, and that you don't have 2FA turned on.
 
