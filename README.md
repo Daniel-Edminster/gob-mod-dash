@@ -27,6 +27,7 @@ Coming soon:
 - toast notifications for async functions such as api calls
 - styling updates, including trophies on song list after determining winners
 - more informative rounds list
+- voting cutoff
 
 ---
 

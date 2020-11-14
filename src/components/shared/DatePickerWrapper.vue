@@ -57,6 +57,12 @@ div[class="picker__warp"] {
 	box-shadow: none !important;
 }
 
+button[class="picker__button--today"],
+button[class="picker__button--clear"],
+button[class="picker__button--close"] {
+  color: black !important;
+}
+
 input#date-picker {
 	width: 100px;
 }
