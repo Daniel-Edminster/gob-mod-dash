@@ -21,5 +21,8 @@ export default {
 <style scoped>
 div#rounds {
   padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>

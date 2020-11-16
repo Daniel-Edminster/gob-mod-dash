@@ -25,3 +25,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+select {
+  margin: 20px;
+}
+</style>

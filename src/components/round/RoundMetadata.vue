@@ -192,7 +192,7 @@ table#metadata {
 	margin: 15px;
 }
 
-tbody td {
+th, td {
 	padding: 2px 10px;
 }
 

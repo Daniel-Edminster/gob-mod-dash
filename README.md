@@ -31,7 +31,6 @@ GOB mods: This is ready to play with on your own localhost, super easy to set up
 - saving updated information to the gob api
 - toast notifications for async functions such as api calls
 - styling updates, including trophies on song list after determining winners
-- more informative rounds list
 - thread type guards
 
 ---
