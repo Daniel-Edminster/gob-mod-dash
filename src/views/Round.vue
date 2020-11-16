@@ -158,7 +158,6 @@ export default {
 	},
 	created() {
 		this.round = this.fetchRound(this.id);
-		console.log(this.round);
 	},
 };
 </script>

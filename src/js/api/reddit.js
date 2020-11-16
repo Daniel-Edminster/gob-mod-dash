@@ -89,6 +89,4 @@ class Reddit extends snoowrap {
 
 const reddit = new Reddit();
 
-console.log(reddit);
-
 export default reddit;

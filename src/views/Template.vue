@@ -37,7 +37,6 @@ export default {
 			const template = this.$store.getters["templates/getTemplateByName"](name);
 			if (template) {
 				this.template = template;
-				console.log(template);
 			} else {
 				console.log("No Template Found");
 			}

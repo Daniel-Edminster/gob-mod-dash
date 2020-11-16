@@ -17,7 +17,6 @@ const settings = {
   },
   getters: {
     getSubreddit: (state) => {
-      console.log("Get Subreddit", state.subreddit);
       return state.subreddit;
     }
   },

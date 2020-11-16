@@ -116,7 +116,7 @@ table {
 }
 
 tbody > tr > td {
-	padding: 3px;
+	padding: 8px;
 	/* width: 25%; */
 }
 
@@ -140,12 +140,27 @@ tfoot > tr > td {
 	color: white;
 }
 
+.noob .drag {
+  background-color: white;
+  color: #3c3548;
+}
+
 .bandit {
 	color: greenyellow;
 }
 
+.bandit .drag {
+  background-color: greenyellow;
+  color: #3c3548;
+};
+
 .veteran {
 	color: orange;
+}
+
+.veteran .drag {
+  background-color: orange;
+  color: #3c3548;
 }
 
 span {
@@ -154,9 +169,14 @@ span {
 
 span.drag {
   cursor: grab;
+  border: 1px solid grey;
+  border-radius: 4px;
+  padding: 1px 3px;
+  text-transform: uppercase;
+  font-size: .8rem;
 }
 
 span.drag:hover {
-  color: White;
+  background-color: white;
 }
 </style>

@@ -26,6 +26,13 @@ export default {
 	computed: mapGetters("settings", ["getSubreddit"]),
 	methods: {
 		async setSubreddit() {
+      if (!this.value) {
+        this.message = "Please enter a subreddit."
+        return;
+      } else if (this.value.length < 3 || this.value.length > 21) {
+        this.message = "Subreddits require between 3 and 21 characters."
+        return;
+      }
 			this.message = "Checking subreddit exists and user mod status...";
 			const result = await this.$store.dispatch(
 				"settings/setSubreddit",
