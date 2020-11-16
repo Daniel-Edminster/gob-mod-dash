@@ -25,7 +25,7 @@
             <DatePickerWrapper :date="{key: 'begin', value: round.dates.begin}" />
           </td>
 					<td v-else>
-						{{ round.dates.begin }}
+						{{ formatDate(round.dates.begin) }}
 					</td>
 					<td v-if="editing === 'begin'">
             <button @click="clearEditing">Done</button>
@@ -40,7 +40,7 @@
 						<DatePickerWrapper :date="{key: 'end', value: round.dates.end}" />
 					</td>
 					<td v-else>
-            {{ round.dates.end }}
+            {{ formatDate(round.dates.end) }}
           </td>
           <td v-if="editing === 'end'">
             <button @click="clearEditing">Done</button>
@@ -49,6 +49,11 @@
             <button @click="setEditing('end')">Edit</button>
           </td>
 				</tr>
+        <tr v-if="round.dates.endVote">
+          <td>Voting Cutoff</td>
+          <td>{{ formatDate(round.dates.endVote) }}</td>
+          <td>end + 8</td>
+        </tr>
 				<tr v-if="round.theme">
 					<td>Theme</td>
 					<td>{{ round.theme }}</td>
@@ -164,6 +169,17 @@ export default {
     },
     clearEditing() {
       this.editing = null;
+    },
+    formatDate(string) {
+      let date = null;
+      if (string) date = new Date(string);
+      if (this.isDate(date)) return date.toDateString();
+      return 'enter date';
+    },
+    isDate(obj) {
+      // why there isn't a simple Date typeof check is beyond me :(
+      if (Object.prototype.toString.call(obj) === '[object Date]') return true;
+      return false;
     }
   }
 };

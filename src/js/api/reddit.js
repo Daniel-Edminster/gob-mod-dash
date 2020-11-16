@@ -21,6 +21,29 @@ class Reddit extends snoowrap {
     this.subreddit = process.env.VUE_APP_REDDIT_SUBREDDIT;
   }
 
+  async setSubreddit(name) {
+    try {
+      const check = await this.getSubreddit(name).fetch();
+      console.log(check);
+      if (check) console.log("Subreddit exists");
+      const listing = await this.getModeratedSubreddits();
+      const isMod = listing.find(subreddit => subreddit.display_name == name);
+      this.subreddit = name;
+      if (isMod) {
+        console.log("User is mod of", name);
+        return true;
+      }
+    } catch (err) {
+      if (err.message === "403") {
+        console.log(`User is not a mod of ${name}`);
+        return false;
+      } else {
+        console.log(`Subreddit ${name} does not exist`)
+        return null;
+      }
+    }
+  }
+
   fetchComments = async (postId) => {
     try {
       const results = await this.getSubmission(postId).comments;
@@ -64,4 +87,8 @@ class Reddit extends snoowrap {
   }
 }
 
-export default new Reddit();
+const reddit = new Reddit();
+
+console.log(reddit);
+
+export default reddit;

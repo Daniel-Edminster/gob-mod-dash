@@ -5,6 +5,14 @@ Currently the dash will save its info to localStorage. The app comes with defaul
 
 Note that **comments** and the **congrats** thread are constructed programmatically currently, owing to their additional complexity.
 
+## Subreddit
+
+You can select the subreddit to post to in settings. You can set a default in your .env file, and localStorage will remember your most recent setting also. If you want to go back to the default, just delete settings from localStorage and refresh.
+
+## Dates and Times
+
+The dash currently supports **round begin**, **round end** and **voting cutoff** dates. The times (hours and minutes) are currently hard coded - you can edit them in the template but it won't affect the hour that gets added to the WorldTimeServer link. This will be improved in a later version.
+
 ## Templates
 
 Create a template by entering a name into the input element. Clicking on the newly created template will take you to the template editor. This will automatically save as you update it. You'll be able to access these templates in the Round View later.

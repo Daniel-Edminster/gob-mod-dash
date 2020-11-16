@@ -18,6 +18,7 @@
 		<tbody>
 			<tr v-for="participant in participants" :key="participant.name">
 				<td :class="participant.experience">{{ participant.name }}</td>
+				<td :class="participant.experience">{{ participant.name }}</td>
 				<td><span v-if="participant.roles.includes('music')">Y</span></td>
 				<td><span v-if="participant.roles.includes('lyrics')">Y</span></td>
 				<td><span v-if="participant.roles.includes('vocals')">Y</span></td>
@@ -38,6 +39,11 @@ export default {
       type: String,
       required: false,
       default: 'Participants'
+    },
+    angels: {
+      type: Boolean,
+      required: false,
+      default: false
     }
 	},
 	computed: {

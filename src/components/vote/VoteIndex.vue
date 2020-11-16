@@ -1,5 +1,5 @@
 <template>
-	<p v-if="comments">Comments Generated</p>
+	<p v-if="comments">{{ comments.length }} Comments Generated</p>
 	<CommentGenerator v-if="!comments && !allSongsCommented" :songs="songs" />
 	<PostThread
 		v-if="!postId && comments && !allSongsCommented"

@@ -18,6 +18,8 @@ They're just links, really, or spoiler tags if you use them in other sub-reddits
     
 Please include some info on why you voted the way you did; positive and constructive feedback is always appreciated!
 
+Voting will end on [**%vcut at 23:59 UTC**](%vwts).
+
 *If you participated in this round or the previous or next round, please vote as a courtesy to your fellow bandits!*
      
 **YOU BETTER VOTE OR ELSE**`

@@ -1,10 +1,10 @@
-# gob-mod-dash
+# Mod Dashboard for Game of Bands (/r/gameofbands)
 
 Alpha for now.
 
 GOB mods: This is ready to play with on your own localhost, super easy to set up. See below for installation instructions.
 
-Currently this mod dash can do the following:
+## Features
 
 - create a new round
 - set begin and end dates for the round's active period
@@ -18,8 +18,13 @@ Currently this mod dash can do the following:
 - post voting thread to reddit, fetch vote comments and add them to songs
 - tabulate votes to determine winners
 - post congrats thread, concluding the round
+- extended date handling for begin, end and voting cutoff dates.
 
-Coming soon:
+## Subreddit
+
+- you can select the subreddit to post to in settings. You can set a default in your .env file, and localStorage will remember your most recent setting also. If you want to go back to the default, just delete settings from localStorage and refresh.
+
+## Coming soon:
 
 - create teams and manage angels during round
 - team incompatibility checks
@@ -28,6 +33,7 @@ Coming soon:
 - styling updates, including trophies on song list after determining winners
 - more informative rounds list
 - voting cutoff
+- thread type guards
 
 ---
 

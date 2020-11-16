@@ -2,7 +2,7 @@ const body = `This thread is for people to sign up for Round %num of Game of Ban
 
 Make a song that has the same title as a popular song, but is otherwise unrelated to that song.
 
-This round will start at **%begin**, at which time everybody who has signed up will be matched randomly into teams by GameOfBand's AI, Gobot. The teams shall consist of one musician, one lyricist, and one vocalist.
+This round will begin at [**8pm UTC %begin**](%bwts), at which time everybody who has signed up will be matched randomly into teams by GameOfBand's AI, Gobot. The teams shall consist of one musician, one lyricist, and one vocalist.
 
 To sign up, simply reply to the main post and state whether you want to do Music, Lyrics or Vocals. Feel free to sign up for multiple roles, as this helps us form teams easier. You will still only be selected for just one. If you change your mind about a signup, please delete your comment.
 

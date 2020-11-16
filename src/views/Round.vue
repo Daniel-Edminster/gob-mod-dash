@@ -7,6 +7,7 @@
 <script>
 import RoundDashboard from "@/components/round/RoundDashboard";
 import StageWrapper from "@/components/round/StageWrapper";
+import { addDays } from "@/js/functions/utils";
 
 export default {
 	name: "Round",
@@ -95,7 +96,18 @@ export default {
 			}
     },
     setDate(key, value) {
-      this.round.dates[key] = value;
+      const date = new Date(value);
+      if (key === 'begin') date.setHours(20);
+      if (key === 'end') {
+        date.setHours(5);
+        const endVote = addDays(date, 8);
+        endVote.setHours(23)
+        endVote.setMinutes(59);
+        this.round.dates.endVote = endVote;
+        console.log(date);
+        console.log(endVote);
+      }
+      this.round.dates[key] = date;
       console.log(this.round);
       this.saveRounds();
     },
@@ -103,7 +115,7 @@ export default {
 			const song = this.round.songs.find((song) => song.id === id);
       song.comment = value;
       this.saveRounds();
-		},
+    },
 		setThread(key, value) {
 			this.round.threads[key] = value;
 			this.saveRounds();

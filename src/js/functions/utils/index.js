@@ -5,7 +5,9 @@ export function parseMacros(str, obj) {
     "%begin": formatDate(obj.dates.begin),
     "%bwts": worldTimeServerLink(obj.dates.begin),
     "%end": formatDate(obj.dates.end),
-    "%ewts": worldTimeServerLink(obj.dates.end)
+    "%ewts": worldTimeServerLink(obj.dates.end),
+    "%vcut": formatDate(obj.dates.endVote),
+    "%vwts": worldTimeServerLink(obj.dates.endVote)
   }
   var re = new RegExp(Object.keys(mapObj).join("|"), "gi");
   str = str.replace(re, function (matched) {
@@ -15,20 +17,24 @@ export function parseMacros(str, obj) {
 }
 
 function formatDate(dateString) {
-  if (!dateString) return "No date"
-  const array = dateString.split('/');
-  const year = array.shift();
-  const month = array.shift();
-  const day = array.shift();
-  const date = new Date(year, month - 1, day);
-  return date.toUTCString();
+  if (!dateString) return "No date";
+  const date = new Date(dateString);
+  return date.toDateString();
 }
 
 function worldTimeServerLink(dateString) {
   if (!dateString) return "No date"
-  const array = dateString.split('/');
-  const year = array.shift();
-  const month = array.shift();
-  const day = array.shift();
-  return `http://www.worldtimeserver.com/convert_time_in_UTC.aspx?y=${year}&mo=${month}&d=${day}&h=5&mn=0`
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1; // months are zero-indexed, thanks javascript.
+  const day = date.getDay() + 1; // days too.
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  return `http://www.worldtimeserver.com/convert_time_in_UTC.aspx?y=${year}&mo=${month}&d=${day}&h=${hour}&mn=${minute}`
+}
+
+export function addDays (date, days) {
+  const result = new Date(date.getTime());
+  result.setDate(result.getDate() + days);
+  return result;
 }

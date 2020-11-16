@@ -28,8 +28,10 @@
 			<li>%theme = round theme</li>
       <li>%begin = round begin date</li>
       <li>%end = round end date</li>
+      <li>%vcut = round voting cutoff date</li>
       <li>%bwts = worldtimeserver link for round begin date</li>
       <li>%ewts = worldtimeserver link for round end date</li>
+      <li>%vwts = worldtimeserver link for round voting cutoff date</li>
 		</ul>
     <p>Note: Macros will only update when the template is previewed in the Round view.</p>
 	</div>
