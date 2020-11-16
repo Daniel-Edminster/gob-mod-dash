@@ -1,8 +1,8 @@
 <template>
   <h4>Post Thread: {{ thread }}</h4>
   <TemplatePicker v-if="!forceTemplate" />
-  <TemplatePreview v-if="template" :template="template" :metadata="metadata" />
   <button v-if="template" @click="submitPost">Post to reddit</button>
+  <TemplatePreview v-if="template" :template="template" :metadata="metadata" />
   <p v-if="message">{{ message }}</p>
 </template>
 

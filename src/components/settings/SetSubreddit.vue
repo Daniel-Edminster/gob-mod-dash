@@ -1,6 +1,8 @@
 <template>
 	<div>
-		<p>Current Subreddit: {{ getSubreddit }}</p>
+		<p>
+			Current Subreddit: <span class="subreddit">/r/{{ getSubreddit }}</span>
+		</p>
 		<form @submit.prevent="setSubreddit">
 			<label for="subreddit">Subreddit</label>
 			<input type="text" name="subreddit" v-model="value" />
@@ -18,16 +20,25 @@ export default {
 	data() {
 		return {
 			value: null,
-      message: null,
+			message: null,
 		};
 	},
-	computed: mapGetters('settings', ['getSubreddit']),
+	computed: mapGetters("settings", ["getSubreddit"]),
 	methods: {
 		async setSubreddit() {
 			this.message = "Checking subreddit exists and user mod status...";
-			const result = await this.$store.dispatch("settings/setSubreddit", this.value);
-      this.message = result;
+			const result = await this.$store.dispatch(
+				"settings/setSubreddit",
+				this.value
+			);
+			this.message = result;
 		},
-  }
+	},
 };
 </script>
+
+<style scoped>
+span.subreddit {
+	font-weight: bold;
+}
+</style>

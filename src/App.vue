@@ -23,15 +23,13 @@
 	text-align: center;
 	color: #2c3e50;
   font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif;
+  height: 100vh;
 }
 
 body {
 	margin: 0;
 	padding: 0;
-	width: 100vw;
-	height: 100vh;
   background-color: #2d2b38;
-  
 }
 
 #nav {
@@ -61,7 +59,6 @@ body {
 }
 
 #main-content {
-	height: 100%;
 	background-color: #2d2b38;
 	color: white;
 }
