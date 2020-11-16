@@ -17,35 +17,48 @@
 		</thead>
 		<tbody>
 			<tr v-for="user in participants" :key="user.name">
-				<td>
-					<span :class="user.experience">{{ user.name }}</span>
+				<td :class="user.experience">
+					<span>{{ user.name }}</span>
 				</td>
-				<td>
-					<span
+				<td :class="user.experience">
+					<span class="drag"
 						v-if="user.roles.includes('music')"
-						>Y</span
+						draggable="true"
+						@dragStart="startDrag(user, 'music')"
+						>Music</span
 					>
 				</td>
-				<td>
-					<span
+				<td :class="user.experience">
+					<span class="drag"
 						v-if="user.roles.includes('lyrics')"
-						>Y</span
+						draggable="true"
+						@dragStart="startDrag(user, 'lyrics')"
+						>Lyrics</span
 					>
 				</td>
-				<td>
-					<span
+				<td :class="user.experience">
+					<span class="drag"
 						v-if="user.roles.includes('vocals')"
-						>Y</span
+						draggable="true"
+						@dragStart="startDrag(user, 'vocals')"
+						>Vocals</span
 					>
 				</td>
 			</tr>
 		</tbody>
+    <tfoot>
+      <tr>
+        <td colspan="4">
+          Note: to swap an angel with a placed team member,<br />drag the appropriate role they have available.<br />(In case of multiple role angels.)
+        </td>
+      </tr>
+    </tfoot>
 	</table>
 </template>
 
 <script>
 export default {
-	name: "ParticipantTable",
+	name: "AngelTable",
 	props: {
 		participants: {
 			type: Array,
@@ -84,7 +97,14 @@ export default {
 			});
 			return num;
 		},
-	}
+	},
+	inject: ["grabAngel"],
+	methods: {
+		startDrag(user, role) {
+      console.log(user);
+			this.grabAngel(user, role);
+		},
+	},
 };
 </script>
 
@@ -92,11 +112,12 @@ export default {
 table {
 	border: 1px solid black;
 	border-spacing: 1px;
+  user-select: none;
 }
 
-td {
+tbody > tr > td {
 	padding: 3px;
-	width: 25%;
+	/* width: 25%; */
 }
 
 thead {
@@ -109,6 +130,12 @@ tbody {
 	font-size: 0.9rem;
 }
 
+tfoot > tr > td {
+  font-size: .8rem;
+  font-weight: bold;
+  padding: 6px;
+}
+
 .noob {
 	color: white;
 }
@@ -119,5 +146,17 @@ tbody {
 
 .veteran {
 	color: orange;
+}
+
+span {
+  font-weight: bold;
+}
+
+span.drag {
+  cursor: grab;
+}
+
+span.drag:hover {
+  color: White;
 }
 </style>

@@ -40,14 +40,16 @@ export default {
 			counter: 0,
 		};
 	},
-	inject: ["grabBandit", "getHeldBandit", "clearHeldBandit", "swapBandits"],
+	inject: ["grabBandit", "getHeldBandit", "clearHeldBandit", "swapAngel", "swapBandits"],
 	methods: {
 		startDrag(user, team) {
 			this.grabBandit(user, team);
 		},
 		catchBandit(event, team) {
-			const held = this.getHeldBandit();
-			this.swapBandits(held, team);
+      const held = this.getHeldBandit();
+      console.log(held);
+      if (held.role) this.swapAngel(held, team);
+      if (held.team) this.swapBandits(held, team);
 			this.$refs.teamItem.classList.remove("drag-hover");
 		},
 		dragEnter() {
@@ -103,7 +105,7 @@ ul {
 li {
 	font-size: 0.8rem;
 	font-weight: bold;
-	cursor: pointer;
+	cursor: grab;
 	color: lightgrey;
 	margin: 2px 0;
 	display: flex;

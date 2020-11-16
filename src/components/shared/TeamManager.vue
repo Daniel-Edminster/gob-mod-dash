@@ -2,25 +2,25 @@
 	<h4>Team Manager</h4>
 	<div v-if="!active">
 		<p>
-			Here is where you will be able to adjust teams before beginning the round.
+			Make final changes to teams and angels before posting. Note that changes here are not saved until "Activate Round" is pressed, so if you want to start again, just refresh the page.
 		</p>
 		<button @click="setActive()">Activate Round</button>
 	</div>
   <div v-else>
     Round is currently active. <button @click="endRound()">End Round</button>
   </div>
-	<ParticipantTable v-if="participants.length > 0" :participants="participants" heading="Unplaced" />
+	<AngelTable v-if="participants.length > 0" :participants="participants" heading="Unplaced" />
 	<TeamsList :teams="teams" :obscure="!active"/>
 </template>
 
 <script>
-import ParticipantTable from "./ParticipantTable";
+import AngelTable from "./AngelTable";
 import TeamsList from "../team/TeamsList";
 
 export default {
 	name: "TeamManager",
 	components: {
-		ParticipantTable,
+		AngelTable,
 		TeamsList,
 	},
 	props: {
@@ -49,10 +49,14 @@ export default {
     return {
       clearHeldBandit: this.clearHeldBandit,
       getHeldBandit: this.getHeldBandit,
+      grabAngel: this.grabAngel,
       grabBandit: this.grabBandit
     }
   },
   methods: {
+    grabAngel(user, role) {
+      this.heldBandit = { user, role}
+    },
     grabBandit(user, team) {
       this.heldBandit = { user, team }
     },
@@ -69,3 +73,7 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+
+</style>

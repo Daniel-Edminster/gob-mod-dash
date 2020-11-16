@@ -34,12 +34,13 @@ export default {
 			endRound: this.endRound,
 			returnAngels: this.returnAngels,
 			setActive: this.setActive,
-      setComment: this.setComment,
-      setDate: this.setDate,
+			setComment: this.setComment,
+			setDate: this.setDate,
 			setProperty: this.setProperty,
 			setPool: this.setPool,
 			setSongComment: this.setSongComment,
 			setThread: this.setThread,
+			swapAngel: this.swapAngel,
 			swapBandits: this.swapBandits,
 		};
 	},
@@ -94,28 +95,28 @@ export default {
 				song.comment = id;
 				this.saveRounds();
 			}
-    },
-    setDate(key, value) {
-      const date = new Date(value);
-      if (key === 'begin') date.setHours(20);
-      if (key === 'end') {
-        date.setHours(5);
-        const endVote = addDays(date, 8);
-        endVote.setHours(23)
-        endVote.setMinutes(59);
-        this.round.dates.endVote = endVote;
-        console.log(date);
-        console.log(endVote);
-      }
-      this.round.dates[key] = date;
-      console.log(this.round);
-      this.saveRounds();
-    },
+		},
+		setDate(key, value) {
+			const date = new Date(value);
+			if (key === "begin") date.setHours(20);
+			if (key === "end") {
+				date.setHours(5);
+				const endVote = addDays(date, 8);
+				endVote.setHours(23);
+				endVote.setMinutes(59);
+				this.round.dates.endVote = endVote;
+				console.log(date);
+				console.log(endVote);
+			}
+			this.round.dates[key] = date;
+			console.log(this.round);
+			this.saveRounds();
+		},
 		setSongComment(id, value) {
 			const song = this.round.songs.find((song) => song.id === id);
-      song.comment = value;
-      this.saveRounds();
-    },
+			song.comment = value;
+			this.saveRounds();
+		},
 		setThread(key, value) {
 			this.round.threads[key] = value;
 			this.saveRounds();
@@ -130,6 +131,18 @@ export default {
 		},
 		saveRounds() {
 			this.$store.dispatch("rounds/saveRounds");
+		},
+		swapAngel(held, team) {
+      console.log("Are you an angel", held, team);
+      const heldIndex = this.round.participants.findIndex(
+        (element) => element.name === held.user.name
+      );
+			const replacedIndex = team.members.findIndex(
+				(element) => element.roles[0] === held.role
+      );
+      const replacedUser = team.members[replacedIndex];
+      team.members[replacedIndex] = held.user;
+      this.round.participants[heldIndex] = replacedUser;
 		},
 		swapBandits(held, team) {
 			const heldIndex = held.team.members.findIndex(
