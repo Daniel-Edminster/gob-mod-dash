@@ -64,9 +64,7 @@ export default {
    methods: {
       async testGobApi(func) {
          const rootUrl = process.env.VUE_APP_BASE_URL;
-         console.log(rootUrl);
          const response = await fetch(`${rootUrl}/api/gob?${func}`);
-         console.log(response);
          const obj = await response.json();
          this.handleResponse(obj)
       },

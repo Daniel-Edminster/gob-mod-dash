@@ -31,7 +31,8 @@ export default {
 	inject: ["setProperty"],
 	methods: {
 		async fetchSongs() {
-         const response = await fetch(`http://localhost:3000/api/gob?fetchSongs=${this.number}`);
+         const rootUrl = process.env.VUE_APP_BASE_URL;
+         const response = await fetch(`${rootUrl}/api/gob?fetchSongs=${this.number}`);
          const obj = await response.json();
 			const { status, data } = obj;
 			if (status.code === 200) this.songs = data;
