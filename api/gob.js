@@ -2,8 +2,8 @@ const fetch = require('node-fetch');
 
 class GOB {
    constructor() {
-     this.apiKey = process.env.VUE_APP_GOB_API_KEY;
-     this.rootUrl = process.env.VUE_APP_GOB_ROOT_URL;
+     this.apiKey = process.env.GOB_API_KEY;
+     this.rootUrl = process.env.GOB_ROOT_URL;
    }
  
    async fetchData(url) {
@@ -48,6 +48,7 @@ class GOB {
 
 module.exports = async (req, res) => {
    if (req.method === 'GET') {
+      console.log(req);
       const gob = new GOB();
       const func = Object.keys(req.query)[0];
       let data;

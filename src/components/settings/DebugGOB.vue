@@ -63,12 +63,16 @@ export default {
    },
    methods: {
       async testGobApi(func) {
-         const response = await fetch(`http://localhost:3000/api/gob?${func}`);
+         const rootUrl = process.env.VUE_APP_BASE_URL;
+         console.log(rootUrl);
+         const response = await fetch(`${rootUrl}/api/gob?${func}`);
+         console.log(response);
          const obj = await response.json();
          this.handleResponse(obj)
       },
       async testGobApiSongs() {
-         const response = await fetch(`http://localhost:3000/api/gob?fetchSongs=${this.songRoundNumber}`);
+         const rootUrl = process.env.VUE_APP_BASE_URL;
+         const response = await fetch(`${rootUrl}/api/gob?fetchSongs=${this.songRoundNumber}`);
          const obj = await response.json();
          this.handleResponse(obj);
       },
