@@ -2,19 +2,17 @@ const fetch = require('node-fetch');
 
 class GOB {
    constructor() {
-     this.apiKey = process.env.GOB_API_KEY;
-     this.rootUrl = process.env.GOB_ROOT_URL;
+     this.apiKey = process.env.VUE_APP_GOB_API_KEY;
+     this.rootUrl = process.env.VUE_APP_GOB_ROOT_URL;
    }
  
    async fetchData(url) {
      try {
        const response = await fetch(url);
-       console.log(response);
        const status = { code: response.status, text: response.statusText };
        const data = await response.json();
        return { status, data };
      } catch (err) {
-       console.log(err);
        const status = 400;
        return { status, err };
      }
