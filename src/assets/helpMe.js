@@ -3,11 +3,11 @@ export default `
 
 Currently the dash will save its info to localStorage. The app comes with default templates for **theme nomination**, **signups**, **launch**, **late recruitment** and **voting** threads.
 
-Note that **comments** and the **congrats** thread are constructed programmatically currently, owing to their additional complexity.
+Note that **comments** and the **congrats** thread are constructed programmatically currently, owing to their additional complexity, and as such are not editable.
 
-## Subreddit
+The dashboard will post threads to waitingforgobot, and comments to the relevant thread (e.g. team comments will go to the thread that is specified in the launch thread field.) While testing, it's useful to post a stage's thread to waitingforgobot, then manually alter the thread id for that stage to the id from a populated real thread from gameofbands, from which you can then scrape information and continue testing the dashboard.
 
-You can select the subreddit to post to in settings. You can set a default in your .env file, and localStorage will remember your most recent setting also. If you want to go back to the default, just delete settings from localStorage and refresh.
+I'll write a 'populate from gameofbands' function soon to automate this process.
 
 ## Dates and Times
 
