@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import reddit from "@/js/api/reddit";
+import { mapState } from 'vuex';
 import { mapCommentsToSignups } from "@/js/functions/gob/signup";
 
 export default {
@@ -23,10 +23,11 @@ export default {
 			message: null,
 		};
 	},
+   computed: mapState('auth', ['reddit']),
 	inject: ["setPool"],
 	methods: {
 		async fetchSignups() {
-			const comments = await reddit.fetchComments(this.postId);
+			const comments = await this.reddit.fetchComments(this.postId);
 			if (comments.length == 0) {
 				this.message = "No comments found in signup thread :(";
 				console.log(this.message);

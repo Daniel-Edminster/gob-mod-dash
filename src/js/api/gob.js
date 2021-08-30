@@ -1,7 +1,7 @@
 class GOB {
   constructor() {
-    this.apiKey = process.env.VUE_APP_GAME_OF_BANDS_API_KEY;
-    this.rootUrl = 'http://api.gameofbands.com/?api_key=';
+    this.apiKey = process.env.VUE_APP_GOB_API_KEY;
+    this.rootUrl = process.env.VUE_APP_GOB_ROOT_URL;
   }
 
   async fetchData(url) {

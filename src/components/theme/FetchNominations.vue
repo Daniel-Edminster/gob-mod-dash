@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import reddit from "@/js/api/reddit";
+import { mapState } from 'vuex';
 import { mapCommentsToNoms } from "@/js/functions/gob/theme";
 
 export default {
@@ -24,9 +24,10 @@ export default {
 		};
 	},
 	inject: ["setPool"],
+   computed: mapState('auth', ['reddit']),
 	methods: {
 		async fetchNominations() {
-      const comments = await reddit.fetchComments(this.postId);
+      const comments = await this.reddit.fetchComments(this.postId);
       if (comments.length == 0) {
         console.log("No comments :(")
         this.message = "No comments in thread :("

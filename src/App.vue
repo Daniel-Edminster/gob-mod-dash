@@ -1,15 +1,19 @@
 <template>
-	<div id="nav">
-		<router-link to="/">Home</router-link> |
-		<router-link :to="{ name: 'Rounds' }">Rounds</router-link> |
-		<router-link :to="{ name: 'Templates' }">Templates</router-link> |
-		<router-link :to="{ name: 'Help' }">Help</router-link> | 
-		<router-link :to="{ name: 'Settings' }">Settings</router-link>
-	</div>
+	<NavBar />
 	<div id="main-content">
 		<router-view />
 	</div>
 </template>
+
+<script>
+import NavBar from "@/components/nav/NavBar.vue"
+
+export default {
+   components: {
+      NavBar
+   }
+}
+</script>
 
 <style lang="scss">
 * {

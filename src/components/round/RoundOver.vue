@@ -10,7 +10,6 @@
 
 <script>
 import SongsList from "../shared/SongsList";
-import gob from "@/js/api/gob";
 
 export default {
 	name: "RoundOver",
@@ -32,7 +31,8 @@ export default {
 	inject: ["setProperty"],
 	methods: {
 		async fetchSongs() {
-			const obj = await gob.fetchSongs(this.number);
+         const response = await fetch(`http://localhost:3000/api/gob?fetchSongs=${this.number}`);
+         const obj = await response.json();
 			const { status, data } = obj;
 			if (status.code === 200) this.songs = data;
 			this.message = `${status.code} ${status.text}.`;

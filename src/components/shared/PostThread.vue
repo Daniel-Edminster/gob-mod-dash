@@ -11,7 +11,7 @@ import TemplatePicker from "../shared/TemplatePicker";
 import TemplatePreview from "../shared/TemplatePreview";
 import { parseMacros } from "@/js/functions/utils";
 
-import reddit from "@/js/api/reddit.js";
+import { mapState } from 'vuex';
 
 export default {
   name: 'PostThread',
@@ -47,6 +47,7 @@ export default {
     }
   },
   inject: ['setThread'],
+  computed: mapState('auth', ['reddit']),
   methods: {
     setTemplate(name) {
       this.template = this.$store.getters['templates/getTemplateByName'](name);
@@ -58,10 +59,10 @@ export default {
       }
       this.message = "Posting to reddit..."
       console.log("Submitting to reddit", post);
-      const submission = await reddit.submitPost(post);
+      const submission = await this.reddit.submitPost(post);
       if (submission) {
         this.setThread(this.thread, submission.name);
-        this.message = `Success! Thread posted to /r/${reddit.subreddit}`
+        this.message = `Success! Thread posted to /r/${this.reddit.subreddit}`
       } else {
         this.message = "Post failed."
       }

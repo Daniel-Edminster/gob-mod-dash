@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "node-fetch": "^2.6.1",
     "snoowrap": "^1.21.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",

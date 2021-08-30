@@ -1,4 +1,4 @@
-// let loadSubreddit = reddit.subreddit;
+let loadSubreddit = process.env.VUE_APP_REDDIT_SUBREDDIT;
 const loadSettings = localStorage.settings ? JSON.parse(localStorage.settings) : null;
 if (loadSettings) loadSubreddit = loadSettings.subreddit;
 
@@ -24,20 +24,20 @@ const settings = {
     }
   },
   actions: {
-    async setSubreddit({ commit, dispatch }, subreddit) {
-      const check = await reddit.setSubreddit(subreddit);
-      if (check === true) {
-        commit('saveSubreddit', subreddit);
-        dispatch('saveSettings');
-        return `Subreddit set to ${subreddit}. Mod check passed.`
-      } else if (check === false) {
-        commit('saveSubreddit', subreddit);
-        dispatch('saveSettings');
-        return `Subreddit set to ${subreddit}. Current user is not a mod; can only get threads.`
-      } else {
-        return `Subreddit does not exist.`
-      }
-    },
+   //  async setSubreddit({ commit, dispatch }, subreddit) {
+   //    const check = await reddit.setSubreddit(subreddit);
+   //    if (check === true) {
+   //      commit('saveSubreddit', subreddit);
+   //      dispatch('saveSettings');
+   //      return `Subreddit set to ${subreddit}. Mod check passed.`
+   //    } else if (check === false) {
+   //      commit('saveSubreddit', subreddit);
+   //      dispatch('saveSettings');
+   //      return `Subreddit set to ${subreddit}. Current user is not a mod; can only get threads.`
+   //    } else {
+   //      return `Subreddit does not exist.`
+   //    }
+   //  },
     saveSettings({ state }) {
       console.log("Saving Settings");
       localStorage.setItem('settings', JSON.stringify(state));
