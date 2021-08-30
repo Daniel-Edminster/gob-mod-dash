@@ -1,22 +1,5 @@
 const fetch = require('node-fetch');
 
-module.exports = async (req, res) => {
-   if (req.method === 'GET') {
-      const gob = new GOB();
-      const func = Object.keys(req.query)[0];
-      let data;
-      if (func === 'fetchSongs') {
-         const round = Object.values(req.query)[0];
-         data = await gob[func](round);
-      } else {
-         data = await gob[func]();
-      }
-      res.json(data);
-   } else {
-      res.status(400).send('Bad Request');
-   }
-}
-
 class GOB {
    constructor() {
      this.apiKey = process.env.GOB_API_KEY;
@@ -64,3 +47,21 @@ class GOB {
    }
  
  }
+
+module.exports = async (req, res) => {
+   if (req.method === 'GET') {
+      const gob = new GOB();
+      const func = Object.keys(req.query)[0];
+      let data;
+      if (func === 'fetchSongs') {
+         const round = Object.values(req.query)[0];
+         data = await gob[func](round);
+      } else {
+         data = await gob[func]();
+      }
+      res.json(data);
+   } else {
+      res.status(400).send('Bad Request');
+   }
+}
+
