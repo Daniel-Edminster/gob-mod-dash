@@ -1,6 +1,4 @@
-import reddit from "@/js/api/reddit"
-
-let loadSubreddit = reddit.subreddit;
+// let loadSubreddit = reddit.subreddit;
 const loadSettings = localStorage.settings ? JSON.parse(localStorage.settings) : null;
 if (loadSettings) loadSubreddit = loadSettings.subreddit;
 
