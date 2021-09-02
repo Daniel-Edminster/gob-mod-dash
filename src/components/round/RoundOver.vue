@@ -2,6 +2,7 @@
 	Round has ended. Time to listen!<br />
 	<button @click="fetchSongs()">Fetch Songs</button
 	><span v-if="message">{{ message }}</span>
+   <base-spinner v-if="isLoading" />
 	<div v-if="songs">
 		<button @click="setProperty('songs', songs)">Commit Songs to Round</button>
 		<SongsList :songs="songs" />
@@ -24,6 +25,7 @@ export default {
 	},
 	data() {
 		return {
+         isLoading: false,
 			message: null,
 			songs: null,
 		};
@@ -31,9 +33,12 @@ export default {
 	inject: ["setProperty"],
 	methods: {
 		async fetchSongs() {
+         this.message = "Fetching songs...";
+         this.isLoading = true;
          const rootUrl = process.env.VUE_APP_BASE_URL;
          const response = await fetch(`${rootUrl}/api/gob?fetchSongs=${this.number}`);
          const obj = await response.json();
+         this.isLoading = false;
 			const { status, data } = obj;
 			if (status.code === 200) this.songs = data;
 			this.message = `${status.code} ${status.text}.`;

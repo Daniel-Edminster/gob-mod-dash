@@ -1,13 +1,23 @@
 export default `
-# Helpful Info
+# How to Use the Dash During Beta Testing
 
-Currently the dash will save its info to localStorage. The app comes with default templates for **theme nomination**, **signups**, **launch**, **late recruitment** and **voting** threads.
+Begin by creating a round. Your best bet is to use a number between 70 and the most recent round. This will ensure you can find existing round threads. Note that the round number you enter will lock you into that round when fetching songs from the existing Game of Bands website api.
+
+Click on the newly created round to go to the Round view. This view will dynamically display the correct component, depending on what stage the round is at.
+
+Here you can control every aspect of the round. The structure follows a "Canvas, Collect, Commit" pattern where first a thread is posted, then that thread is scraped for info, then the user has a chance to review the info before committing it to the round metadata.
+
+# Data Persistence
+
+Currently the dash will save its info to localStorage. This means anything you do is only stored on your computer, with the exception of threads and comments that you post to /r/waitingforgobot. 
+
+# Templates
+
+The app comes with default templates for **theme nomination**, **signups**, **launch**, **late recruitment** and **voting** threads.
 
 Note that **comments** and the **congrats** thread are constructed programmatically currently, owing to their additional complexity, and as such are not editable.
 
-The dashboard will post threads to waitingforgobot, and comments to the relevant thread (e.g. team comments will go to the thread that is specified in the launch thread field.) While testing, it's useful to post a stage's thread to waitingforgobot, then manually alter the thread id for that stage to the id from a populated real thread from gameofbands, from which you can then scrape information and continue testing the dashboard.
-
-I'll write a 'populate from gameofbands' function soon to automate this process.
+The dashboard will post threads to waitingforgobot, and comments to the relevant thread (e.g. team comments will go to the thread that is specified in the launch thread field.) While testing, it's best to find existing threads from /r/gameofbands, with the exception of the Launch and Voting threads, since they need comments posted to them.
 
 ## Dates and Times
 
@@ -22,8 +32,6 @@ Create a template by entering a name into the input element. Clicking on the new
 Begin by creating a round. For now, enter the number you want to create. This will not lock it to any particular threads but it WILL lock it to the song information on the GOB api.
 
 Click on the newly created round to go to the Round view. This view will dynamically display the correct component, depending on what stage the round is at.
-
-Here you can control every aspect of the round. The structure follows a "Canvas, Collect, Commit" pattern where first a thread is posted, then that thread is scraped for info, then the user has a chance to review the info before committing it to the round metadata.
 
 Thread IDs are stored in the \`round.threads\` object, and scraped info in the \`round.pools\` object. Pools should be considered the temporary intermediaries between the reddit threads and the committed round information. Both \`.threads\` and \`.pools\` use the same keys:
 

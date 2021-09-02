@@ -13,6 +13,7 @@
       <button @click="findThread">Find Thread</button></p> -->
       <button @click="findThreadByRound">Find Thread</button>
       <p v-if="message">{{ message }}</p>
+      <base-spinner v-if="isLoading" />
       <ul v-if="submissions">
          <li
             v-for="submission in submissions"
@@ -42,6 +43,7 @@ export default {
    },
    data() {
       return {
+         isLoading: false,
          message: null,
          submissions: null,
          titles: {
@@ -67,12 +69,15 @@ export default {
          this.setThread(this.thread, name);
       },
       async findThreadByRound() {
-         console.log("Finding by round using reddit search endpoint");
+         this.isLoading = true;
+         this.message = "Searching reddit, please wait..."
          const listing = await this.reddit.searchPosts(this.round);
+         this.isLoading = false;
          if (!listing) {
             this.message = "No threads found.";
             return;
          }
+         this.message="Threads found. Select from options below."
          const filtered = this.filterPosts(listing);
          this.submissions = filtered.length > 0 ? filtered : listing;
       },

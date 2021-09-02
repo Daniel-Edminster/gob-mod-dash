@@ -79,9 +79,15 @@ const auth = {
                userAgent: process.env.VUE_APP_REDDIT_USER_AGENT,
                accessToken
             });
+            console.log(instance);
             const reddit = new Reddit(instance);
-            commit('saveReddit', reddit);
             const username = await reddit.getUsername();
+            if (!username) {
+               console.log("Previous session expired. Please login again.");
+               localStorage.removeItem('mdSession');
+               return;
+            }
+            commit('saveReddit', reddit);
             commit('saveUsername', username);
          } catch (err) {
             console.log(err);

@@ -1,6 +1,7 @@
 <template>
    <button @click="postCommentsSlowly()">Post comments to {{ postId }}</button>
    <p v-if="posting">Posting comments, this will take {{ timeToPost }} seconds in total...</p>
+   <base-spinner v-if="posting" />
    <ul>
       <li
          v-for="(comment, index) in commentLess"

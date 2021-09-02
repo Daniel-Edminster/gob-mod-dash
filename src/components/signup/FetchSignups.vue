@@ -4,6 +4,7 @@
 	><p>Press the button to fetch signups from thread.</p>
 	<button @click="fetchSignups()">Fetch Signups</button>
 	<p v-if="message">{{ message }}</p>
+   <base-spinner v-if="isLoading" />
 </template>
 
 <script>
@@ -20,6 +21,7 @@ export default {
 	},
 	data() {
 		return {
+         isLoading: false,
 			message: null,
 		};
 	},
@@ -27,7 +29,10 @@ export default {
 	inject: ["setPool"],
 	methods: {
 		async fetchSignups() {
+         this.message = "Fetching signups, please wait...";
+         this.isLoading = true;
 			const comments = await this.reddit.fetchComments(this.postId);
+         this.isLoading = false;
 			if (comments.length == 0) {
 				this.message = "No comments found in signup thread :(";
 				console.log(this.message);

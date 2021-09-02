@@ -4,6 +4,7 @@
 	><p>Press the button to fetch votes from thread.</p>
 	<button @click="fetchVotes()">Fetch Votes</button>
 	<p v-if="message">{{ message }}</p>
+   <base-spinner v-if="isLoading" />
 </template>
 
 <script>
@@ -20,6 +21,7 @@ export default {
 	},
 	data() {
 		return {
+         isLoading: false,
 			votes: null,
 			message: null,
 		};
@@ -28,12 +30,16 @@ export default {
 	inject: ["setPool"],
 	methods: {
 		async fetchVotes() {
+         this.message = "Fetching votes from reddit...";
+         this.isLoading = true;
 			const comments = await this.reddit.fetchComments(this.postId);
+         this.isLoading = false;
 			if (comments.length == 0) {
 				this.message = "No votes found";
 				console.log("No votes found");
 				return;
 			} else {
+            this.message = "Votes collected."
 				const pool = mapCommentsToVotes(comments);
 				console.log(pool);
 				const array = Array.from(pool);

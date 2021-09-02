@@ -50,4 +50,8 @@ li {
   font-size: .9rem;
   text-align: left;
 }
+
+input {
+   width: 300px;
+}
 </style>

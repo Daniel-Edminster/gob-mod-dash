@@ -10,12 +10,14 @@
       v-if="template"
       @click="submitPost"
    >Post to reddit</button>
+   <p v-if="message">{{ message }}</p>
+   <base-spinner v-if="isLoading" />
    <TemplatePreview
       v-if="template"
       :template="template"
       :metadata="metadata"
    />
-   <p v-if="message">{{ message }}</p>
+
 </template>
 
 <script>
@@ -51,6 +53,7 @@ export default {
    },
    data() {
       return {
+         isLoading: false,
          template: null,
          message: null,
       };
@@ -74,7 +77,9 @@ export default {
          };
          this.message = "Posting to reddit...";
          console.log("Submitting to reddit", post);
+         this.isLoading = true;
          const submission = await this.reddit.submitPost(post);
+         this.isLoading = false;
          if (submission) {
             this.setThread(this.thread, submission.name);
             this.message = `Success! Thread posted to /r/${this.reddit.subreddit}`;
