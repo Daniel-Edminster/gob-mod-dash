@@ -17,7 +17,7 @@ export default {
       DebugGOB,
       DebugReddit,
       // SetSubreddit,
-   },
+   }
 };
 </script>
 

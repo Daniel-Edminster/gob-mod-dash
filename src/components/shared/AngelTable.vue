@@ -24,7 +24,7 @@
 					<span class="drag"
 						v-if="user.roles.includes('music')"
 						draggable="true"
-						@dragStart="startDrag(user, 'music')"
+						@dragstart="startDrag(user, 'music')"
 						>Music</span
 					>
 				</td>
@@ -32,7 +32,7 @@
 					<span class="drag"
 						v-if="user.roles.includes('lyrics')"
 						draggable="true"
-						@dragStart="startDrag(user, 'lyrics')"
+						@dragstart="startDrag(user, 'lyrics')"
 						>Lyrics</span
 					>
 				</td>
@@ -40,7 +40,7 @@
 					<span class="drag"
 						v-if="user.roles.includes('vocals')"
 						draggable="true"
-						@dragStart="startDrag(user, 'vocals')"
+						@dragstart="startDrag(user, 'vocals')"
 						>Vocals</span
 					>
 				</td>

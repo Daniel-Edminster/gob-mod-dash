@@ -18,7 +18,8 @@
       <tfoot>
          <tr>
             <td colspan="2">
-               <span id="message">{{ message }}</span>
+               <p id="message">{{ message }}</p>
+               <base-spinner v-if="isLoading" />
             </td>
          </tr>
       </tfoot>
@@ -32,6 +33,7 @@ export default {
    name: "DebugReddit",
    data() {
       return {
+         isLoading: false,
          message: null,
          songRoundNumber: 1,
          messageElement: null,
@@ -40,7 +42,9 @@ export default {
    computed: mapState("auth", ["reddit"]),
    methods: {
       async testReddit() {
+         this.isLoading = true;
          const username = await this.reddit.getUsername();
+         this.isLoading = false;
          if (username) {
             this.messageElement.className = "ok";
             this.message = `Success: your username is ${username}`;
@@ -77,15 +81,15 @@ button {
    width: 100%;
 }
 
-span.ok {
+p.ok {
    color: greenyellow;
 }
 
-span.bad {
+p.bad {
    color: salmon;
 }
 
-span.fetch {
+p.fetch {
    color: white;
 }
 </style>

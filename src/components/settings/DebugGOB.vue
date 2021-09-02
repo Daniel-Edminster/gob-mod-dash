@@ -44,7 +44,8 @@
       <tfoot>
          <tr>
             <td colspan="2">
-               <span id="gobmessage">{{ message }}</span>
+               <p id="gobmessage">{{ message }}</p>
+               <base-spinner v-if="isLoading" />
             </td>
          </tr>
       </tfoot>
@@ -56,6 +57,7 @@ export default {
    name: "DebugGOB",
    data() {
       return {
+         isLoading: false,
          message: null,
          songRoundNumber: 1,
          messageElement: null,
@@ -64,15 +66,19 @@ export default {
    methods: {
       async testGobApi(func) {
          const rootUrl = process.env.VUE_APP_BASE_URL;
+         this.isLoading = true;
          const response = await fetch(`${rootUrl}/api/gob?${func}`);
          const obj = await response.json();
+         this.isLoading = false;
          this.handleResponse(obj)
       },
       async testGobApiSongs() {
          const rootUrl = process.env.VUE_APP_BASE_URL;
          console.log(rootUrl);
+         this.isLoading = true;
          const response = await fetch(`${rootUrl}/api/gob?fetchSongs=${this.songRoundNumber}`);
          const obj = await response.json();
+         this.isLoading = false;
          this.handleResponse(obj);
       },
       setFetchingMessage() {
@@ -107,15 +113,15 @@ button {
    width: 100%;
 }
 
-span.ok {
+p.ok {
    color: greenyellow;
 }
 
-span.bad {
+p.bad {
    color: salmon;
 }
 
-span.fetch {
+p.fetch {
    color: white;
 }
 </style>
