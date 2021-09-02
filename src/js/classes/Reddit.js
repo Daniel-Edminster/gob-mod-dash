@@ -36,11 +36,50 @@ export default class Reddit {
       }
    }
 
+   // unused: getSubmission is fine to use instead of fetchPost
    fetchPost = (postId) => {
-      return this.getSubmission(postId);
+      return this.snoowrap.getSubmission(postId);
    }
 
-   // getSubmission is fine to use instead of fetchPost
+   // Unused: see below
+   // fetchNew = (after = null) => {
+   //    console.log("Searching after", after);
+   //    return this.snoowrap.getNew('gameofbands', {after});
+   // }
+
+   // // Unused, since the reddit search endpoint can filter by round number in a single API call.
+   // async findPost(thread, roundNum) {
+   //    console.log(`Finding ${thread} thread for round ${roundNum}`);
+   //    console.log(`Search text: ${this.titles[thread]}`);
+   //    let found = [];
+   //    let listing;
+   //    let after;
+   //    let count = 0;
+   //    while (found.length === 0) {
+   //       console.log(`Searching next hundred posts, beginning at ${count * 100}`);
+   //       listing = await this.fetchNew(after);
+   //       found = listing.filter(submission => {
+   //          console.log(submission.title);
+   //          return submission.title.toLowerCase().includes(this.titles[thread]) &&
+   //          submission.title.includes(roundNum);
+   //       });
+   //       count++;
+   //       after = listing[listing.length-1].name;
+   //    }
+   //    return found;
+   // }
+
+   async searchPosts(query) {
+      const found = await this.snoowrap.search({
+         query,
+         time: 'all',
+         subreddit: 'gameofbands',
+         sort: 'new'
+      })
+      console.log(found);
+      return found;
+   }
+
 
    submitPost = async (post) => {
       const options = {

@@ -1,7 +1,7 @@
 <template>
 	<div id="template-preview">
-		<h4 v-if="template.title">{{ parseString(template.title) }}</h4>
-		<VueMarkdownIt :source="parseString(template.body)" />
+		<h3 id="title" v-if="template.title">{{ parseString(template.title) }}</h3>
+		<VueMarkdownIt id="body" :source="parseString(template.body)" />
 	</div>
 </template>
 
@@ -39,6 +39,21 @@ export default {
 <style>
 div#template-preview {
   text-align: left;
-  padding: 0 15px 15px 15px;
+  margin: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#title, #body{
+   
+   padding: 0 15px 15px 15px;
+}
+
+#body {
+  max-width: 80ch;
+  background-color: black;
+  border: 1px solid white;
 }
 </style>
