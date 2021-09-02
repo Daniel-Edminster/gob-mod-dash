@@ -53,7 +53,8 @@ div#template-preview {
 
 #body {
   max-width: 80ch;
-  background-color: black;
+  background-color: #26242b;
+  /* background: black; */
   border: 1px solid white;
 }
 </style>
