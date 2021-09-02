@@ -11,6 +11,9 @@ import NavBar from "@/components/nav/NavBar"
 export default {
    components: {
       NavBar
+   },
+   created() {
+      this.$store.dispatch("auth/checkExistingSession");
    }
 }
 </script>
