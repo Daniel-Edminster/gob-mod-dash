@@ -5,6 +5,7 @@
 		@dragover.prevent
 		@dragenter="dragEnter()"
 		@dragleave="dragLeave()"
+      @mouseup="clearHover()"
 	>
 		<p @dragover.prevent>{{ team.number }}</p>
 		<ul @dragenter.prevent>
@@ -12,7 +13,7 @@
 				{{ user.roles[0] }}:
 				<span
 					draggable="true"
-					@dragStart="startDrag(user, team)"
+					@dragstart="startDrag(user, team)"
 					:class="user.experience"
 					>{{ user.name }}</span
 				>
@@ -47,7 +48,6 @@ export default {
 		},
 		catchBandit(event, team) {
       const held = this.getHeldBandit();
-      console.log(held);
       if (held.role) this.swapAngel(held, team);
       if (held.team) this.swapBandits(held, team);
 			this.$refs.teamItem.classList.remove("drag-hover");
@@ -60,6 +60,9 @@ export default {
 			this.counter--;
 			if (this.counter <= 0) this.$refs.teamItem.classList.remove("drag-hover");
 		},
+      clearHover() {
+         this.$refs.teamItem.classList.remove("drag-hover")
+      },
 		obscureText() {
 			const classes = ["noob", "bandit", "veteran"];
 			classes.forEach((className) => {

@@ -81,14 +81,15 @@ const auth = {
             });
             console.log(instance);
             const reddit = new Reddit(instance);
+            commit('saveReddit', reddit);
             const username = await reddit.getUsername();
             if (!username) {
                console.log("Previous session expired. Please login again.");
                localStorage.removeItem('mdSession');
                return;
             }
-            commit('saveReddit', reddit);
             commit('saveUsername', username);
+            return true;
          } catch (err) {
             console.log(err);
          }
