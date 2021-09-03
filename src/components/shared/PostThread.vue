@@ -1,5 +1,5 @@
 <template>
-   <h3>No thread detected. Find existing or post a new thread.</h3>
+   <h3>No {{ thread }} thread detected. Find existing or post a new thread.</h3>
    <FindThread
       :thread="thread"
       :round="metadata.number"

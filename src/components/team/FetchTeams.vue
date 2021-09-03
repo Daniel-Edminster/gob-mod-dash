@@ -55,7 +55,6 @@ export default {
    inject: ["returnAngels", "setProperty", "setActive"],
    methods: {
       async fetchTeams() {
-         console.log("Fetching teams from", this.postId);
          this.message = "Fetching teams from comments...";
          this.isLoading = true;
          const comments = await this.reddit.fetchComments(this.postId);
@@ -72,17 +71,12 @@ export default {
       },
       commitTeams() {
          this.setProperty("teams", this.teams);
-         console.log(this.participants);
-         console.log("PU:", this.placedUsers);
          const angels = this.filterAngels();
-         console.log(angels);
          this.returnAngels(angels);
          this.setActive();
       },
       filterAngels() {
          return this.participants.filter((participant) => {
-            console.log(participant.name);
-            console.log(this.placedUsers.has(participant.name));
             return !this.placedUsers.has(participant.name.toLowerCase());
          });
       },
