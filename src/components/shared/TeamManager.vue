@@ -9,7 +9,7 @@
   <div v-else>
     Round is currently active. <button @click="endRound()">End Round</button>
   </div>
-	<AngelTable v-if="participants.length > 0" :participants="participants" heading="Unplaced" />
+	<AngelTable v-if="participants && participants.length > 0" :participants="participants" heading="Unplaced" />
 	<TeamsList :teams="teams" :obscure="!active"/>
 </template>
 

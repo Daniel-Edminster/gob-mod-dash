@@ -1,0 +1,32 @@
+<template>
+  <ul>
+    <TeamItemFixed v-for="team in teams" :key="team.number" :team="team" />
+  </ul>
+</template>
+
+<script>
+import TeamItemFixed from "./TeamItemFixed"
+
+export default {
+  name: 'TeamsListFixed',
+  components: {
+    TeamItemFixed
+  },
+  props: {
+    teams: {
+      type: Array,
+      required: true
+    }
+  }
+}
+</script>
+
+<style scoped>
+ul {
+  list-style-type: none;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  text-align: left;
+}
+</style>

@@ -55,5 +55,5 @@ The round object also has several booleans: \`active\` and \`complete\`. When bo
 
 Feel free to edit the thread IDs to pull information from existing game of bands threads. Strange things might happen if you use IDs that aren't for that stage (like signups to theme for instance). Further handlers will be required there probably. Also note that the new signup format was implemented properly in round 83, so signup threads before then may yield strange results.
 
-If a round gets stuck at a particular stage (like signups) try deleting the corresponding pool. This is how the app knows which component to display. If it still seems funky, check the Round Metadata as well.
+If a round gets stuck at a particular stage (like signups) try deleting the corresponding thread and/or pool. This is how the app knows which component to display. If it still seems funky, check the Round Metadata as well.
 `

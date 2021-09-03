@@ -1,13 +1,13 @@
 <template>
    <div
-      v-if="thread === 'launch' || thread === 'voting'"
+      v-if="thread === 'voting'"
       class="warning"
    >
-      <h4>While testing, always post new Launch and Voting threads.</h4>
-      <p>These threads and their comments will be posted to /r/waitingforgobot.</p>
+      <h4>While testing, always post a new Voting thread.</h4>
+      <p>This thread and its comments will be posted to /r/waitingforgobot.</p>
       <p>This is to ensure existing /r/gameofbands threads do not receive comments.</p>
    </div>
-   <div v-else>
+   <div>
       <h4>Find Existing Thread: {{ thread }}</h4>
       <!-- <p>Find by thread type and round. More accurate, takes longer for older rounds.
       <button @click="findThread">Find Thread</button></p> -->

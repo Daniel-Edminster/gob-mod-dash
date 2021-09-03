@@ -16,6 +16,8 @@
 			v-if="
 				round.participants && !round.songs && !round.active && !round.complete
 			"
+         :metadata="metadata"
+         :launchId="round.threads.launch"
 			:participants="round.participants"
 			:teams="round.teams"
 			:active="round.active"

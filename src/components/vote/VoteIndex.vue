@@ -92,10 +92,7 @@ export default {
 		setComments(comments) {
 			this.comments = comments;
 		},
-	},
-	mounted() {
-		console.log(this.votes);
-	},
+	}
 };
 </script>
 
