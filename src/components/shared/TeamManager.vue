@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     grabAngel(user, role) {
-      this.heldBandit = { user, role}
+      this.heldBandit = { user, role }
     },
     grabBandit(user, team) {
       this.heldBandit = { user, team }

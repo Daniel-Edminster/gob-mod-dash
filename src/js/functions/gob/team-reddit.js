@@ -91,7 +91,8 @@ export function mapCommentsToTeams(comments) {
       const name = array[1];
       placedUsers.add(name.toLowerCase()); // necessary for comparisons
       const roles = [];
-      roles.push(array[0].replaceAll(':', ''));
+      const role = array[0].toLowerCase().replaceAll(':', '');
+      roles.push(role);
       return { name, roles };
    }
 }
