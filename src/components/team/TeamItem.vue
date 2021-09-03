@@ -19,6 +19,7 @@
                draggable="true"
                @dragstart="startDrag(user, team)"
                :class="user.experience"
+               class="name"
             >{{ user.name }}</span>
          </li>
       </ul>
@@ -122,6 +123,10 @@ li {
    color: lightgrey;
    margin: 2px 0;
    display: flex;
+}
+
+span.name:hover {
+   color: lightgrey;
 }
 
 .obscured {

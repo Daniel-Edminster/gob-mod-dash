@@ -1,7 +1,5 @@
 <template>
-	<a :href="`http://www.reddit.com/by_id/${postId}`"
-		>Signups Thread</a
-	><p>Press the button to fetch signups from thread.</p>
+	<p>Press the button to fetch signups from thread.</p>
 	<button @click="fetchSignups()">Fetch Signups</button>
 	<p v-if="message">{{ message }}</p>
    <base-spinner v-if="isLoading" />

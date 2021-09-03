@@ -12,6 +12,7 @@ Alpha.
 - post signup thread, fetch signups and commit participants to round
 - allocate teams and balance vets/noobs before launching round
 - post launch thread to reddit and populate with team comments
+- alternatively, populate teams from an existing launch thread
 - retrieve song information from the gob api (it will use the round number)
 - post voting thread to reddit, fetch vote comments and add them to songs
 - tabulate votes to determine winners
@@ -20,7 +21,7 @@ Alpha.
 
 ## Coming soon:
 
-- Find and Identify Team and Song comments in threads
+- Find and Identify Song voting comments in threads
 - Scrape Check-ins from reddit signup thread
 - team incompatibility checks
 - automated balancing of vets/bandits/noobs

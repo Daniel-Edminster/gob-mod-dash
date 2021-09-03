@@ -15,7 +15,7 @@ Currently the dash will save its info to localStorage. This means anything you d
 
 ## Voting stage
 
-Currently the voting stage is a little problematic to work with. Right now it's best to post a voting thread to /r/waitingforgobot, post the comments, then switch the thread link manually to the /r/gameofbands thread link. Obviously this sucks and I'll fix it soon.
+Currently the voting stage is a little problematic to work with. Right now it's best to post a voting thread to /r/waitingforgobot, post the comments, then switch the thread link manually to the /r/gameofbands thread link. Obviously this sucks; it's priority #1 now that I've just completed the Launch thread team scraping.
 
 ## Templates
 

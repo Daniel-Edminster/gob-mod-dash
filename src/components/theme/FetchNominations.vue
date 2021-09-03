@@ -1,5 +1,4 @@
 <template>
-   <a :href="`http://www.reddit.com/by_id/${postId}`">Theme Nomination Thread</a><br />
    <p>Press the button to fetch nominations from thread.</p>
    <button @click="fetchNominations()">Fetch Nominations</button>
    <p v-if="message">{{ message }}</p>
