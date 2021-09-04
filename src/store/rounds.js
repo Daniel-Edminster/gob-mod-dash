@@ -27,7 +27,7 @@ const rounds = {
       const rounds = state.rounds;
       const round = new Round(number);
       rounds.push(round);
-      rounds.sort((a, b) => a.number - b.number)
+      rounds.sort((a, b) => b.number - a.number)
     }
   },
   actions: {

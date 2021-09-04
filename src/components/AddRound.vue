@@ -1,7 +1,7 @@
 <template>
 	<form @submit.prevent="submitNew">
 		<label for="number">Round Number</label>
-		<input id="number" name="number" type="text" v-model="number" />
+		<input ref="round-num" id="number" name="number" type="text" v-model="number" />
 		<button type="submit">Create Round</button>
 		<p v-if="message">{{ message }}</p>
 	</form>
@@ -24,6 +24,7 @@ export default {
 					this.number
 				);
 				this.message = result;
+            this.number = null;
 			} else {
         this.message = "Round number must be greater than zero."
       }

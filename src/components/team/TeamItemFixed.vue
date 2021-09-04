@@ -1,10 +1,11 @@
 <template>
-	<div
+	<li  
+      class="team-item"
 		ref="teamItem"
 	>
 		<p>{{ team.number }}</p>
 		<ul>
-			<li v-for="user in team.members" :key="user.name">
+			<li v-for="user in team.members" :key="user.name" class="team-member">
 				{{ user.roles[0] }}:
 				<span
 					:class="user.experience"
@@ -12,7 +13,7 @@
 				>
 			</li>
 		</ul>
-	</div>
+	</li>
 </template>
 
 <script>
@@ -28,12 +29,12 @@ export default {
 </script>
 
 <style scoped>
-div {
+li.team-item {
 	border: 1px solid grey;
 	border-radius: 5px;
 	margin: 5px;
 	padding: 5px;
-	flex-grow: 1;
+	flex-grow: 0;
 	background-color: #3c3548;
 	user-select: none;
 }
@@ -50,7 +51,7 @@ ul {
 	text-align: left;
 }
 
-li {
+li.team-member {
 	font-size: 0.8rem;
 	font-weight: bold;
 	color: lightgrey;

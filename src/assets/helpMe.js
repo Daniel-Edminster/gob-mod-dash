@@ -7,11 +7,11 @@ Click on the newly created round to go to the Round view. This view will dynamic
 
 Here you can control every aspect of the round. The structure follows a "Canvas, Collect, Commit" pattern where first a thread is posted, then that thread is scraped for info, then the user has a chance to review the info before committing it to the round metadata.
 
-The dashboard will post threads to waitingforgobot, and comments to the relevant thread (e.g. team comments will go to the thread that is specified in the launch thread field.) While testing, it's best to find existing threads from /r/gameofbands, with the exception of the Launch and Voting threads, since they need comments posted to them.
+The dashboard will post threads to waitingforgobot, and comments to the relevant thread (e.g. team comments will go to the thread id that is specified in the launch thread field.) If a round already exists, you should be able to find any existing threads for that round. Just watch out for posting comments directly to a gameofbands thread; you probably don't want to do that. Any threads posted by the dash will go to waitingforgobot, but if you find an existing thread and then generate comments, either for teams or for songs, you might inadvertently post those comments to the linked gameofbands thread.
 
 ## Data Persistence
 
-Currently the dash will save its info to localStorage. This means anything you do is only stored on your computer, with the exception of threads and comments that you post to /r/waitingforgobot. Again, be wary of linking existing /r/gameofbands threads to round stages that post comments. This means Launch and Voting.
+Currently the dash will save its info to localStorage. This means anything you do is only stored on your computer, with the exception of threads and comments that you post to reddit. Again, be wary of linking existing /r/gameofbands threads to round stages that post comments. This means Launch and Voting.
 
 ## Voting stage
 
@@ -27,7 +27,7 @@ Note that **comments** and the **congrats** thread are constructed programmatica
 
 ## Dates and Times
 
-The dash currently supports **round begin**, **round end** and **voting cutoff** dates. The times (hours and minutes) are currently hard coded - you can edit them in the template but it won't affect the hour that gets added to the WorldTimeServer link. This will be improved in a later version.
+The dash currently supports **round begin**, **round end** and **voting cutoff** dates. The times (hours and minutes) are hard coded - you can edit them in the template but it won't affect the hour that gets added to the WorldTimeServer link. This will be improved in a later version.
 
 ## Round Architecture
 
@@ -49,6 +49,7 @@ Committed information is stored in the following:
 - \`round.teams\`
 - \`round.songs\`
 - \`round.winners\`. 
+
 - Vote information goes directly onto the song objects. In future we probably don't want to design it this way.
 
 The round object also has several booleans: \`active\` and \`complete\`. When both are false, the round is pre-launch. The round must be activated to post the launch and late threads. Teams can be managed as long as active is true and complete is false. Ending the round will set complete to true, at which stage the voting can begin.
@@ -63,5 +64,5 @@ Besides the voting stage being a bit naff, there are also some issues with reloc
 
 Hit me up on Discord if you find anything else while playing around.
 
-- RetroTheft
+-- RetroTheft
 `

@@ -32,6 +32,7 @@ ul {
   padding: 20px;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-around;
   text-align: left;
 }
 </style>

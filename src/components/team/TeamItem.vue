@@ -1,5 +1,6 @@
 <template>
-   <div
+   <li
+      class="team-item"
       ref="teamItem"
       @drop="catchBandit($event, team)"
       @dragover.prevent
@@ -10,6 +11,7 @@
       <p @dragover.prevent>{{ team.number }}</p>
       <ul @dragenter.prevent>
          <li
+            class="team-member"
             @dragenter.prevent
             v-for="user in team.members"
             :key="user.name"
@@ -23,7 +25,7 @@
             >{{ user.name }}</span>
          </li>
       </ul>
-   </div>
+   </li>
 </template>
 
 <script>
@@ -94,12 +96,12 @@ export default {
 </script>
 
 <style scoped>
-div {
+li.team-item {
    border: 1px solid grey;
    border-radius: 5px;
    margin: 5px;
    padding: 5px;
-   flex-grow: 1;
+   flex-grow: 0;
    background-color: #3c3548;
    user-select: none;
 }
@@ -116,7 +118,7 @@ ul {
    text-align: left;
 }
 
-li {
+li.team-member {
    font-size: 0.8rem;
    font-weight: bold;
    cursor: grab;
