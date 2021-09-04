@@ -1,12 +1,4 @@
 <template>
-   <div
-      v-if="thread === 'voting'"
-      class="warning"
-   >
-      <h4>While testing, always post a new Voting thread.</h4>
-      <p>This thread and its comments will be posted to /r/waitingforgobot.</p>
-      <p>This is to ensure existing /r/gameofbands threads do not receive comments.</p>
-   </div>
    <div>
       <h4>Find Existing Thread: {{ thread }}</h4>
       <!-- <p>Find by thread type and round. More accurate, takes longer for older rounds.
@@ -106,13 +98,6 @@ li {
 
 li:nth-child(odd) {
    background-color: #24252d;
-}
-
-.warning {
-   color: orange;
-   border: 1px solid orange;
-   background-color: black;
-   padding: 0 21px 5px 21px;
 }
 
 button.select-thread-button {

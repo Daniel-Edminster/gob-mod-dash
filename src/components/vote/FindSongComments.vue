@@ -5,19 +5,23 @@
       <base-spinner v-if="isLoading" />
    </div>
    <div v-else>
+      <IdsTable :ids="ids" :deleteId="deleteId" :setId="setId" />
       <button @click="setFoundSongComments(ids)">Commit Comments</button>
    </div>
-   <ul v-if="ids">
-      <li v-for="id in ids" :key="id.song">{{ id.comment }}: {{ id.song}}</li>
-   </ul>
+   
 </template>
 
 <script>
 import { mapState } from "vuex";
+import IdsTable from "./IdsTable";
 import { mapCommentsToIds } from "@/js/functions/gob/vote-reddit";
+
 
 export default {
    name: "FindSongComments",
+   components: {
+      IdsTable
+   },
    props: {
       postId: {
          type: String,
@@ -52,6 +56,20 @@ export default {
                this.message = `Unable to extract Song IDs from comments.`;
             }
          }
+      },
+      deleteId(commentId) {
+         console.log(`Deleting Id of comment ${commentId}`)
+         const ids = this.ids;
+         console.log(ids);
+         const id = ids.find((id) => id.comment === commentId);
+         const index = ids.indexOf(id);
+         console.log(index);
+         ids.splice(index, 1);
+      },
+      setId(commentId, songId) {
+         const ids = this.ids;
+         const id = ids.find((id) => id.comment === commentId);
+         id.song = songId;
       }
    },
 };
