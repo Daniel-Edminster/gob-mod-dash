@@ -42,6 +42,7 @@ export default {
          setActive: this.setActive,
          setComment: this.setComment,
          setDate: this.setDate,
+         setFoundSongComments: this.setFoundSongComments,
          setProperty: this.setProperty,
          setPool: this.setPool,
          setSongComment: this.setSongComment,
@@ -105,6 +106,13 @@ export default {
             song.comment = id;
             this.saveRounds();
          }
+      },
+      setFoundSongComments(ids) {
+         ids.forEach(id => {
+            const song = this.round.songs.find((song) => song.id === id.song);
+            song.comment = id.comment;
+            this.saveRounds();
+         })
       },
       setDate(key, value) {
          const date = new Date(value);
