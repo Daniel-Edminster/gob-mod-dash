@@ -7,13 +7,17 @@ const auth = {
    state() {
       return {
          reddit: null,
-         username: null
+         username: null,
+         isMod: null
       }
    },
    getters: {
       isAuthenticated(state) {
          return state.reddit ? true : false;
       },
+      isModerator(state) {
+         return state.isMod;
+      }
    },
    mutations: {
       saveReddit(state, reddit) {
@@ -21,6 +25,10 @@ const auth = {
       },
       saveUsername(state, username) {
          state.username = username;
+      },
+      saveIsMod(state, isMod) {
+         console.log(state.isMod);
+         state.isMod = isMod;
       }
    },
    actions: {
@@ -48,6 +56,8 @@ const auth = {
             commit('saveReddit', reddit);
             const username = await reddit.getUsername();
             commit('saveUsername', username);
+            const isMod = await reddit.isModerator('gameofbands');
+            commit('saveIsMod', isMod);
             const session = { accessToken: instance.accessToken, timestamp: Date.now() };
             dispatch('saveSession', session);
             return true;
@@ -83,11 +93,13 @@ const auth = {
             const reddit = new Reddit(instance);
             commit('saveReddit', reddit);
             const username = await reddit.getUsername();
+            const isMod = await reddit.isModerator('gameofbands');
             if (!username) {
                console.log("Previous session expired. Please login again.");
                localStorage.removeItem('mdSession');
                return;
             }
+            commit('saveIsMod', isMod);
             commit('saveUsername', username);
             return true;
          } catch (err) {

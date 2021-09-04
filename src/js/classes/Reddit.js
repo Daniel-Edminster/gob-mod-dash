@@ -4,6 +4,12 @@ export default class Reddit {
       this.subreddit = process.env.VUE_APP_REDDIT_SUBREDDIT;
    }
 
+   async isModerator(subredditName) {
+      const listing = await this.snoowrap.getModeratedSubreddits();
+      const isMod = listing.find(subreddit => subreddit.display_name == subredditName);
+      return isMod ? isMod : null;
+   }
+
    async setSubreddit(name) {
       try {
          const check = await this.snoowrap.getSubreddit(name).fetch();

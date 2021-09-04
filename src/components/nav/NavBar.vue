@@ -5,7 +5,7 @@
       </span>
       <span
          id="protected"
-         v-if="isAuthenticated"
+         v-if="isAuthenticated && isModerator"
       >
          <router-link to="/">Home</router-link> |
          <router-link :to="{ name: 'Rounds' }">Rounds</router-link> |
@@ -39,7 +39,7 @@ import { mapState, mapGetters } from "vuex";
 export default {
    computed: {
       ...mapState("auth", ["username"]),
-      ...mapGetters("auth", ["isAuthenticated"]),
+      ...mapGetters("auth", ["isAuthenticated", "isModerator"]),
    },
 };
 </script>

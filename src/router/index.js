@@ -15,45 +15,46 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta: { requiresAuth: true}
   },
   {
     path: '/rounds',
     name: 'Rounds',
     component: Rounds,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, requiresMod: true }
   },
   {
     path: '/rounds/:id',
     name: 'Round',
     props: true,
     component: Round,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, requiresMod: true }
   },
   {
     path: '/templates',
     name: 'Templates',
     component: Templates,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, requiresMod: true }
   },
   {
     path: '/templates/:name',
     name: 'Template',
     props: true,
     component: Template,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, requiresMod: true }
   },
   {
     path: '/help',
     name: 'Help',
     component: HelpMe,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, requiresMod: true }
   },
   {
     path: '/settings',
     name: 'Settings',
     component: Settings,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, requiresMod: true }
   },
   {
      path: '/login',
@@ -76,10 +77,16 @@ const router = createRouter({
 
 router.beforeEach(function(to, _, next) {
    if (to.meta.requiresAuth && !store.getters["auth/isAuthenticated"]) {
+      // Not logged in
       next('/login');
    } else if (to.meta.requiresAnon && store.getters["auth/isAuthenticated"]) {
-      next('/')
+      // Logged in, attempting to reach login/auth pages
+      next('/');
+   } else if (to.meta.requiresMod && !store.getters["auth/isModerator"]) {
+      // Logged in, not a gameofbands mod
+      next('/');
    } else {
+      // Logged in, gameofbands mod
       next();
    }
 })
