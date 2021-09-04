@@ -1,7 +1,5 @@
 <template>
-	<a :href="`http://www.reddit.com/by_id/${postId}`"
-		>Voting Thread</a
-	><p>Press the button to fetch votes from thread.</p>
+   <p>Press the button to fetch votes from thread.</p>
 	<button @click="fetchVotes()">Fetch Votes</button>
 	<p v-if="message">{{ message }}</p>
    <base-spinner v-if="isLoading" />

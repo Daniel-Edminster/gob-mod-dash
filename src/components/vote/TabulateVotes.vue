@@ -1,12 +1,11 @@
 <template>
-   <button
-      v-if="!allSongsVotedOn"
-      @click="tabulateVotes()"
-   >Tabulate Votes</button>
-   <button
-      v-else
-      @click="clearSongVotes()"
-   >Clear Votes</button>
+   <div>
+      <button
+         v-if="!allSongsVotedOn"
+         @click="tabulateVotes()"
+      >Tabulate Votes</button>
+      <button @click="clearSongVotes()">Clear Votes</button>
+   </div>
 </template>
 
 <script>
@@ -44,3 +43,9 @@ export default {
    },
 };
 </script>
+
+<style scoped>
+button {
+   margin: 15px;
+}
+</style>

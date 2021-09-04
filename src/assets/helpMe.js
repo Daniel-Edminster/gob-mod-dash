@@ -13,10 +13,6 @@ The dashboard will post threads to waitingforgobot, and comments to the relevant
 
 Currently the dash will save its info to localStorage. This means anything you do is only stored on your computer, with the exception of threads and comments that you post to reddit. Again, be wary of linking existing /r/gameofbands threads to round stages that post comments. This means Launch and Voting.
 
-## Voting stage
-
-Currently the voting stage is a little problematic to work with. Right now it's best to post a voting thread to /r/waitingforgobot, post the comments, then switch the thread link manually to the /r/gameofbands thread link. Obviously this sucks; it's priority #1 now that I've just completed the Launch thread team scraping.
-
 ## Templates
 
 The app comes with default templates for **theme nomination**, **signups**, **launch**, **late recruitment** and **voting** threads.

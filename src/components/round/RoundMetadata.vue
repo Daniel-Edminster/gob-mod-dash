@@ -76,6 +76,11 @@
 					<td>{{ round.songs.length }}</td>
 					<td><button @click="clearProperty('songs')">Clear</button></td>
 				</tr>
+            <tr v-if="round.winners">
+               <td>Winners</td>
+               <td>Determined</td>
+               <td><button @click="clearProperty('winners')">Clear</button></td>
+            </tr>
 			</tbody>
 			<tfoot v-if="!round.active && !round.complete">
 				<tr v-if="!round.threads.theme">

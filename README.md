@@ -15,17 +15,18 @@ Alpha.
 - alternatively, populate teams from an existing launch thread
 - retrieve song information from the gob api (it will use the round number)
 - post voting thread to reddit, fetch vote comments and add them to songs
+- find and identify existing song voting comments in threads
 - tabulate votes to determine winners
 - post congrats thread, concluding the round
 - extended date handling for begin, end and voting cutoff dates.
 
 ## Coming soon:
 
-- Find and Identify Song voting comments in threads
-- Scrape Check-ins from reddit signup thread
-- team incompatibility checks
-- automated balancing of vets/bandits/noobs
+### Major Features
 - Persistent Data Storage, either using the new API or an interim.
-- create teams and manage angels during round (integration with Discord and Persistent data required)
+- Team Manager - manage teams and angels during active round (integration with Discord and Persistent data required)
 
-Some of these features will require interaction between tools made by different moderators, such as the backend API and Discord bots.
+### Minor Features
+- automated balancing of vets/bandits/noobs
+- team incompatibility checks
+- scrape check-ins from reddit signup thread
