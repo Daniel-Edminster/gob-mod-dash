@@ -1,6 +1,6 @@
 # Mod Dashboard for Game of Bands (/r/gameofbands)
 
-Alpha.
+GoB Mod Dashboard is now 1.0.0-beta. Hooray!
 
 ## Features
 

@@ -11,7 +11,9 @@ The dashboard will post threads to waitingforgobot, and comments to the relevant
 
 ## Data Persistence
 
-Currently the dash will save its info to localStorage. This means anything you do is only stored on your computer, with the exception of threads and comments that you post to reddit. Again, be wary of linking existing /r/gameofbands threads to round stages that post comments. This means Launch and Voting.
+Currently the dash will save its info to localStorage. This means anything you do is only stored on your computer, with the exception of threads and comments that you post to reddit.
+
+Note that right now posts and comments are made using YOUR username. You may want to delete them from your profile once you're done. The goal will be to set the Mod Dash up to post through /u/gameofbands, but using serverless functions means it's possible to have concurrency, which we probably want to avoid. Open to suggestions on this front.
 
 ## Templates
 
