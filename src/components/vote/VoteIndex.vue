@@ -15,6 +15,7 @@
       v-if="postId && comments && !allSongsCommented"
       :postId="postId"
       :comments="comments"
+      thread="voting"
    />
    <FetchVotes
       v-if="allSongsCommented && !votes"

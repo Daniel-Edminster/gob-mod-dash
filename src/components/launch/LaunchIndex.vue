@@ -6,6 +6,7 @@
 		v-if="postId && comments && !allTeamsCommented"
 		:postId="postId"
 		:comments="comments"
+      thread="launch"
 	/>
 	<PostThread
 		v-if="!lateId && allTeamsCommented"

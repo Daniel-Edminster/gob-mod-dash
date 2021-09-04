@@ -12,4 +12,7 @@ app.use(store);
 
 app.component('base-spinner', BaseSpinner);
 
+// sep-04-2021: this is a temporary fix that will not be necessary in Vue soon
+app.config.unwrapInjectedRef = true;
+
 app.mount('#app');

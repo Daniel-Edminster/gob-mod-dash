@@ -49,7 +49,7 @@ export default {
       };
    },
    computed: mapState("auth", ["reddit"]),
-   inject: ["setThread"],
+   inject: ["setThread", "setFound"],
    methods: {
       async findThread() {
          this.message =
@@ -59,6 +59,7 @@ export default {
       },
       selectThread(name) {
          this.setThread(this.thread, name);
+         this.setFound(this.thread);
       },
       async findThreadByRound() {
          this.isLoading = true;

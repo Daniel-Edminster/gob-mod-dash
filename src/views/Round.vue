@@ -14,6 +14,7 @@
 import RoundDashboard from "@/components/round/RoundDashboard";
 import StageWrapper from "@/components/round/StageWrapper";
 import { addDays } from "@/js/functions/utils";
+import { computed } from 'vue'
 
 export default {
    name: "Round",
@@ -42,6 +43,7 @@ export default {
          setActive: this.setActive,
          setComment: this.setComment,
          setDate: this.setDate,
+         setFound: this.setFound,
          setFoundSongComments: this.setFoundSongComments,
          setProperty: this.setProperty,
          setPool: this.setPool,
@@ -49,6 +51,7 @@ export default {
          setThread: this.setThread,
          swapAngel: this.swapAngel,
          swapBandits: this.swapBandits,
+         found: computed(() => this.round.found)
       };
    },
    methods: {
@@ -128,6 +131,10 @@ export default {
          }
          this.round.dates[key] = date;
          console.log(this.round);
+         this.saveRounds();
+      },
+      setFound(key) {
+         this.round.found[key] = true;
          this.saveRounds();
       },
       setSongComment(id, value) {

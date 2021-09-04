@@ -27,7 +27,6 @@ const auth = {
          state.username = username;
       },
       saveIsMod(state, isMod) {
-         console.log(state.isMod);
          state.isMod = isMod;
       }
    },
@@ -66,9 +65,7 @@ const auth = {
          }
       },
       saveSession(_, session) {
-         console.log("Storing Session");
-         // localStorage.setItem('mdSession', JSON.stringify(state.reddit));
-         console.log(session);
+         console.log("Storing Session", session);
          localStorage.setItem('mdSession', JSON.stringify(session));
       },
       async checkExistingSession({ dispatch }) {
@@ -92,6 +89,7 @@ const auth = {
             console.log(instance);
             const reddit = new Reddit(instance);
             commit('saveReddit', reddit);
+            // sync line where user will be redirected by router guards
             const username = await reddit.getUsername();
             const isMod = await reddit.isModerator('gameofbands');
             if (!username) {
@@ -99,8 +97,8 @@ const auth = {
                localStorage.removeItem('mdSession');
                return;
             }
-            commit('saveIsMod', isMod);
             commit('saveUsername', username);
+            commit('saveIsMod', isMod);
             return true;
          } catch (err) {
             console.log(err);

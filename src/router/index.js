@@ -22,39 +22,39 @@ const routes = [
     path: '/rounds',
     name: 'Rounds',
     component: Rounds,
-    meta: { requiresAuth: true, requiresMod: true }
+    meta: { requiresAuth: true }
   },
   {
     path: '/rounds/:id',
     name: 'Round',
     props: true,
     component: Round,
-    meta: { requiresAuth: true, requiresMod: true }
+    meta: { requiresAuth: true }
   },
   {
     path: '/templates',
     name: 'Templates',
     component: Templates,
-    meta: { requiresAuth: true, requiresMod: true }
+    meta: { requiresAuth: true }
   },
   {
     path: '/templates/:name',
     name: 'Template',
     props: true,
     component: Template,
-    meta: { requiresAuth: true, requiresMod: true }
+    meta: { requiresAuth: true }
   },
   {
     path: '/help',
     name: 'Help',
     component: HelpMe,
-    meta: { requiresAuth: true, requiresMod: true }
+    meta: { requiresAuth: true }
   },
   {
     path: '/settings',
     name: 'Settings',
     component: Settings,
-    meta: { requiresAuth: true, requiresMod: true }
+    meta: { requiresAuth: true }
   },
   {
      path: '/login',
@@ -84,6 +84,9 @@ router.beforeEach(function(to, _, next) {
       next('/');
    } else if (to.meta.requiresMod && !store.getters["auth/isModerator"]) {
       // Logged in, not a gameofbands mod
+      // due to the async delay of checking isModerator status,
+      // causes mods to be redirected. Need to improve before
+      // implementing isMod check
       next('/');
    } else {
       // Logged in, gameofbands mod

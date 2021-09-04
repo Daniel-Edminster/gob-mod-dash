@@ -38,11 +38,9 @@ const rounds = {
       })
       if (roundExists) {
         const message = `Round ${number} already exists!`
-        console.log(message);
         return message;
       } else {
         const message = `Created Round ${number}`;
-        console.log(message);
         commit('createRound', number);
         dispatch('saveRounds');
         return message;

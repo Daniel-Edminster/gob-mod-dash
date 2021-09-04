@@ -15,11 +15,6 @@ import { mapGetters } from "vuex";
 
 export default {
    name: "Home",
-   computed: mapGetters('auth', ['isAuthenticated', 'isModerator']),
-   methods: {
-      printIsMod() {
-         console.log("IsMod:", this.isModerator);
-      }
-   }
+   computed: mapGetters('auth', ['isAuthenticated', 'isModerator'])
 };
 </script>

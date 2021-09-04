@@ -1,30 +1,33 @@
 <template>
-   <div class="warning">
-      <h4>Warning: Be careful not to post new comments to a found /r/gameofbands thread!</h4>
-      <p>If you've located an existing thread using Find Thread, it will be in /r/gameofbands.</p>
-      <p>Do not post new generated comments to these threads! (Use Find instead)</p>
+   <CommentWarning
+      v-if="(thread === 'launch' && found.launch) || (thread === 'voting' && found.voting)"
+      :thread="thread"
+   />
+   <div v-else>
+      <button @click="postCommentsSlowly()">Post comments to {{ postId }}</button>
+      <p v-if="posting">Posting comments, this will take {{ timeToPost }} seconds in total...</p>
+      <base-spinner v-if="posting" />
+      <ul>
+         <li
+            v-for="(comment, index) in commentLess"
+            :key="index"
+         >
+            <TemplatePreview :template="comment" />
+         </li>
+      </ul>
    </div>
-   <button @click="postCommentsSlowly()">Post comments to {{ postId }}</button>
-   <p v-if="posting">Posting comments, this will take {{ timeToPost }} seconds in total...</p>
-   <base-spinner v-if="posting" />
-   <ul>
-      <li
-         v-for="(comment, index) in commentLess"
-         :key="index"
-      >
-         <TemplatePreview :template="comment" />
-      </li>
-   </ul>
 </template>
 
 <script>
 import TemplatePreview from "./TemplatePreview";
 import { mapState } from "vuex";
+import CommentWarning from "./CommentWarning";
 
 export default {
    name: "PostComments",
    components: {
       TemplatePreview,
+      CommentWarning,
    },
    data() {
       return {
@@ -38,6 +41,10 @@ export default {
       },
       comments: {
          type: Array,
+         required: true,
+      },
+      thread: {
+         type: String,
          required: true,
       },
    },
@@ -54,7 +61,7 @@ export default {
          return this.comments.length * 5;
       },
    },
-   inject: ["checkComment", "setComment"],
+   inject: ["checkComment", "setComment", "found"],
    methods: {
       async wait(ms) {
          return new Promise((resolve) => setTimeout(resolve, ms));
@@ -97,6 +104,8 @@ export default {
    },
    mounted() {
       console.log(this.comments);
+      console.log(this.thread);
+      console.log(this.found);
    },
 };
 </script>
@@ -115,12 +124,5 @@ li {
    flex-grow: 1;
    margin: 5px;
    border-radius: 5px;
-}
-
-div.warning {
-   color: orange;
-   border: 1px solid orange;
-   background-color: black;
-   padding: 0 21px 5px 21px;
 }
 </style>

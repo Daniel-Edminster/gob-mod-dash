@@ -22,6 +22,8 @@ export default class Round {
       end: null,
       endVote: null
     }
+    // temporary guard against posting comments to found threads on reddit
+    this.found = {}
   }
 }
 
