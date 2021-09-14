@@ -86,7 +86,6 @@ const auth = {
                userAgent: process.env.VUE_APP_REDDIT_USER_AGENT,
                accessToken
             });
-            console.log(instance);
             const reddit = new Reddit(instance);
             commit('saveReddit', reddit);
             // sync line where user will be redirected by router guards

@@ -82,7 +82,6 @@ export default class Reddit {
          subreddit: 'gameofbands',
          sort: 'new'
       })
-      console.log(found);
       return found;
    }
 

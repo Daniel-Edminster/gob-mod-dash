@@ -33,11 +33,9 @@ export default {
          this.isLoading = false;
 			if (comments.length == 0) {
 				this.message = "No comments found in signup thread :(";
-				console.log(this.message);
 				return;
 			} else {
 				const pool = mapCommentsToSignups(comments);
-				console.log(pool);
 				this.setPool("signup", pool);
 			}
 		},

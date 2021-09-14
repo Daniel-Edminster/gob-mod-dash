@@ -74,7 +74,6 @@ export default {
       },
       async testGobApiSongs() {
          const rootUrl = process.env.VUE_APP_BASE_URL;
-         console.log(rootUrl);
          this.isLoading = true;
          const response = await fetch(`${rootUrl}/api/gob?fetchSongs=${this.songRoundNumber}`);
          const obj = await response.json();
