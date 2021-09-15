@@ -6,6 +6,7 @@
             <th>Pool</th>
             <th>View</th>
             <th>Delete</th>
+            <th>Database</th>
          </tr>
       </thead>
       <tbody>
@@ -27,6 +28,12 @@
                   class="delete"
                >Delete</button>
             </td>
+            <td>
+               <button v-if="value"
+                  @click="savePoolToDatabase(key, value)">
+                  Save to DB
+               </button>
+            </td>
          </tr>
       </tbody>
    </table>
@@ -41,14 +48,14 @@ export default {
          required: true,
       },
    },
-   inject: ["setPool"],
+   inject: ["savePoolToDatabase", "setPool"],
    methods: {
       deletePool(key) {
          this.setPool(key, null);
       },
       logPool(key) {
          console.log(this.pools[key]);
-      },
+      }
    },
 };
 </script>

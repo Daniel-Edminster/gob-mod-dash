@@ -1,49 +1,31 @@
-// converts comment listing from reddit api to array of theme pool objects
-// export function mapCommentsToNoms(comments) {
-//   const array = [];
-//   comments.forEach(comment => {
-//     const nom = {
-//       user: comment.author.name,
-//       score: comment.score,
-//       url: comment.permalink,
-//       body: comment.body,
-//       date: comment.created,
-//     };
-//     array.push(nom);
-//   })
-//   return array;
-// }
-
 export function mapCommentsToNoms(comments) {
-  return comments.map(comment => {
-    const nom = {
-      user: comment.author.name,
-      score: comment.score,
-      url: comment.permalink,
-      body: comment.body,
-      date: comment.created,
-    };
-    return nom;
-  })
+   const nominations = [];
+   const votes = {};
+   comments.forEach(comment => votes[comment.name] = comment.score);
+   comments.forEach(comment => {
+      nominations.push(mapCommentToNoms(comment))
+   })
+   return [nominations, votes];
 }
 
-export function determineWinningTheme(nominations) {
-  // Find max score
-  const highScore =
-    Math.max.apply(Math, nominations.map((nomination) => nomination.score));
+function mapCommentToNoms(comment) {
+   return {
+      user: comment.author.name,
+      source: comment.name,
+      description: comment.body,
+      date: comment.created,
+   }
+}
 
-  // populate new array with equally highest scoring nominations
-  let highestNominations = [];
-  nominations.forEach((nomination) => {
-    if (nomination.score == highScore) {
-      highestNominations.push(nomination);
-    }
-  });
+export function determineWinningTheme(nominations, votes) {
+   const scores = Object.values(votes);
+   const highScore = Math.max(...scores);
 
-  // sort best nominations by created date
-  highestNominations.sort((a, b) => {
-    return a.date - b.date;
-  })
+   const highestNominations = nominations.filter(nom => votes[nom.source] === highScore);
 
-  return highestNominations[0];
+   // sort best nominations by created date
+   highestNominations.sort((a, b) => {
+      return a.date - b.date;
+   })
+   return highestNominations[0];
 }

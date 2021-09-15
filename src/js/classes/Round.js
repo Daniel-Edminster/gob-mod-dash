@@ -5,6 +5,15 @@ export default class Round {
   constructor(number) {
     this.number = number;
     this.theme = null;
+    this.roles = {
+       music: 1,
+       lyrics: 1,
+       vocals: 1
+    },
+    this.votes = {
+       theme: null,
+       songs: null
+    };
     this.participants = null;
     this.teams = null;
     this.active = false;

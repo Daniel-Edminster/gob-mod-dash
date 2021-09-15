@@ -15,6 +15,9 @@ import RoundDashboard from "@/components/round/RoundDashboard";
 import StageWrapper from "@/components/round/StageWrapper";
 import { addDays } from "@/js/functions/utils";
 import { computed } from 'vue'
+import saveRoundToDatabase from "@/js/functions/fauna/saveRound"
+// Function imports below are for saving individual pools
+import saveThemesToDatabase from "@/js/functions/fauna/saveThemes"
 
 export default {
    name: "Round",
@@ -40,6 +43,8 @@ export default {
          clearProperty: this.clearProperty,
          endRound: this.endRound,
          returnAngels: this.returnAngels,
+         savePoolToDatabase: this.savePoolToDatabase,
+         saveRoundToDatabase: this.saveRoundToDatabase,
          setActive: this.setActive,
          setComment: this.setComment,
          setDate: this.setDate,
@@ -49,9 +54,11 @@ export default {
          setPool: this.setPool,
          setSongComment: this.setSongComment,
          setThread: this.setThread,
+         setVotes: this.setVotes,
          swapAngel: this.swapAngel,
          swapBandits: this.swapBandits,
-         found: computed(() => this.round.found)
+         found: computed(() => this.round.found),
+         themeVotes: computed(() => this.round.votes.theme)
       };
    },
    methods: {
@@ -91,6 +98,26 @@ export default {
       returnAngels(angels) {
          this.round.participants = angels;
          this.saveRounds();
+      },
+      async savePoolToDatabase(stage, pool) {
+         console.log(`Saving ${stage} pool to db: ${pool.length} entries.`);
+         // IIFE and conditional return statement -- gnarly huh
+         // There's probably a more readable option for this.
+         const updatedPool = await (() => {
+            return  (
+               (stage === 'theme' && saveThemesToDatabase(pool)) ||
+               pool
+            )
+         })()
+         console.log("Updated Pool:", updatedPool);
+         this.setPool(stage, updatedPool);
+      },
+      async saveRoundToDatabase() {
+         const response = await saveRoundToDatabase(this.round);
+         console.log(response);
+      },
+      saveRounds() {
+         this.$store.dispatch("rounds/saveRounds");
       },
       setActive() {
          this.round.active = true;
@@ -154,8 +181,10 @@ export default {
          this.round[key] = value;
          this.saveRounds();
       },
-      saveRounds() {
-         this.$store.dispatch("rounds/saveRounds");
+      setVotes(stage, votes) {
+         this.round.votes[stage] = votes;
+         console.log(this.round.votes);
+         this.saveRounds();
       },
       swapAngel(held, team) {
          console.log("Are you an angel", held, team);

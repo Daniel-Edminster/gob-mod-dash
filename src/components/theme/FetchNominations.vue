@@ -24,7 +24,7 @@ export default {
          message: null,
       };
    },
-   inject: ["setPool"],
+   inject: ["setPool", "setVotes"],
    computed: mapState("auth", ["reddit"]),
    methods: {
       async fetchNominations() {
@@ -37,8 +37,9 @@ export default {
             this.message = "No comments in thread :(";
             return;
          } else {
-            const pool = mapCommentsToNoms(comments);
+            const [ pool, votes ] = mapCommentsToNoms(comments);
             this.setPool("theme", pool);
+            this.setVotes("theme", votes);
          }
       },
    },

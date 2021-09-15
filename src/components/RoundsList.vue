@@ -16,7 +16,7 @@
 						round.number
 					}}</router-link>
 				</td>
-				<td><span v-if="round.theme"><router-link :to="`/rounds/${round.number}`">{{ round.theme }}</router-link></span></td>
+				<td><span v-if="round.theme"><router-link :to="`/rounds/${round.number}`">{{ round.theme.title }}</router-link></span></td>
 				<td><span v-if="round.participants">{{ round.participants.length }}</span></td>
 				<td><span v-if="round.teams">{{ round.teams.length }}</span></td>
 				<td><span v-if="round.songs">{{ round.songs.length }}</span></td>

@@ -89,6 +89,8 @@ button {
   border: none;
   padding: 8px;
   font-weight: bold;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 button:hover {
@@ -100,5 +102,21 @@ input {
   background-color: black;
   color: white;
   margin: 8px;
+}
+
+.good {
+   color: greenyellow;
+}
+
+.needs-action {
+   color: salmon;
+}
+
+.neutral {
+   color: orange;
+}
+
+.static {
+   color: grey;
 }
 </style>
