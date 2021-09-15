@@ -18,6 +18,7 @@ import { computed } from 'vue'
 import saveRoundToDatabase from "@/js/functions/fauna/saveRound"
 // Function imports below are for saving individual pools
 import saveThemesToDatabase from "@/js/functions/fauna/saveThemes"
+import saveSignupsToDatabase from "@/js/functions/fauna/saveParticipants"
 
 export default {
    name: "Round",
@@ -106,6 +107,7 @@ export default {
          const updatedPool = await (() => {
             return  (
                (stage === 'theme' && saveThemesToDatabase(pool)) ||
+               (stage === 'signup' && saveSignupsToDatabase(pool, this.round.number)) ||
                pool
             )
          })()
@@ -189,7 +191,7 @@ export default {
       swapAngel(held, team) {
          console.log("Are you an angel", held, team);
          const heldIndex = this.round.participants.findIndex(
-            (element) => element.name === held.user.name
+            (element) => element.username === held.user.username
          );
          const replacedIndex = team.members.findIndex(
             (element) => element.roles[0] === held.role
@@ -200,7 +202,7 @@ export default {
       },
       swapBandits(held, team) {
          const heldIndex = held.team.members.findIndex(
-            (element) => element.name === held.user.name
+            (element) => element.username === held.user.username
          );
          const replacedIndex = team.members.findIndex(
             (element) => element.roles[0] === held.user.roles[0]

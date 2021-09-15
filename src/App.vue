@@ -119,4 +119,9 @@ input {
 .static {
    color: grey;
 }
+
+button.delete {
+   background: salmon;
+   color: black;
+}
 </style>

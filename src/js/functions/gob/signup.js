@@ -11,7 +11,7 @@ export function mapCommentsToSignups(comments) {
           user.roles = [];
           roles.forEach((role) => {
               if (signup.body.toLowerCase().includes(role)) {
-                  user.name = signup.author.name;
+                  user.username = signup.author.name;
                   user.roles.push(role);
               }
           });

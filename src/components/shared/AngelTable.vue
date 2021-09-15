@@ -18,10 +18,10 @@
       <tbody>
          <tr
             v-for="user in participants"
-            :key="user.name"
+            :key="user.username"
          >
             <td :class="user.experience">
-               <span>{{ user.name }}</span>
+               <span>{{ user.username }}</span>
             </td>
             <td :class="user.experience">
                <span
@@ -104,7 +104,7 @@ export default {
    inject: ["grabAngel"],
    methods: {
       startDrag(user, role) {
-         console.log(`Grabbing ${user.name} for ${role}`);
+         console.log(`Grabbing ${user.username} for ${role}`);
          console.log(user);
          this.grabAngel(user, role);
       },

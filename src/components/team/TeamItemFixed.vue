@@ -5,11 +5,11 @@
 	>
 		<p>{{ team.number }}</p>
 		<ul>
-			<li v-for="user in team.members" :key="user.name" class="team-member">
+			<li v-for="user in team.members" :key="user.username" class="team-member">
 				{{ user.roles[0] }}:
 				<span
 					:class="user.experience"
-					>{{ user.name }}</span
+					>{{ user.username }}</span
 				>
 			</li>
 		</ul>

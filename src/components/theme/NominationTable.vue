@@ -4,6 +4,7 @@
          <tr>
             <th>DB ID</th>
             <th>Description</th>
+            <th>Action</th>
             <th>Score</th>
             <th>Comment</th>
             <th>User</th>
@@ -15,6 +16,7 @@
                <span v-if="nom.id">{{ nom.id }}</span>
             </td>
             <td>{{ nom.description }}</td>
+            <td><button class="delete" @click="deleteNom(nom.source)">Delete</button></td>
             <td>{{ scores[nom.source] }}</td>
             <td>{{ nom.source }}</td>
             <td>{{ nom.user }}</td>

@@ -3,12 +3,14 @@
 	<table>
 		<thead>
 			<tr>
+            <th>DB</th>
 				<th>Name</th>
 				<th>Music</th>
 				<th>Lyrics</th>
 				<th>Vocals</th>
 			</tr>
 			<tr>
+            <th>ID</th>
 				<th>Number</th>
 				<th>{{ music }}</th>
 				<th>{{ lyrics }}</th>
@@ -16,9 +18,12 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr v-for="user in participants" :key="user.name">
+			<tr v-for="user in participants" :key="user.id || user.username">
+            <td>
+               <span v-if="user.id">{{ user.id }}</span>
+            </td>
 				<td>
-					<span :class="user.experience">{{ user.name }}</span>
+					<span :class="user.experience">{{ user.username }}</span>
 				</td>
 				<td>
 					<span

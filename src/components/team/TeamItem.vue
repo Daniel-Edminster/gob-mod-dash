@@ -14,7 +14,7 @@
             class="team-member"
             @dragenter.prevent
             v-for="user in team.members"
-            :key="user.name"
+            :key="user.username"
          >
             {{ user.roles[0] }}:
             <span
@@ -22,7 +22,7 @@
                @dragstart="startDrag(user, team)"
                :class="user.experience"
                class="name"
-            >{{ user.name }}</span>
+            >{{ user.username }}</span>
          </li>
       </ul>
    </li>
