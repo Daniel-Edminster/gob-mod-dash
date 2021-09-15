@@ -92,9 +92,4 @@ tbody {
    background-color: #3c3548;
    font-size: 0.9rem;
 }
-
-button.delete {
-   background: salmon;
-   color: black;
-}
 </style>

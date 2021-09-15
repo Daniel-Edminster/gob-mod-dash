@@ -65,4 +65,16 @@ span {
 	flex-grow: 1;
 	margin-left: 5px;
 }
+
+.noob {
+   color: white;
+}
+
+.bandit {
+   color: greenyellow;
+}
+
+.veteran {
+   color: orange;
+}
 </style>
