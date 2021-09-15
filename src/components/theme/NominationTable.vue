@@ -16,7 +16,7 @@
                <span v-if="nom.id">{{ nom.id }}</span>
             </td>
             <td>{{ nom.description }}</td>
-            <td><button class="delete" @click="deleteNom(nom.source)">Delete</button></td>
+            <td><button class="delete" @click="deleteNomination(nom.source)">Delete</button></td>
             <td>{{ scores[nom.source] }}</td>
             <td>{{ nom.source }}</td>
             <td>{{ nom.user }}</td>
@@ -39,6 +39,7 @@ export default {
          required: true
       }
    },
+   inject: ["deleteNomination"]
 }
 </script>
 

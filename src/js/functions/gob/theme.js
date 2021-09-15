@@ -3,7 +3,8 @@ export function mapCommentsToNoms(comments) {
    const votes = {};
    comments.forEach(comment => votes[comment.name] = comment.score);
    comments.forEach(comment => {
-      nominations.push(mapCommentToNoms(comment))
+      if (comment.author.name !== '[deleted]' && comment.body !== '[deleted]')
+         nominations.push(mapCommentToNoms(comment))
    })
    return [nominations, votes];
 }

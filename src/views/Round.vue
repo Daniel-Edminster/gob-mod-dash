@@ -42,6 +42,7 @@ export default {
          checkComment: this.checkComment,
          clearBoolean: this.clearBoolean,
          clearProperty: this.clearProperty,
+         deleteNomination: this.deleteNomination,
          endRound: this.endRound,
          returnAngels: this.returnAngels,
          savePoolToDatabase: this.savePoolToDatabase,
@@ -90,6 +91,13 @@ export default {
       clearProperty(key) {
          this.round[key] = null;
          this.saveRounds();
+      },
+      deleteNomination(source) {
+         const noms = this.round.pools.theme;
+         console.log(`Deleting nom with source ${source} from `, noms);
+         const nomIndex = noms.findIndex(nom => nom.source === source);
+         console.log(nomIndex);
+         noms.splice(nomIndex, 1);
       },
       endRound() {
          this.round.active = false;
