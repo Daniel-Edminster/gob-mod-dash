@@ -88,11 +88,11 @@ export function mapCommentsToTeams(comments) {
    function extractNameAndRoles(string) {
       // string = string.replace('*', '');
       const array = string.split('/u/');
-      const name = array[1];
-      placedUsers.add(name.toLowerCase()); // necessary for comparisons
+      const username = array[1];
+      placedUsers.add(username.toLowerCase()); // necessary for comparisons
       const roles = [];
       const role = array[0].toLowerCase().replaceAll(':', '');
       roles.push(role);
-      return { name, roles };
+      return { username, roles };
    }
 }

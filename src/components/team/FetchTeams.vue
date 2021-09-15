@@ -54,6 +54,12 @@ export default {
    },
    inject: ["returnAngels", "setProperty", "setActive"],
    methods: {
+      commitTeams() {
+         this.setProperty("teams", this.teams);
+         const angels = this.filterAngels();
+         this.returnAngels(angels);
+         this.setActive();
+      },
       async fetchTeams() {
          this.message = "Fetching teams from comments...";
          this.isLoading = true;
@@ -69,24 +75,19 @@ export default {
             this.placedUsers = placedUsers;
          }
       },
-      commitTeams() {
-         this.setProperty("teams", this.teams);
-         const angels = this.filterAngels();
-         this.returnAngels(angels);
-         this.setActive();
-      },
       filterAngels() {
-         return this.participants.filter((participant) => {
-            return !this.placedUsers.has(participant.name.toLowerCase());
-         });
-      },
+         console.log(this.participants);
+         console.log(this.placedUsers);
+         return this.participants.filter(participant => 
+            !this.placedUsers.has(participant.username.toLowerCase())
+      )},
       screenPlacedParticipants(teams) {
          teams.forEach((team) => {
             team.members.forEach((user) => {
                user.experience = "noob";
-               if (this.bandits.includes(user.name.toLowerCase()))
+               if (this.bandits.includes(user.username.toLowerCase()))
                   user.experience = "bandit";
-               if (this.veterans.includes(user.name.toLowerCase()))
+               if (this.veterans.includes(user.username.toLowerCase()))
                   user.experience = "veteran";
             });
          });
