@@ -1,18 +1,11 @@
 <template>
-   <div v-if="!nominations">
-      <div v-if="!post?.source">
-         <PostThread thread="theme" :metadata="metadata" />
-      </div>
-      <div v-if="post?.source && !post?.id">
-         <span class="needs-action">Please save thread to DB before fetching nominations.</span>
-      </div>
-      <div v-if="post?.source && post?.id && !nominations">
-         <FetchNominations :post="post" />
-      </div>
-   </div>
-   <div v-else>
-      <CommitTheme :nominations="nominations" />
-   </div>
+   <PostThread v-if="state === 0" thread="theme" :metadata="metadata" />
+   <span
+      v-if="state === 1"
+      class="needs-action"
+   >Please save thread to DB before fetching nominations.</span>
+   <FetchNominations v-if="state === 2" :post="post" />
+   <CommitTheme v-if="state === 3" :nominations="nominations" />
 </template>
 
 <script>
@@ -41,6 +34,15 @@ export default {
          type: Array,
          required: false,
          default: null
+      }
+   },
+   computed: {
+      state() {
+         let counter = 0;
+         if (this.post?.source) counter++;
+         if (this.post?.id) counter++;
+         if (this.nominations) counter++;
+         return counter;
       }
    }
 }
