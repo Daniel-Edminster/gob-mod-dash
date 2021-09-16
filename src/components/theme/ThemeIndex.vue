@@ -1,22 +1,22 @@
 <template>
    <PostThread v-if="state === 0" thread="theme" :metadata="metadata" />
-   <span
-      v-if="state === 1"
-      class="needs-action"
-   >Please save thread to DB before fetching nominations.</span>
+   <DatasaveWarning v-if="state === 1" thing="theme thread" action="fetching nominations" />
    <FetchNominations v-if="state === 2" :post="post" />
-   <CommitTheme v-if="state === 3" :nominations="nominations" />
+   <DatasaveWarning v-if="state === 3" thing="nominations" action="committing theme to round" />
+   <CommitTheme v-if="state === 4" :nominations="nominations" />
 </template>
 
 <script>
 import CommitTheme from "./CommitTheme"
 import FetchNominations from "./FetchNominations"
 import PostThread from "../shared/PostThread"
+import DatasaveWarning from "../shared/DatasaveWarning"
 
 export default {
    name: "ThemeIndex",
    components: {
       CommitTheme,
+      DatasaveWarning,
       FetchNominations,
       PostThread
    },
@@ -41,6 +41,7 @@ export default {
          let counter = 0;
          if (this.post?.source) counter++;
          if (this.post?.id) counter++;
+         if (this.nominations.every(nom => nom.id)) counter++;
          if (this.nominations) counter++;
          return counter;
       }
