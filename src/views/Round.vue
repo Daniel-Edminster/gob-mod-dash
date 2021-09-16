@@ -1,12 +1,6 @@
 <template>
-   <RoundDashboard
-      v-if="round"
-      :round="round"
-   />
-   <StageWrapper
-      v-if="round"
-      :round="round"
-   />
+   <RoundDashboard v-if="round" :round="round" />
+   <StageWrapper v-if="round" :round="round" />
    <div v-else>Round {{ id }} does not exist</div>
 </template>
 
@@ -19,6 +13,7 @@ import saveRoundToDatabase from "@/js/functions/fauna/saveRound"
 // Function imports below are for saving individual pools
 import saveThemesToDatabase from "@/js/functions/fauna/saveThemes"
 import saveSignupsToDatabase from "@/js/functions/fauna/saveParticipants"
+import saveThreadsToDatabase from "../js/functions/fauna/saveThread";
 
 export default {
    name: "Round",
@@ -43,14 +38,15 @@ export default {
          clearBoolean: this.clearBoolean,
          clearProperty: this.clearProperty,
          deleteNomination: this.deleteNomination,
+         deleteThread: this.deleteThread,
          endRound: this.endRound,
          returnAngels: this.returnAngels,
          savePoolToDatabase: this.savePoolToDatabase,
          saveRoundToDatabase: this.saveRoundToDatabase,
+         saveThreadsToDatabase: this.saveThreadsToDatabase,
          setActive: this.setActive,
          setComment: this.setComment,
          setDate: this.setDate,
-         setFound: this.setFound,
          setFoundSongComments: this.setFoundSongComments,
          setProperty: this.setProperty,
          setPool: this.setPool,
@@ -59,7 +55,6 @@ export default {
          setVotes: this.setVotes,
          swapAngel: this.swapAngel,
          swapBandits: this.swapBandits,
-         found: computed(() => this.round.found),
          themeVotes: computed(() => this.round.votes.theme)
       };
    },
@@ -99,6 +94,10 @@ export default {
          console.log(nomIndex);
          noms.splice(nomIndex, 1);
       },
+      deleteThread(key) {
+         this.round.threads[key] = null;
+         this.saveRounds();
+      },
       endRound() {
          this.round.active = false;
          this.round.complete = true;
@@ -113,7 +112,7 @@ export default {
          // IIFE and conditional return statement -- gnarly huh
          // There's probably a more readable option for this.
          const updatedPool = await (() => {
-            return  (
+            return (
                (stage === 'theme' && saveThemesToDatabase(pool)) ||
                (stage === 'signup' && saveSignupsToDatabase(pool, this.round.number)) ||
                pool
@@ -121,10 +120,21 @@ export default {
          })()
          console.log("Updated Pool:", updatedPool);
          this.setPool(stage, updatedPool);
+         this.saveRounds()
       },
       async saveRoundToDatabase() {
          const response = await saveRoundToDatabase(this.round);
          console.log(response);
+         // probably need to add the db id here at some point?
+      },
+      async saveThreadsToDatabase(threads) {
+         console.log("Saving threads to database", threads);
+         const updatedThreads = await saveThreadsToDatabase(threads);
+         updatedThreads.forEach(element => {
+            this.round.threads[element.stage].id = element.id;
+         })
+         console.log(this.round.threads);
+         this.saveRounds();
       },
       saveRounds() {
          this.$store.dispatch("rounds/saveRounds");
@@ -170,17 +180,22 @@ export default {
          console.log(this.round);
          this.saveRounds();
       },
-      setFound(key) {
-         this.round.found[key] = true;
-         this.saveRounds();
-      },
       setSongComment(id, value) {
          const song = this.round.songs.find((song) => song.id === id);
          song.comment = value;
          this.saveRounds();
       },
       setThread(key, value) {
-         this.round.threads[key] = value;
+         if (typeof value === String) {
+            const thread = this.round.threads[key];
+            if (thread) {
+               thread.source = value;
+            } else {
+               this.round.threads[key] = { round: this.round.number, stage: key, source: value, subreddit: null }
+            }
+         } else {
+            this.round.threads[key] = value;
+         }
          this.saveRounds();
       },
       setPool(key, value) {

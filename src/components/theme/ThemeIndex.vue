@@ -1,7 +1,18 @@
 <template>
-  <div v-if="!postId"><PostThread thread="theme" :metadata="metadata" /></div>
-  <div v-if="postId && !nominations"><FetchNominations :postId="postId" /></div>
-  <div v-if="nominations"><CommitTheme :nominations="nominations" /></div>
+   <div v-if="!nominations">
+      <div v-if="!post?.source">
+         <PostThread thread="theme" :metadata="metadata" />
+      </div>
+      <div v-if="post?.source && !post?.id">
+         <span class="needs-action">Please save thread to DB before fetching nominations.</span>
+      </div>
+      <div v-if="post?.source && post?.id && !nominations">
+         <FetchNominations :post="post" />
+      </div>
+   </div>
+   <div v-else>
+      <CommitTheme :nominations="nominations" />
+   </div>
 </template>
 
 <script>
@@ -10,27 +21,27 @@ import FetchNominations from "./FetchNominations"
 import PostThread from "../shared/PostThread"
 
 export default {
-  name: "ThemeIndex",
-  components: {
-    CommitTheme,
-    FetchNominations,
-    PostThread
-  },
-  props: {
-    metadata: {
-      type: Object,
-      required: true
-    },
-    postId: {
-      type: String,
-      required: false,
-      default: null
-    },
-    nominations: {
-      type: Array,
-      required: false,
-      default: null
-    }
-  }
+   name: "ThemeIndex",
+   components: {
+      CommitTheme,
+      FetchNominations,
+      PostThread
+   },
+   props: {
+      metadata: {
+         type: Object,
+         required: true
+      },
+      post: {
+         type: Object,
+         required: false,
+         default: null
+      },
+      nominations: {
+         type: Array,
+         required: false,
+         default: null
+      }
+   }
 }
 </script>

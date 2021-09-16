@@ -11,11 +11,11 @@ import { client, q } from '@/js/api/fauna'
 
 export default async function saveThemesToDatabase(pool) {
    const formattedDocs = pool.map(theme => constructThemeDocument(theme));
-   const savedDocs = await saveThemeDocuments(formattedDocs);
-   console.log("saved:", savedDocs);
+   const staticDocs = formattedDocs.filter(doc => doc.id);
+   const filteredDocs = formattedDocs.filter(doc => !doc.id);
+   const savedDocs = await saveThemeDocuments(filteredDocs);
    const identifiedDocs = addIds(savedDocs);
-   console.log("ID'd:", identifiedDocs);
-   return identifiedDocs;
+   return [ ...identifiedDocs, ...staticDocs ];
 }
 
 function constructThemeDocument(theme) {
@@ -31,10 +31,9 @@ function constructThemeDocument(theme) {
 
 async function saveThemeDocuments(docs) {
    // filter documents that already have ids
-   const filteredDocs = docs.filter(doc => !doc.id);
    try {
       const response = await client.query(
-         q.Call("update_themes", filteredDocs)
+         q.Call("update_themes", docs)
       )
       return response;
    } catch (err) {

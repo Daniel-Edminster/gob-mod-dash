@@ -4,11 +4,13 @@ import { client, q } from '@/js/api/fauna'
 
 export default async function saveSignupsToDatabase(pool, roundNum) {
    const formattedDocs = pool.map(participant => constructParticipantDocument(participant, roundNum));
-   const savedDocs = await saveParticipantDocuments(roundNum, formattedDocs);
+   const staticDocs = formattedDocs.filter(doc => doc.id);
+   const filteredDocs = formattedDocs.filter(doc => !doc.id);
+   const savedDocs = await saveParticipantDocuments(roundNum, filteredDocs);
    const usernamesToIds = new Map();
    savedDocs.map(doc => usernamesToIds.set(doc.username, doc.id));
    const identifiedDocs = addIds(formattedDocs, usernamesToIds);
-   return identifiedDocs;
+   return [ ...identifiedDocs, ...staticDocs ];
 }
 
 function constructParticipantDocument(participant, round) {
@@ -29,8 +31,7 @@ function addIds(docs, usernamesToIds) {
    })
 }
 
-async function saveParticipantDocuments(round, formattedDocs) {
-   const docs = formattedDocs.filter(doc => !doc.id);
+async function saveParticipantDocuments(round, docs) {
    try {
       const response = await client.query(
          q.Call("register_signups", { round, docs })

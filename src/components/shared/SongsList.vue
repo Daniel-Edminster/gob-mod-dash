@@ -4,7 +4,7 @@
 			<tr>
 				<th>Name</th>
         <th>ID</th>
-        <th>Voting Comment ID</th>
+        <th>Comment</th>
         <th>Team</th>
         <th>Track</th>
         <th>Music</th>

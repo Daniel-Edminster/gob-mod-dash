@@ -1,5 +1,5 @@
 <template>
-   <FindThread v-if="!postId" :round="metadata.number" thread="voting" />
+   <!-- <FindThread v-if="!postId" :round="metadata.number" thread="voting" /> -->
    <FindSongComments v-if="postId && !allSongsCommented" :postId="postId" />
    <p v-if="comments">{{ comments.length }} Comments Generated</p>
    <CommentGenerator
@@ -13,7 +13,7 @@
    />
    <PostComments
       v-if="postId && comments && !allSongsCommented"
-      :postId="postId"
+      :post="post"
       :comments="comments"
       thread="voting"
    />
@@ -39,7 +39,7 @@ import CommentGenerator from "./CommentGenerator";
 import CommitWinners from "./CommitWinners";
 import FetchVotes from "./FetchVotes";
 import FindSongComments from "./FindSongComments";
-import FindThread from "../shared/FindThread";
+// import FindThread from "../shared/FindThread";
 import PostComments from "../shared/PostComments";
 import PostThread from "../shared/PostThread";
 import SongsList from "../shared/SongsList";
@@ -52,7 +52,7 @@ export default {
       CommitWinners,
       FetchVotes,
       FindSongComments,
-      FindThread,
+      // FindThread,
       PostComments,
       PostThread,
       SongsList,
@@ -63,8 +63,8 @@ export default {
          type: Object,
          required: true,
       },
-      postId: {
-         type: String,
+      post: {
+         type: Object,
          required: false,
          default: null,
       },
@@ -98,6 +98,9 @@ export default {
          }
          return true;
       },
+      postId() {
+         return this.post?.source;
+      }
    },
    provide() {
       return {

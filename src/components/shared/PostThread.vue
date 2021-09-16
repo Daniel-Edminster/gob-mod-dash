@@ -1,23 +1,12 @@
 <template>
    <h3>No {{ thread }} thread detected. Find existing or post a new thread.</h3>
-   <FindThread
-      :thread="thread"
-      :round="metadata.number"
-   />
+   <FindThread :thread="thread" :round="metadata.number" />
    <h4>Post Thread: {{ thread }}</h4>
    <TemplatePicker v-if="!forceTemplate" />
-   <button
-      v-if="template"
-      @click="submitPost"
-   >Post to reddit</button>
+   <button v-if="template" @click="submitPost">Post to reddit</button>
    <p v-if="message">{{ message }}</p>
    <base-spinner v-if="isLoading" />
-   <TemplatePreview
-      v-if="template"
-      :template="template"
-      :metadata="metadata"
-   />
-
+   <TemplatePreview v-if="template" :template="template" :metadata="metadata" />
 </template>
 
 <script>
@@ -80,8 +69,14 @@ export default {
          this.isLoading = true;
          const submission = await this.reddit.submitPost(post);
          this.isLoading = false;
+         const obj = {
+            round: this.metadata.number,
+            stage: this.thread,
+            source: submission.name,
+            subreddit: submission.subreddit.display_name
+         }
          if (submission) {
-            this.setThread(this.thread, submission.name);
+            this.setThread(this.thread, obj);
             this.message = `Success! Thread posted to /r/${this.reddit.subreddit}`;
          } else {
             this.message = "Post failed.";

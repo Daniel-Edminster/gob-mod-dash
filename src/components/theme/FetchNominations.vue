@@ -12,8 +12,8 @@ import { mapCommentsToNoms } from "@/js/functions/gob/theme";
 export default {
    name: "FetchNominations",
    props: {
-      postId: {
-         type: String,
+      post: {
+         type: Object,
          required: true,
       },
    },
@@ -30,7 +30,7 @@ export default {
       async fetchNominations() {
          this.message = "Fetching nominations...";
          this.isLoading = true;
-         const comments = await this.reddit.fetchComments(this.postId);
+         const comments = await this.reddit.fetchComments(this.post.source);
          this.isLoading = false;
          if (comments.length == 0) {
             console.log("No comments :(");

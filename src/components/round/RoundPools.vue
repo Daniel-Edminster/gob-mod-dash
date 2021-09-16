@@ -28,11 +28,14 @@
                   class="delete"
                >Delete</button>
             </td>
-            <td>
-               <button v-if="value"
-                  @click="savePoolToDatabase(key, value)">
+            <td v-if="!value"></td>
+            <td v-if="value && !value.every(el => el.id)">
+               <button @click="savePoolToDatabase(key, value)">
                   Save to DB
                </button>
+            </td>
+            <td v-if="value && value.every(el => el.id)">
+               Saved
             </td>
          </tr>
       </tbody>

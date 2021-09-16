@@ -1,6 +1,6 @@
 <template>
    <CommentWarning
-      v-if="(thread === 'launch' && found.launch) || (thread === 'voting' && found.voting)"
+      v-if="post.subreddit === 'gameofbands'"
       :thread="thread"
    />
    <div v-else>
@@ -35,8 +35,8 @@ export default {
       };
    },
    props: {
-      postId: {
-         type: String,
+      post: {
+         type: Object,
          required: true,
       },
       comments: {
@@ -60,8 +60,11 @@ export default {
          if (this.comments.length === 0) return null;
          return this.comments.length * 5;
       },
+      postId() {
+         return this.post?.source;
+      }
    },
-   inject: ["checkComment", "setComment", "found"],
+   inject: ["checkComment", "setComment"],
    methods: {
       async wait(ms) {
          return new Promise((resolve) => setTimeout(resolve, ms));
@@ -105,7 +108,6 @@ export default {
    mounted() {
       console.log(this.comments);
       console.log(this.thread);
-      console.log(this.found);
    },
 };
 </script>

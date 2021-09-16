@@ -1,53 +1,53 @@
 <template>
-	<div id="stage-wrapper">
-		<ThemeIndex
-			v-if="!round.theme"
-			:metadata="metadata"
-			:postId="round.threads.theme"
-			:nominations="round.pools.theme"
-		/>
-		<SignupIndex
-			v-if="round.theme && !round.participants"
-			:metadata="metadata"
-			:postId="round.threads.signup"
-			:signups="round.pools.signup"
-		/>
-		<TeamIndex
-			v-if="
-				round.participants && !round.songs && !round.active && !round.complete
-			"
+   <div id="stage-wrapper">
+      <ThemeIndex
+         v-if="!round.theme"
          :metadata="metadata"
-         :launchId="round.threads.launch"
-			:participants="round.participants"
-			:teams="round.teams"
-			:active="round.active"
-		/>
-		<LaunchIndex
-			v-if="round.teams && round.active"
-			:metadata="metadata"
-			:postId="round.threads.launch"
-			:lateId="round.threads.late"
-			:teams="round.teams"
-			:active="round.active"
-			:complete="round.complete"
-			:participants="round.participants"
-		/>
-		<RoundOver v-if="round.complete && !round.songs" :number="round.number" />
-		<VoteIndex
-			v-if="!round.active && round.complete && round.songs && !round.winners"
-			:metadata="metadata"
-			:postId="round.threads.voting"
-			:songs="round.songs"
-			:votes="round.pools.voting"
-		/>
-		<CongratsIndex
-			v-if="round.winners"
-			:winners="round.winners"
-			:teams="round.teams"
-			:metadata="metadata"
-      :postId="round.threads.congrats"
-		/>
-	</div>
+         :post="round.threads.theme"
+         :nominations="round.pools.theme"
+      />
+      <SignupIndex
+         v-if="round.theme && !round.participants"
+         :metadata="metadata"
+         :postId="round.threads.signup?.source"
+         :signups="round.pools.signup"
+      />
+      <TeamIndex
+         v-if="
+            round.participants && !round.songs && !round.active && !round.complete
+         "
+         :metadata="metadata"
+         :launchId="round.threads.launch?.source"
+         :participants="round.participants"
+         :teams="round.teams"
+         :active="round.active"
+      />
+      <LaunchIndex
+         v-if="round.teams && round.active"
+         :metadata="metadata"
+         :post="round.threads.launch"
+         :lateId="round.threads.late?.source"
+         :teams="round.teams"
+         :active="round.active"
+         :complete="round.complete"
+         :participants="round.participants"
+      />
+      <RoundOver v-if="round.complete && !round.songs" :number="round.number" />
+      <VoteIndex
+         v-if="!round.active && round.complete && round.songs && !round.winners"
+         :metadata="metadata"
+         :post="round.threads.voting"
+         :songs="round.songs"
+         :votes="round.pools.voting"
+      />
+      <CongratsIndex
+         v-if="round.winners"
+         :winners="round.winners"
+         :teams="round.teams"
+         :metadata="metadata"
+         :postId="round.threads.congrats?.source"
+      />
+   </div>
 </template>
 
 <script>
@@ -63,41 +63,41 @@ import SignupIndex from "@/components/signup/SignupIndex";
 import VoteIndex from "@/components/vote/VoteIndex";
 
 export default {
-	name: "StageWrapper",
-	components: {
-		CongratsIndex,
-		LaunchIndex,
-		RoundOver,
-		TeamIndex,
-		ThemeIndex,
-		SignupIndex,
-		VoteIndex,
-	},
-	props: {
-		round: {
-			type: Object,
-			required: true,
-		},
-	},
-	computed: {
-		metadata() {
-			return {
-				number: this.round.number,
-        theme: this.round.theme,
-        dates: this.round.dates
-			};
-		},
-	},
+   name: "StageWrapper",
+   components: {
+      CongratsIndex,
+      LaunchIndex,
+      RoundOver,
+      TeamIndex,
+      ThemeIndex,
+      SignupIndex,
+      VoteIndex,
+   },
+   props: {
+      round: {
+         type: Object,
+         required: true,
+      },
+   },
+   computed: {
+      metadata() {
+         return {
+            number: this.round.number,
+            theme: this.round.theme,
+            dates: this.round.dates
+         };
+      },
+   },
 };
 </script>
 
 <style scoped>
 div#stage-wrapper {
-	background-color: #2d2b38;
-	color: white;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: flex-start;
+   background-color: #2d2b38;
+   color: white;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: flex-start;
 }
 </style>

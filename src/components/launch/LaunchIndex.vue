@@ -1,25 +1,20 @@
 <template>
-	<p v-if="comments && !postId">{{ comments.length }} Comments Generated</p>
-	<CommentGenerator v-if="!comments && !allTeamsCommented" :teams="teams" />
-	<PostThread v-if="!postId && comments" thread="launch" :metadata="metadata" />
-	<PostComments
-		v-if="postId && comments && !allTeamsCommented"
-		:postId="postId"
-		:comments="comments"
+   <p v-if="comments && !postId">{{ comments.length }} Comments Generated</p>
+   <CommentGenerator v-if="!comments && !allTeamsCommented" :teams="teams" />
+   <PostThread v-if="!postId && comments" thread="launch" :metadata="metadata" />
+   <PostComments
+      v-if="postId && comments && !allTeamsCommented"
+      :post="post"
+      :comments="comments"
       thread="launch"
-	/>
-	<PostThread
-		v-if="!lateId && allTeamsCommented"
-		thread="late"
-		:metadata="metadata"
-	/>
-	<TeamManager
-		v-if="allTeamsCommented && postId && lateId && active"
-		:teams="teams"
-		:participants="participants"
-		:active="active"
-	/>
-	
+   />
+   <PostThread v-if="!lateId && allTeamsCommented" thread="late" :metadata="metadata" />
+   <TeamManager
+      v-if="allTeamsCommented && postId && lateId && active"
+      :teams="teams"
+      :participants="participants"
+      :active="active"
+   />
 </template>
 
 <script>
@@ -33,68 +28,71 @@ import TeamManager from "../shared/TeamManager";
 // in case the task gets interrupted.
 
 export default {
-	name: "LaunchIndex",
-	components: {
-		CommentGenerator,
-		PostComments,
-		PostThread,
-    TeamManager
-	},
-	props: {
-		metadata: {
-      type: Object,
-      required: true,
-    },
-		postId: {
-			type: String,
-			required: false,
-			default: null,
-		},
-		lateId: {
-			type: String,
-			required: false,
-			default: null,
-		},
-		teams: {
-			type: Array,
-			required: true,
-		},
-		active: {
-			type: Boolean,
-			required: true,
-    },
-    participants: {
-			type: Array,
-			required: false,
-			default: null,
-    },
-    complete: {
-      type: Boolean,
-      required: true
-    }
-	},
-	data() {
-		return {
-			comments: null,
-		};
-	},
-	computed: {
-		allTeamsCommented() {
-			for (const team of this.teams) {
-				if (!team.comment) return false;
-			}
-			return true;
-		},
-	},
-	provide() {
-		return {
-			setComments: this.setComments,
-		};
-	},
-	methods: {
-		setComments(comments) {
-			this.comments = comments;
-		},
-	},
+   name: "LaunchIndex",
+   components: {
+      CommentGenerator,
+      PostComments,
+      PostThread,
+      TeamManager
+   },
+   props: {
+      metadata: {
+         type: Object,
+         required: true,
+      },
+      post: {
+         type: Object,
+         required: false,
+         default: null,
+      },
+      lateId: {
+         type: String,
+         required: false,
+         default: null,
+      },
+      teams: {
+         type: Array,
+         required: true,
+      },
+      active: {
+         type: Boolean,
+         required: true,
+      },
+      participants: {
+         type: Array,
+         required: false,
+         default: null,
+      },
+      complete: {
+         type: Boolean,
+         required: true
+      }
+   },
+   data() {
+      return {
+         comments: null,
+      };
+   },
+   computed: {
+      allTeamsCommented() {
+         for (const team of this.teams) {
+            if (!team.comment) return false;
+         }
+         return true;
+      },
+      postId() {
+         return this.post?.source;
+      }
+   },
+   provide() {
+      return {
+         setComments: this.setComments,
+      };
+   },
+   methods: {
+      setComments(comments) {
+         this.comments = comments;
+      },
+   },
 };
 </script>

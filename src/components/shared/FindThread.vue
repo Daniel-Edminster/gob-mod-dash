@@ -2,18 +2,15 @@
    <div>
       <h4>Find Existing Thread: {{ thread }}</h4>
       <!-- <p>Find by thread type and round. More accurate, takes longer for older rounds.
-      <button @click="findThread">Find Thread</button></p> -->
+      <button @click="findThread">Find Thread</button></p>-->
       <button @click="findThreadByRound">Find Thread</button>
       <p v-if="message">{{ message }}</p>
       <base-spinner v-if="isLoading" />
       <ul v-if="submissions">
-         <li
-            v-for="submission in submissions"
-            :key="submission.name"
-         ><button
-               class="select-thread-button"
-               @click="selectThread(submission.name)"
-            >Select</button>{{ submission.title }}</li>
+         <li v-for="submission in submissions" :key="submission.name">
+            <button class="select-thread-button" @click="selectThread(submission)">Select</button>
+            {{ submission.title }}
+         </li>
       </ul>
    </div>
 </template>
@@ -49,7 +46,7 @@ export default {
       };
    },
    computed: mapState("auth", ["reddit"]),
-   inject: ["setThread", "setFound"],
+   inject: ["setThread"],
    methods: {
       async findThread() {
          this.message =
@@ -57,9 +54,14 @@ export default {
          const posts = await this.reddit.findPost(this.thread, this.round);
          if (posts) this.submissions = posts;
       },
-      selectThread(name) {
-         this.setThread(this.thread, name);
-         this.setFound(this.thread);
+      selectThread(submission) {
+         const obj = {
+            round: this.round,
+            stage: this.thread,
+            source: submission.name,
+            subreddit: submission.subreddit.display_name
+         }
+         this.setThread(this.thread, obj);
       },
       async findThreadByRound() {
          this.isLoading = true;
@@ -70,7 +72,7 @@ export default {
             this.message = "No threads found.";
             return;
          }
-         this.message="Threads found. Select from options below."
+         this.message = "Threads found. Select from options below."
          const filtered = this.filterPosts(listing);
          this.submissions = filtered.length > 0 ? filtered : listing;
       },
