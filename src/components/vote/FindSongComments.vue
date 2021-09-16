@@ -8,7 +8,6 @@
       <IdsTable :ids="ids" :deleteId="deleteId" :setId="setId" />
       <button @click="setFoundSongComments(ids)">Commit Comments</button>
    </div>
-   
 </template>
 
 <script>

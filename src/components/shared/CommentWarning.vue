@@ -38,8 +38,7 @@ export default {
          type: String,
          required: true,
       },
-   },
-   inject: ["found"],
+   }
 };
 </script>
 

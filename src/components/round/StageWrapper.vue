@@ -9,7 +9,7 @@
       <SignupIndex
          v-if="round.theme && !round.participants"
          :metadata="metadata"
-         :postId="round.threads.signup?.source"
+         :post="round.threads.signup"
          :signups="round.pools.signup"
       />
       <TeamIndex
@@ -17,7 +17,7 @@
             round.participants && !round.songs && !round.active && !round.complete
          "
          :metadata="metadata"
-         :launchId="round.threads.launch?.source"
+         :launch="round.threads.launch"
          :participants="round.participants"
          :teams="round.teams"
          :active="round.active"
@@ -25,8 +25,8 @@
       <LaunchIndex
          v-if="round.teams && round.active"
          :metadata="metadata"
-         :post="round.threads.launch"
-         :lateId="round.threads.late?.source"
+         :launch="round.threads.launch"
+         :late="round.threads.late"
          :teams="round.teams"
          :active="round.active"
          :complete="round.complete"
@@ -45,7 +45,7 @@
          :winners="round.winners"
          :teams="round.teams"
          :metadata="metadata"
-         :postId="round.threads.congrats?.source"
+         :post="round.threads.congrats"
       />
    </div>
 </template>

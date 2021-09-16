@@ -1,24 +1,17 @@
 <template>
-   <FindThread
-      v-if="!launchId"
-      thread="launch"
-      :round="metadata.number"
-   />
-   <FetchTeams
-      v-if="launchId"
-      :postId="launchId"
-      :participants="participants"
-   />
-   <TeamAssignment
-      v-if="!teams"
-      :participants="participants"
-   />
-   <TeamManager
-      v-if="teams"
-      :teams="teams"
-      :participants="participants"
-      :active="active"
-   />
+   <FindThread v-if="!teams && !launch?.source" thread="launch" :round="metadata.number" />
+   <div v-if="launch?.source && !launch.id">
+      <span class="needs-action">Please save Launch thread to database before organising teams.</span>
+   </div>
+   <div v-if="launch?.id">
+      <FetchTeams
+         v-if="launch?.source && launch.id"
+         :postId="launch.source"
+         :participants="participants"
+      />
+   </div>
+   <TeamAssignment v-if="!teams" :participants="participants" />
+   <TeamManager v-if="teams" :teams="teams" :participants="participants" :active="active" />
 </template>
 
 <script>
@@ -53,8 +46,8 @@ export default {
          type: Boolean,
          required: true,
       },
-      launchId: {
-         type: String,
+      launch: {
+         type: Object,
          required: false,
          default: null,
       },

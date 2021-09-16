@@ -1,36 +1,18 @@
 <template>
    <!-- <FindThread v-if="!postId" :round="metadata.number" thread="voting" /> -->
-   <FindSongComments v-if="postId && !allSongsCommented" :postId="postId" />
-   <p v-if="comments">{{ comments.length }} Comments Generated</p>
-   <CommentGenerator
-      v-if="!comments && !allSongsCommented"
-      :songs="songs"
-   />
-   <PostThread
-      v-if="!postId && comments && !allSongsCommented"
-      thread="voting"
-      :metadata="metadata"
-   />
-   <PostComments
-      v-if="postId && comments && !allSongsCommented"
-      :post="post"
-      :comments="comments"
-      thread="voting"
-   />
-   <FetchVotes
-      v-if="allSongsCommented && !votes"
-      :postId="postId"
-   />
-   <TabulateVotes
-      v-if="allSongsCommented && votes"
-      :votes="votes"
-      :songs="songs"
-      :allSongsVotedOn="allSongsVotedOn"
-   />
-   <CommitWinners
-      v-if="allSongsVotedOn"
-      :songs="songs"
-   />
+   <div v-if="!allSongsCommented">
+      <FindSongComments v-if="post?.source && post.id" :postId="post.source" />
+      <p v-if="comments">{{ comments.length }} Comments Generated</p>
+      <CommentGenerator v-if="!comments" :songs="songs" />
+      <PostThread v-if="!post?.source && comments" thread="voting" :metadata="metadata" />
+      <p v-if="post?.source && !post.id" class="needs-action">Please save Voting thread to database before finding comments.</p>
+      <PostComments v-if="post?.source && comments" :post="post" :comments="comments" thread="voting" />
+   </div>
+   <div v-else>
+      <FetchVotes v-if="!votes" :postId="post?.source" />
+      <TabulateVotes v-if="votes" :votes="votes" :songs="songs" :allSongsVotedOn="allSongsVotedOn" />
+      <CommitWinners v-if="allSongsVotedOn" :songs="songs" />
+   </div>
    <SongsList :songs="songs" />
 </template>
 
@@ -85,21 +67,18 @@ export default {
    },
    computed: {
       allSongsCommented() {
-         if (!this.postId) return false;
+         if (!this.post?.source) return false;
          for (const song of this.songs) {
             if (!song.comment) return false;
          }
          return true;
       },
       allSongsVotedOn() {
-         if (!this.postId) return false;
+         if (!this.post?.source) return false;
          for (const song of this.songs) {
             if (!song.voted) return false;
          }
          return true;
-      },
-      postId() {
-         return this.post?.source;
       }
    },
    provide() {

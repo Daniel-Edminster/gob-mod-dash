@@ -28,7 +28,7 @@
                   <button v-if="value" @click="saveThreadsToDatabase([value])">Save to DB</button>
                </td>
                <td v-else>
-                  {{ value.id }}
+                  Saved
                </td>
             </tr>
          </tbody>

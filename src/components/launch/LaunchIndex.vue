@@ -1,20 +1,25 @@
 <template>
-   <p v-if="comments && !postId">{{ comments.length }} Comments Generated</p>
-   <CommentGenerator v-if="!comments && !allTeamsCommented" :teams="teams" />
-   <PostThread v-if="!postId && comments" thread="launch" :metadata="metadata" />
-   <PostComments
-      v-if="postId && comments && !allTeamsCommented"
-      :post="post"
-      :comments="comments"
-      thread="launch"
-   />
-   <PostThread v-if="!lateId && allTeamsCommented" thread="late" :metadata="metadata" />
-   <TeamManager
-      v-if="allTeamsCommented && postId && lateId && active"
-      :teams="teams"
-      :participants="participants"
-      :active="active"
-   />
+   <p v-if="comments && !launch?.source">{{ comments.length }} Comments Generated</p>
+   <PostThread v-if="!launch?.source && comments" thread="launch" :metadata="metadata" />
+   <div v-if="!allTeamsCommented">
+      <CommentGenerator v-if="!comments" :teams="teams" />
+      <PostComments
+         v-if="launch?.source && comments"
+         :post="launch"
+         :comments="comments"
+         thread="launch"
+      />
+   </div>
+   <div v-else>
+      <PostThread v-if="!late?.source && allTeamsCommented" thread="late" :metadata="metadata" />
+      <TeamManager
+         v-if="allTeamsCommented && launch?.source && late?.source && active"
+         :teams="teams"
+         :participants="participants"
+         :active="active"
+      />
+   </div>
+   
 </template>
 
 <script>
@@ -40,13 +45,13 @@ export default {
          type: Object,
          required: true,
       },
-      post: {
+      launch: {
          type: Object,
          required: false,
          default: null,
       },
-      lateId: {
-         type: String,
+      late: {
+         type: Object,
          required: false,
          default: null,
       },
@@ -79,9 +84,6 @@ export default {
             if (!team.comment) return false;
          }
          return true;
-      },
-      postId() {
-         return this.post?.source;
       }
    },
    provide() {
