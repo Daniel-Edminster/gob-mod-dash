@@ -1,24 +1,29 @@
 <template>
-   <!-- <FindThread v-if="!postId" :round="metadata.number" thread="voting" /> -->
-   <div v-if="!allSongsCommented">
-      <FindSongComments v-if="post?.source && post.id" :postId="post.source" />
-      <p v-if="comments">{{ comments.length }} Comments Generated</p>
-      <CommentGenerator v-if="!comments" :songs="songs" />
-      <PostThread v-if="!post?.source && comments" thread="voting" :metadata="metadata" />
-      <p v-if="post?.source && !post.id" class="needs-action">Please save Voting thread to database before finding comments.</p>
-      <PostComments v-if="post?.source && comments" :post="post" :comments="comments" thread="voting" />
-   </div>
-   <div v-else>
-      <FetchVotes v-if="!votes" :postId="post?.source" />
-      <TabulateVotes v-if="votes" :votes="votes" :songs="songs" :allSongsVotedOn="allSongsVotedOn" />
-      <CommitWinners v-if="allSongsVotedOn" :songs="songs" />
-   </div>
+   <PostThread v-if="state === 0" thread="voting" :metadata="metadata" />
+   <DatasaveWarning
+      v-if="state === 1"
+      thing="Voting thread"
+      action="finding or generating comments"
+   />
+   <FindSongComments v-if="state === 2" :postId="post.source" />
+   <CommentGenerator v-if="state === 2" :songs="songs" />
+   <p v-if="state === 3">{{ comments?.length }} Comments Generated</p>
+   <PostComments v-if="state === 3" :post="post" :comments="comments" thread="voting" />
+   <FetchVotes v-if="state === 4" :postId="post?.source" />
+   <TabulateVotes
+      v-if="state === 5"
+      :votes="votes"
+      :songs="songs"
+      :allSongsVotedOn="allSongsVotedOn"
+   />
+   <CommitWinners v-if="state === 6" :songs="songs" />
    <SongsList :songs="songs" />
 </template>
 
 <script>
 import CommentGenerator from "./CommentGenerator";
 import CommitWinners from "./CommitWinners";
+import DatasaveWarning from "../shared/DatasaveWarning";
 import FetchVotes from "./FetchVotes";
 import FindSongComments from "./FindSongComments";
 // import FindThread from "../shared/FindThread";
@@ -32,6 +37,7 @@ export default {
    components: {
       CommentGenerator,
       CommitWinners,
+      DatasaveWarning,
       FetchVotes,
       FindSongComments,
       // FindThread,
@@ -79,6 +85,17 @@ export default {
             if (!song.voted) return false;
          }
          return true;
+      },
+      state() {
+         let counter = 0; // Post or find thread
+         if (this.post?.source) counter++; // Save thread to database
+         if (this.post?.id) counter++; // Find, or generate comments
+         if (this.comments) counter++; // Post generated comments
+         // At this stage not saving comments to database. That might change?
+         if (this.allSongsCommented) counter = 4; // Fetch Votes OK I KNOW IT'S CHEATING
+         if (this.votes) counter++; // Tabulate Votes
+         if (this.allSongsVotedOn) counter++;
+         return counter;
       }
    },
    provide() {

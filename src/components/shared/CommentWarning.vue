@@ -24,8 +24,8 @@
          v-if="thread === 'voting'"
       >
          <h4>Instructions to fix:</h4>
-         <p>Just use the Find Comments button above.</p>
-         <p>Or if you want to post a new test thread, clear the Voting thread ID.</p>
+         <p>Refreshing the page will remove generated comments from memory.</p>
+         <p>If you want to post a new test thread, clear the Voting thread ID.</p>
       </div>
    </div>
 </template>
