@@ -1,31 +1,22 @@
 <template>
-   <div v-if="!signups">
-      <div v-if="!post?.source">
-         <PostThread thread="signup" :metadata="metadata" />
-      </div>
-      <div v-if="post?.source && !post.id">
-         <span class="needs-action">Please save thread to DB before fetching nominations.</span>
-      </div>
-      <div v-if="post?.source && post.id && !signups">
-         <FetchSignups :postId="post.source" />
-      </div>
-   </div>
-   <div v-else>
-      <div v-if="signups">
-         <CommitSignups :signups="signups" />
-      </div>
-   </div>
+      <PostThread v-if="state === 0" thread="signup" :metadata="metadata" />
+      <DatasaveWarning v-if="state === 1" thing="signup thread" action="fetching signups" />
+      <FetchSignups v-if="state === 2" :postId="post.source" />
+      <DatasaveWarning v-if="state === 3" thing="signups" action="committing as participants" />
+      <CommitSignups v-if="state === 4" :signups="signups" />
 </template>
 
 <script>
 import CommitSignups from "./CommitSignups"
 import FetchSignups from "./FetchSignups";
 import PostThread from "../shared/PostThread";
+import DatasaveWarning from "../shared/DatasaveWarning"
 
 export default {
    name: "SignupIndex",
    components: {
       CommitSignups,
+      DatasaveWarning,
       FetchSignups,
       PostThread
    },
@@ -43,6 +34,16 @@ export default {
          type: Array,
          required: false,
          default: null
+      }
+   },
+   computed: {
+      state() {
+         let counter = 0;
+         if (this.post?.source) counter++;
+         if (this.post?.id) counter++;
+         if (this.signups) counter++;
+         if (this.signups?.every(nom => nom.id)) counter++;
+         return counter;
       }
    }
 }

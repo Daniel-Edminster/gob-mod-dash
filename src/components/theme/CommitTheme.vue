@@ -1,13 +1,9 @@
 <template>
    <div>
       <div v-if="!theme">
-         <p v-if="allThemesSavedToDatabase">
-            <strong>Winning theme:</strong> {{ winningTheme.description }}
-            <button @click="editTheme()">Approve and Edit Theme</button>
-         </p>
-         <p v-else class="needs-action">
-            Please save nominations to database before committing theme to round.
-         </p>
+         <strong>Winning theme:</strong>
+         {{ winningTheme.description }}
+         <button @click="editTheme()">Approve and Edit Theme</button>
       </div>
       <div v-else>
          <input type="text" v-model="theme" />
@@ -46,9 +42,6 @@ export default {
       },
       winningTheme() {
          return determineWinningTheme(this.nominations, this.themeVotes);
-      },
-      allThemesSavedToDatabase() {
-         return this.nominations.every(nom => nom.id);
       }
    },
    inject: ["setProperty", "themeVotes"],

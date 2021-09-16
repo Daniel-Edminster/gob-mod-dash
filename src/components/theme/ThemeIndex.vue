@@ -41,8 +41,8 @@ export default {
          let counter = 0;
          if (this.post?.source) counter++;
          if (this.post?.id) counter++;
-         if (this.nominations.every(nom => nom.id)) counter++;
          if (this.nominations) counter++;
+         if (this.nominations?.every(nom => nom.id)) counter++;
          return counter;
       }
    }

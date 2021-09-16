@@ -1,25 +1,18 @@
 <template>
    <div>
-      <div v-if="!allSignupsSavedToDatabase">
-         <p class="needs-action">
-            Please save signups to database before screening and committing to teams.
-         </p>
-      </div>
-      <div v-else>
-         <p v-if="!screenReady">
-            Fetching
-            <span class="bandit">bandit</span> and
-            <span class="veteran">veteran</span> information...
-         </p>
-         <button v-if="!screened && screenReady" @click="screenParticipants()">Screen Participants</button>
-         <button
-            v-if="screened"
-            @click="setProperty('participants', screened)"
-         >Commit Participants to Round</button>
-      </div>
-      <ParticipantTable v-if="!screened" :participants="signups" />
-      <ParticipantTable v-else :participants="screened" />
+      <p v-if="!screenReady">
+         Fetching
+         <span class="bandit">bandit</span> and
+         <span class="veteran">veteran</span> information...
+      </p>
+      <button v-if="!screened && screenReady" @click="screenParticipants()">Screen Participants</button>
+      <button
+         v-if="screened"
+         @click="setProperty('participants', screened)"
+      >Commit Participants to Round</button>
    </div>
+   <ParticipantTable v-if="!screened" :participants="signups" />
+   <ParticipantTable v-else :participants="screened" />
 </template>
 
 <script>
@@ -43,9 +36,6 @@ export default {
       };
    },
    computed: {
-      allSignupsSavedToDatabase() {
-         return this.signups.every(signup => signup.id);
-      },
       screenReady() {
          return this.bandits.length > 0 && this.veterans.length > 0;
       },
