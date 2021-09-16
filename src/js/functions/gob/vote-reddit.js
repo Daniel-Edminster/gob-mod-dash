@@ -20,7 +20,6 @@ export function mapCommentsToVotes(comments) {
       comment.replies.forEach(reply => {
          const replyVotes = mapReplyToVotes(reply);
          const votes = map.get(comment.id);
-         console.log("Votes:", votes);
          updateVotes(replyVotes, votes)
       })
    })
@@ -36,12 +35,10 @@ function updateVotes(newVotes, votes) {
 
 function mapReplyToVotes(reply) {
    const votes = { track: 0, music: 0, lyrics: 0, vocals: 0 };
-   console.log(votes);
    if (reply.body.includes('[](/t)')) votes.track++;
    if (reply.body.includes('[](/m)')) votes.music++;
    if (reply.body.includes('[](/l)')) votes.lyrics++;
    if (reply.body.includes('[](/v)')) votes.vocals++;
-   console.log(votes);
    return votes;
 }
 
