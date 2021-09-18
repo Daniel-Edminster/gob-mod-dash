@@ -5,7 +5,7 @@ export default class Round {
   constructor(number) {
     this.number = number;
     this.theme = null;
-    this.roles = {
+    this.parts = {
        music: 1,
        lyrics: 1,
        vocals: 1
@@ -31,6 +31,7 @@ export default class Round {
       end: null,
       endVote: null
     }
+    this.experience = {}
   }
 }
 

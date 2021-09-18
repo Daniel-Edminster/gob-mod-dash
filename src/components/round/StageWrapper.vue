@@ -84,7 +84,8 @@ export default {
          return {
             number: this.round.number,
             theme: this.round.theme,
-            dates: this.round.dates
+            dates: this.round.dates,
+            parts: this.round.parts
          };
       },
    },

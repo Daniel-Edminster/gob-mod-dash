@@ -5,14 +5,14 @@
          <span class="bandit">bandit</span> and
          <span class="veteran">veteran</span> information...
       </p>
-      <button v-if="!screened && screenReady" @click="screenParticipants()">Screen Participants</button>
+      <button v-if="!screened && screenReady" @click="screenExperience()">Screen Participants</button>
       <button
          v-if="screened"
-         @click="setProperty('participants', screened)"
+         @click="setProperty('participants', experience)"
       >Commit Participants to Round</button>
    </div>
-   <ParticipantTable v-if="!screened" :participants="signups" />
-   <ParticipantTable v-else :participants="screened" />
+   <!-- <ParticipantTable v-if="!screened" :participants="signups" :parts="parts" /> -->
+   <ParticipantTable :participants="signups" :parts="parts" :experience="experience" :uniqueUsers="uniqueUsers" />
 </template>
 
 <script>
@@ -29,45 +29,58 @@ export default {
          type: Array,
          required: true,
       },
+      parts: {
+         type: Object,
+         required: true
+      }
    },
    data() {
       return {
-         screened: false,
+         experience: null,
+         screened: false
       };
    },
    computed: {
       screenReady() {
          return this.bandits.length > 0 && this.veterans.length > 0;
       },
+      uniqueUsers() {
+         const set = new Set();
+         this.signups.forEach(participant => {
+            set.add(participant.username);
+         })
+         return set;
+      },
       ...mapState("bandits", ["bandits", "veterans"]),
    },
    inject: ["setProperty"],
    methods: {
-      screenParticipants() {
-         if (this.screenReady) {
-            const array = this.signups.map((signup) => {
-               const user = signup;
-               user.experience = "noob";
-               if (this.bandits.includes(signup.username.toLowerCase()))
-                  user.experience = "bandit";
-               if (this.veterans.includes(signup.username.toLowerCase()))
-                  user.experience = "veteran";
-               return user;
-            });
-            this.screened = array;
-         } else {
-            console.log(
-               "Bandit information unavailable. Check GOB Api connection."
-            );
+      screenExperience() {
+         if (!this.screenReady) {
+            console.log("Bandit information unavailable. Check GOB Api connection.");
+            return;
          }
-      },
+         this.uniqueUsers.forEach(username => {
+            if (this.bandits.includes(username.toLowerCase())) this.experience[username] = "bandit";
+            if (this.veterans.includes(username.toLowerCase())) this.experience[username] = "veteran";
+         })
+         this.screened = true;
+      }
+   },
+   mounted() {
+      
    },
    created() {
+      const obj = {}
+      this.uniqueUsers.forEach(username => {
+         obj[username] = "noob"
+      })
+      this.experience = obj;
       if (!this.screenReady) {
          this.$store.dispatch("bandits/fetchBandits");
          this.$store.dispatch("bandits/fetchVeterans");
       }
-   },
+   }
 };
 </script>
 
