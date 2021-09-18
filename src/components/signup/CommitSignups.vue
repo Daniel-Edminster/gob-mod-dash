@@ -8,10 +8,9 @@
       <button v-if="!screened && screenReady" @click="screenExperience()">Screen Participants</button>
       <button
          v-if="screened"
-         @click="setProperty('participants', experience)"
+         @click="commitParticipants"
       >Commit Participants to Round</button>
    </div>
-   <!-- <ParticipantTable v-if="!screened" :participants="signups" :parts="parts" /> -->
    <ParticipantTable :participants="signups" :parts="parts" :experience="experience" :uniqueUsers="uniqueUsers" />
 </template>
 
@@ -55,6 +54,10 @@ export default {
    },
    inject: ["setProperty"],
    methods: {
+      commitParticipants() {
+         this.setProperty('participants', this.signups);
+         this.setProperty('experience', this.experience);
+      },
       screenExperience() {
          if (!this.screenReady) {
             console.log("Bandit information unavailable. Check GOB Api connection.");
@@ -66,9 +69,6 @@ export default {
          })
          this.screened = true;
       }
-   },
-   mounted() {
-      
    },
    created() {
       const obj = {}
