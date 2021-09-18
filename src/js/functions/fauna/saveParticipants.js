@@ -3,38 +3,28 @@ import { client, q } from '@/js/api/fauna'
 // Need to separate experience info onto its own object when screening.
 
 export default async function saveSignupsToDatabase(pool, roundNum) {
-   const formattedDocs = pool.map(participant => constructParticipantDocument(participant, roundNum));
-   const staticDocs = formattedDocs.filter(doc => doc.id);
-   const filteredDocs = formattedDocs.filter(doc => !doc.id);
-   const savedDocs = await saveParticipantDocuments(roundNum, filteredDocs);
-   const usernamesToIds = new Map();
-   savedDocs.map(doc => usernamesToIds.set(doc.username, doc.id));
-   const identifiedDocs = addIds(formattedDocs, usernamesToIds);
-   return [ ...identifiedDocs, ...staticDocs ];
+   const formattedDocs = flattenParticipantPool(pool);
+   const savedDocs = await saveParticipantDocuments(formattedDocs, roundNum);
+   console.log(savedDocs);
+   if (typeof savedDocs === String) return pool;
+   return savedDocs;
 }
 
-function constructParticipantDocument(participant, round) {
-   const { username, roles } = participant;
-   return {
-      round,
-      username,
-      roles
-   }
-}
-
-function addIds(docs, usernamesToIds) {
-   return docs.map(doc => {
-      return {
-         ...doc,
-         id: usernamesToIds.get(doc.username)
-      }
+function flattenParticipantPool(pool) {
+   console.log(pool);
+   const participants = [];
+   pool.forEach(signup => {
+      signup.roles.forEach(part => {
+         participants.push({ username: signup.username, part })
+      })
    })
+   return participants;
 }
 
-async function saveParticipantDocuments(round, docs) {
+async function saveParticipantDocuments(docs, round) {
    try {
       const response = await client.query(
-         q.Call("register_signups", { round, docs })
+         q.Call("register_signups", { docs, round })
       )
       return response;
    } catch(err) {
