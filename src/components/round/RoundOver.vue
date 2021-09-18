@@ -45,6 +45,7 @@ export default {
          if (status.code === 200) this.songs = data;
          this.message = `${status.code} ${status.text}.`;
       },
+      
    },
 };
 </script>
