@@ -11,7 +11,7 @@
          @click="commitParticipants"
       >Commit Participants to Round</button>
    </div>
-   <ParticipantTable :participants="signups" :parts="parts" :experience="experience" :uniqueUsers="uniqueUsers" />
+   <ParticipantTable :participants="signups" :parts="parts" :experience="experience" />
 </template>
 
 <script>

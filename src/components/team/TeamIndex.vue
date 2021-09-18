@@ -10,7 +10,7 @@
          :participants="participants"
       />
    </div>
-   <TeamAssignment v-if="!teams" :participants="participants" />
+   <TeamAssignment v-if="!teams" :participants="participants" :metadata="metadata" />
    <TeamManager v-if="teams" :teams="teams" :participants="participants" :active="active" />
 </template>
 

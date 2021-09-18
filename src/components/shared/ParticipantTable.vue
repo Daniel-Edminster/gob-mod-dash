@@ -57,15 +57,18 @@ export default {
       experience: {
          type: Object,
          required: true,
-      },
-      uniqueUsers: {
-         type: Set,
-         required: true
       }
    },
    computed: {
       uniqueParts() {
          return Object.keys(this.parts)
+      },
+      uniqueUsers() {
+         const set = new Set();
+         this.participants.forEach(participant => {
+            set.add(participant.username);
+         })
+         return set;
       },
       participantLookup() {
          const obj = {};
@@ -91,6 +94,9 @@ export default {
          )
          return counter;
       }
+   },
+   created() {
+      console.log(this.participantLookup)
    }
 };
 </script>
