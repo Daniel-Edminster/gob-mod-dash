@@ -3,13 +3,15 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-import BaseSpinner from './components/shared/BaseSpinner'
+import BaseModal from './components/UI/BaseModal'
+import BaseSpinner from './components/UI/BaseSpinner'
 
 const app = createApp(App)
 
 app.use(router);
 app.use(store);
 
+app.component('base-modal', BaseModal);
 app.component('base-spinner', BaseSpinner);
 
 // sep-04-2021: this is a temporary fix that will not be necessary in Vue soon

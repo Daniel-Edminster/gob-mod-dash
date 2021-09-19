@@ -15,7 +15,7 @@ export default {
 		postId: {
 			type: String,
 			required: true,
-		},
+		}
 	},
 	data() {
 		return {

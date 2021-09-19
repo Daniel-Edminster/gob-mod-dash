@@ -1,4 +1,46 @@
 <template>
+      <base-modal
+         :title="`Edit parts for round ${round.number}`"
+         :open="editing === 'parts'"
+         @close="clearEditing"
+      >
+         <template #default>
+            <table>
+               <thead>
+                  <tr>
+                     <th>Part</th>
+                     <th>Qty</th>
+                     <th>Action</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr v-for="(element, index) in parts" :key="index">
+                     <td>
+                        <input type="text" v-model="element.key" />
+                     </td>
+                     <td>
+                        <input type="number" v-model="element.value" />
+                     </td>
+                     <td>
+                        <button @click="deletePart(index)">Delete</button>
+                     </td>
+                  </tr>
+               </tbody>
+               <tfoot>
+                  <tr>
+                     <td>
+                        <button @click="addPart">Add Part</button>
+                     </td>
+                  </tr>
+               </tfoot>
+            </table>
+         </template>
+         <template #actions>
+            <button @click="clearEditing">Cancel</button>
+            <button @click="setParts">Confirm</button>
+         </template>
+      </base-modal>
+
    <div>
       <table id="metadata">
          <thead>
@@ -16,6 +58,13 @@
                <td>Number</td>
                <td>{{ round.number }}</td>
                <td>n/a</td>
+            </tr>
+            <tr>
+               <td>Parts</td>
+               <td>{{ Object.keys(round.parts).length }}</td>
+               <td>
+                  <button @click="setEditing('parts')">Edit</button>
+               </td>
             </tr>
             <tr>
                <td>Begin Date</td>
@@ -151,7 +200,8 @@ export default {
    },
    data() {
       return {
-         editing: null
+         editing: null,
+         parts: null
       }
    },
    props: {
@@ -160,12 +210,13 @@ export default {
          required: true,
       },
    },
-   inject: ["clearBoolean", "clearProperty", "saveRoundToDatabase"],
+   inject: ["clearBoolean", "clearProperty", "saveRoundToDatabase", "setProperty"],
    methods: {
       setEditing(value) {
          this.editing = value;
       },
       clearEditing() {
+         this.buildLocalPartsData();
          this.editing = null;
       },
       formatDate(string) {
@@ -178,7 +229,29 @@ export default {
          // why there isn't a simple Date typeof check is beyond me :(
          if (Object.prototype.toString.call(obj) === '[object Date]') return true;
          return false;
+      },
+      setParts() {
+         const obj = {};
+         this.parts.forEach(el => { if (el.key.length > 0) obj[el.key] = el.value });
+         this.parts = this.round.parts;
+         this.setProperty("parts", obj);
+         this.buildLocalPartsData();
+         this.clearEditing();
+      },
+      addPart() {
+         this.parts.push({ key: "", value: 1 })
+      },
+      deletePart(index) {
+         this.parts.splice(index, 1);
+      },
+      buildLocalPartsData() {
+         const array = [];
+         for (const [key, value] of Object.entries(this.round.parts)) array.push({ key, value });
+         this.parts = array;
       }
+   },
+   mounted() {
+      this.buildLocalPartsData();
    }
 };
 </script>

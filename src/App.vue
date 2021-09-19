@@ -1,8 +1,8 @@
 <template>
-	<NavBar />
-	<div id="main-content">
-		<router-view />
-	</div>
+   <NavBar />
+   <div id="main-content">
+      <router-view />
+   </div>
 </template>
 
 <script>
@@ -20,88 +20,88 @@ export default {
 
 <style lang="scss">
 * {
-  box-sizing: border-box;
+   box-sizing: border-box;
 }
 
 #app {
-	font-family: Avenir, Helvetica, Arial, sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	text-align: center;
-	color: #2c3e50;
-  font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif;
-  height: 100vh;
+   font-family: Avenir, Helvetica, Arial, sans-serif;
+   -webkit-font-smoothing: antialiased;
+   -moz-osx-font-smoothing: grayscale;
+   text-align: center;
+   color: #2c3e50;
+   font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+   height: 100vh;
 }
 
 body {
-	margin: 0;
-	padding: 0;
-  background-color: #2d2b38;
+   margin: 0;
+   padding: 0;
+   background-color: #2d2b38;
 }
 
 #nav {
-	background-color: rgb(38, 36, 43);
-	color: rgb(185, 185, 185);
-	padding: 30px;
+   background-color: rgb(38, 36, 43);
+   color: rgb(185, 185, 185);
+   padding: 30px;
 
-	a {
-		font-weight: bold;
+   a {
+      font-weight: bold;
 
-		&.router-link-exact-active {
-			color: #42b983;
-		}
-	}
+      &.router-link-exact-active {
+         color: #42b983;
+      }
+   }
 
-	a {
-		color: rgb(236, 174, 124);
-	}
+   a {
+      color: rgb(236, 174, 124);
+   }
 
-	a:hover {
-		color: white;
-	}
+   a:hover {
+      color: white;
+   }
 
-	a:active {
-		color: rgb(235, 195, 162);
-	}
+   a:active {
+      color: rgb(235, 195, 162);
+   }
 }
 
 #main-content {
-	background-color: #2d2b38;
-	color: white;
+   background-color: #2d2b38;
+   color: white;
 }
 
 a {
-	color: rgb(236, 174, 124);
+   color: rgb(236, 174, 124);
 }
 
 a:hover {
-	color: white;
+   color: white;
 }
 
 a:active {
-	color: rgb(235, 195, 162);
+   color: rgb(235, 195, 162);
 }
 
 button {
-  background-color: #5290bd;
-  color: white;
-  border-radius: 5px;
-  border: none;
-  padding: 8px;
-  font-weight: bold;
-  margin-left: 5px;
-  margin-right: 5px;
+   background-color: #5290bd;
+   color: white;
+   border-radius: 5px;
+   border: none;
+   padding: 8px;
+   font-weight: bold;
+   margin-left: 5px;
+   margin-right: 5px;
 }
 
 button:hover {
-  background-color: #70a0c0;
-  cursor: pointer;
+   background-color: #70a0c0;
+   cursor: pointer;
 }
 
 input {
-  background-color: black;
-  color: white;
-  margin: 8px;
+   background-color: black;
+   color: white;
+   margin: 8px;
 }
 
 .good {

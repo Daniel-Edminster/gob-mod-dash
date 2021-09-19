@@ -73,7 +73,6 @@ export default {
       participantLookup() {
          const obj = {};
          this.participants.forEach(participant => {
-            console.log(participant);
             if (!obj[participant.username]) obj[participant.username] = {};
             obj[participant.username][participant.part] = participant;
          })
@@ -94,9 +93,6 @@ export default {
          )
          return counter;
       }
-   },
-   created() {
-      console.log(this.participantLookup)
    }
 };
 </script>

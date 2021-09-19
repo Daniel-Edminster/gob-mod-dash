@@ -16,6 +16,10 @@ export default {
 			type: String,
 			required: true,
 		},
+      roles: {
+         type: Array,
+         required: true
+      }
 	},
 	data() {
 		return {
@@ -35,7 +39,7 @@ export default {
 				this.message = "No comments found in signup thread :(";
 				return;
 			} else {
-				const pool = mapCommentsToSignups(comments);
+				const pool = mapCommentsToSignups(comments, this.roles);
 				this.setPool("signup", pool);
 			}
 		},

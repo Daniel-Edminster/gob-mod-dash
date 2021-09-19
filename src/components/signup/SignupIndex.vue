@@ -1,9 +1,9 @@
 <template>
-      <PostThread v-if="state === 0" thread="signup" :metadata="metadata" />
-      <DatasaveWarning v-if="state === 1" thing="signup thread" action="fetching signups" />
-      <FetchSignups v-if="state === 2" :postId="post.source" />
-      <DatasaveWarning v-if="state === 3" thing="signups" action="committing as participants" />
-      <CommitSignups v-if="state === 4" :signups="signups" :parts="metadata.parts" />
+   <PostThread v-if="state === 0" thread="signup" :metadata="metadata" />
+   <DatasaveWarning v-if="state === 1" thing="signup thread" action="fetching signups" />
+   <FetchSignups v-if="state === 2" :postId="post.source" :roles="Object.keys(metadata.parts)" />
+   <DatasaveWarning v-if="state === 3" thing="signups" action="committing as participants" />
+   <CommitSignups v-if="state === 4" :signups="signups" :parts="metadata.parts" />
 </template>
 
 <script>

@@ -8,7 +8,7 @@
          <ParticipantTable
             v-if="value.length > 0"
             :participants="value"
-            :parts="metadata.parts"
+            :parts="parts"
             :experience="metadata.experience"
             :heading="key"
          />
@@ -20,7 +20,6 @@
 import AngelsList from "./AngelsList";
 import ParticipantTable from "../shared/ParticipantTable";
 import TeamsList from "./TeamsList";
-// import { createTeams } from "@/js/functions/gob/team";
 import createTeams from "@/js/functions/gob/teamAlloc";
 
 export default {
@@ -44,6 +43,7 @@ export default {
       return {
          teams: null,
          angels: null,
+         unplaced: null,
          participantsByNumParts: {}
       };
    },
@@ -71,17 +71,23 @@ export default {
    inject: ["returnAngels", "setProperty"],
    methods: {
       assignTeams() {
-         const { teams, angels } = createTeams(this.participants);
+         const { teams, angels, unplaced } = createTeams(
+            this.parts,
+            this.participants,
+            {...this.participantsByNumParts},
+            this.metadata.experience
+         );
          console.log("Teams: ", teams);
          console.log("Angels:", angels);
-         // this.teams = teams;
-         // this.angels = angels;
-         // if (teams.length > 0) {
-         //    this.setProperty('teams', teams);
-         //    this.returnAngels(angels);
-         // } else {
-         //    console.log("No teams created. Insufficient Participants.");
-         // }
+         this.teams = teams;
+         this.angels = angels;
+         this.unplaced = unplaced;
+         if (teams.length > 0) {
+            this.setProperty('teams', teams);
+            this.returnAngels(unplaced);
+         } else {
+            console.log("No teams created. Insufficient Participants.");
+         }
       },
       partitionByNumParts() {
          const numParts = Object.keys(this.parts).length;

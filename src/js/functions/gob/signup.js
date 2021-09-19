@@ -1,7 +1,6 @@
-export function mapCommentsToSignups(comments) {
-
+export function mapCommentsToSignups(comments, roles) {
+   console.log(roles);
   const signupPool = new Set();
-  const roles = ['music', 'lyrics', 'vocals']; // this should be passed into this function later on
 
   // iterate through signup comments, and create a set 
   // containing user objects with properties for each role signed up for
