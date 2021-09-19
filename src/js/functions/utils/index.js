@@ -1,7 +1,7 @@
 export function parseMacros(str, obj) {
   const mapObj = {
     "%num": obj.number,
-    "%theme": obj.theme ? obj.theme : "No theme",
+    "%theme": obj.theme ? obj.theme.title : "No theme",
     "%begin": formatDate(obj.dates.begin),
     "%bwts": worldTimeServerLink(obj.dates.begin),
     "%end": formatDate(obj.dates.end),

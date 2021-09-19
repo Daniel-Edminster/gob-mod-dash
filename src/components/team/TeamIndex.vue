@@ -11,7 +11,7 @@
       />
    </div>
    <TeamAssignment v-if="!teams" :participants="participants" :metadata="metadata" />
-   <TeamManager v-if="teams" :teams="teams" :participants="participants" :active="active" />
+   <TeamManager v-if="teams" :teams="teams" :participants="participants" :active="active" :metadata="metadata" />
 </template>
 
 <script>

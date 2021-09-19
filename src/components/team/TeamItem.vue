@@ -13,16 +13,16 @@
          <li
             class="team-member"
             @dragenter.prevent
-            v-for="user in team.members"
-            :key="user.username"
+            v-for="participant in team.members"
+            :key="participant.username"
          >
-            {{ user.roles[0] }}:
+            {{ participant.part }}:
             <span
                draggable="true"
-               @dragstart="startDrag(user, team)"
-               :class="user.experience"
+               @dragstart="startDrag(participant, team)"
+               :class="experience[participant.username]"
                class="name"
-            >{{ user.username }}</span>
+            >{{ participant.username }}</span>
          </li>
       </ul>
    </li>
@@ -41,6 +41,10 @@ export default {
          required: false,
          default: false,
       },
+      experience: {
+       type: Object,
+       required: true
+    }
    },
    data() {
       return {
@@ -55,13 +59,13 @@ export default {
       "swapBandits",
    ],
    methods: {
-      startDrag(user, team) {
-         this.grabBandit(user, team);
+      startDrag(participant, team) {
+         this.grabBandit(participant, team);
       },
-      catchBandit(event, team) {
+      catchBandit(_, team) {
          const held = this.getHeldBandit();
-         if (held.role) this.swapAngel(held, team);
          if (held.team) this.swapBandits(held, team);
+         if (!held.team) this.swapAngel(held, team);
          this.$refs.teamItem.classList.remove("drag-hover");
       },
       dragEnter() {
@@ -85,6 +89,9 @@ export default {
             });
          });
       },
+   },
+   created() {
+      console.log(this.team);
    },
    mounted() {
       if (this.obscure === true) this.obscureText();

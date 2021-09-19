@@ -19,6 +19,8 @@
             <td v-for="part in uniqueParts" :key="part">
                <ParticipantCard 
                   v-if="participantLookup[username][part]" 
+                  :draggable="draggable"
+                  @dragstart="startDrag(participantLookup[username][part])"
                   :participant="participantLookup[username][part]"
                   :experience="experience[username]" />
             </td>
@@ -57,6 +59,11 @@ export default {
       experience: {
          type: Object,
          required: true,
+      },
+      draggable: {
+         type: Boolean,
+         required: false,
+         default: false
       }
    },
    computed: {
@@ -79,6 +86,7 @@ export default {
          return obj;
       }
    },
+   inject: ['grabAngel'],
    methods: {
       getParticipant(username, part) {
          const participant = this.participants.find(
@@ -92,6 +100,11 @@ export default {
             participant => participant.part === part ? counter++ : null
          )
          return counter;
+      },
+      startDrag(participant) {
+         console.log(`Grabbing ${participant.username} for ${participant.part}`);
+         console.log(participant);
+         this.grabAngel(participant);
       }
    }
 };
@@ -104,8 +117,7 @@ table {
 }
 
 td {
-   padding: 3px;
-   width: 25%;
+   padding: 10px;
 }
 
 thead {

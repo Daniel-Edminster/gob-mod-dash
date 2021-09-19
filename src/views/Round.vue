@@ -214,25 +214,25 @@ export default {
       swapAngel(held, team) {
          console.log("Are you an angel", held, team);
          const heldIndex = this.round.participants.findIndex(
-            (element) => element.username === held.user.username
+            (element) => element.id === held.participant.id
          );
          const replacedIndex = team.members.findIndex(
-            (element) => element.roles[0] === held.role
+            (element) => element.part === held.participant.part
          );
-         const replacedUser = team.members[replacedIndex];
-         team.members[replacedIndex] = held.user;
-         this.round.participants[heldIndex] = replacedUser;
+         const replacedParticipant = team.members[replacedIndex];
+         team.members[replacedIndex] = held.participant;
+         this.round.participants[heldIndex] = replacedParticipant;
       },
       swapBandits(held, team) {
          const heldIndex = held.team.members.findIndex(
-            (element) => element.username === held.user.username
+            (element) => element.id === held.participant.id
          );
          const replacedIndex = team.members.findIndex(
-            (element) => element.roles[0] === held.user.roles[0]
+            (element) => element.part === held.participant.part
          );
-         const replacedUser = team.members[replacedIndex];
-         team.members[replacedIndex] = held.user;
-         held.team.members[heldIndex] = replacedUser;
+         const replacedParticipant = team.members[replacedIndex];
+         team.members[replacedIndex] = held.participant;
+         held.team.members[heldIndex] = replacedParticipant;
       },
    },
    created() {

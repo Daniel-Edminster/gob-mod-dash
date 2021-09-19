@@ -17,6 +17,7 @@
          :teams="teams"
          :participants="participants"
          :active="active"
+         :metadata="metadata"
       />
    </div>
    

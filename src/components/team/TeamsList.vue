@@ -1,6 +1,6 @@
 <template>
   <ul>
-    <TeamItem v-for="team in teams" :key="team.number" :team="team" :obscure="obscure" />
+    <TeamItem v-for="team in teams" :key="team.number" :team="team" :obscure="obscure" :experience="experience" />
   </ul>
 </template>
 
@@ -21,6 +21,10 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    experience: {
+       type: Object,
+       required: true
     }
   }
 }

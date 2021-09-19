@@ -9,23 +9,26 @@
          Round is currently active.
          <button @click="endRound()">End Round</button>
       </div>
-      <AngelTable
+      <ParticipantTable
          v-if="participants && participants.length > 0"
          :participants="participants"
          heading="Unplaced"
+         :experience="metadata.experience"
+         :parts="metadata.parts"
+         :draggable="true"
       />
-      <TeamsList :teams="teams" :obscure="!active" />
+      <TeamsList :teams="teams" :obscure="!active" :experience="metadata.experience" />
    </div>
 </template>
 
 <script>
-import AngelTable from "./AngelTable";
+import ParticipantTable from "./ParticipantTable";
 import TeamsList from "../team/TeamsList";
 
 export default {
    name: "TeamManager",
    components: {
-      AngelTable,
+      ParticipantTable,
       TeamsList,
    },
    props: {
@@ -43,6 +46,10 @@ export default {
          type: Boolean,
          required: true,
       },
+      metadata: {
+         type: Object,
+         required: true
+      }
    },
    data() {
       return {
@@ -59,11 +66,11 @@ export default {
       }
    },
    methods: {
-      grabAngel(user, role) {
-         this.heldBandit = { user, role }
+      grabAngel(participant) {
+         this.heldBandit = { participant }
       },
-      grabBandit(user, team) {
-         this.heldBandit = { user, team }
+      grabBandit(participant, team) {
+         this.heldBandit = { participant, team }
       },
       getHeldBandit() {
          if (this.heldBandit) {

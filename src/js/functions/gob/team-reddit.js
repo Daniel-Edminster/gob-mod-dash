@@ -25,8 +25,8 @@ function mapTeamToComment(team) {
    const lines = [];
    lines.push(`**Team ${team.number}**`);
    lines.push('');
-   team.members.forEach(user => {
-      lines.push(`* ${user.roles[0]}: [${user.name}](https://www.reddit.com/u/${user.name})`);
+   team.members.forEach(participant => {
+      lines.push(`* ${participant.part}: [${participant.username}](https://www.reddit.com/u/${participant.username})`);
    })
    const string = lines.join('\n');
    return string;

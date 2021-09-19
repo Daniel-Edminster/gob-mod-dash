@@ -9,7 +9,7 @@ export default function createTeams(parts, participants, multi, experience) {
    mainLoop();
    const unplaced = flattenObjectOfArrays(singles);
    console.log("Unplaced:", unplaced);
-   return { teams, angels, unplaced }
+   return { teams: buildTeamObjects(teams), angels, unplaced }
 
    function mainLoop() {
       while (Object.values(singles).every(entries => entries.length > 0)) {
@@ -85,5 +85,13 @@ function divideIntoSingles(parts, array) {
 function flattenObjectOfArrays(obj) {
    const array = [];
    Object.values(obj).forEach(arr => array.push(...arr))
+   return array;
+}
+
+function buildTeamObjects(teams) {
+   const array = [];
+   teams.forEach((team, index) => {
+      array.push({ number: index + 1, members: team})
+   })
    return array;
 }
