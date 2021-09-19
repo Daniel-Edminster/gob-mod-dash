@@ -8,6 +8,7 @@
          v-if="launch?.source && launch.id"
          :postId="launch.source"
          :participants="participants"
+         :experience="metadata.experience"
       />
    </div>
    <TeamAssignment v-if="!teams" :participants="participants" :metadata="metadata" />

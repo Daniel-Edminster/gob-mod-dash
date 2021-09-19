@@ -11,7 +11,7 @@
       </div>
       <div v-else>
          <button @click="commitTeams">Commit Teams</button>
-         <TeamsListFixed :teams="teams" />
+         <TeamsListFixed :teams="teams" :experience="experience" />
       </div>
    </div>
 </template>
@@ -35,6 +35,11 @@ export default {
          type: Array,
          required: true,
       },
+      experience: {
+         type: Object,
+         required: false,
+         default: null
+      }
    },
    data() {
       return {
@@ -42,8 +47,7 @@ export default {
          teams: null,
          message:
             "Fetch Teams from existing team comments in existing launch thread",
-         placedUsers: null,
-         experience: {}
+         placedUsers: null
       };
    },
    computed: {
@@ -87,13 +91,15 @@ export default {
             console.log("Bandit information unavailable. Check GOB Api connection.");
             return;
          }
+         const obj = {};
          teams.forEach((team) => {
             team.members.forEach((participant) => {
-               this.experience[participant.username] = "noob";
-               if (this.bandits.includes(participant.username.toLowerCase())) this.experience[participant.username] = "bandit";
-               if (this.veterans.includes(participant.username.toLowerCase())) this.experience[participant.username] = "veteran";
+               obj[participant.username] = "noob";
+               if (this.bandits.includes(participant.username.toLowerCase())) obj[participant.username] = "bandit";
+               if (this.veterans.includes(participant.username.toLowerCase())) obj[participant.username] = "veteran";
             });
          });
+         this.setProperty("experience", obj);
       }
    },
    created() {

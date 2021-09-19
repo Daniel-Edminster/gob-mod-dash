@@ -1,6 +1,6 @@
 <template>
   <ul>
-    <TeamItemFixed v-for="team in teams" :key="team.number" :team="team" />
+    <TeamItemFixed v-for="team in teams" :key="team.number" :team="team" :experience="experience" />
   </ul>
 </template>
 
@@ -16,6 +16,10 @@ export default {
     teams: {
       type: Array,
       required: true
+    },
+    experience: {
+       type: Object,
+       required: true
     }
   }
 }

@@ -5,11 +5,11 @@
 	>
 		<p>{{ team.number }}</p>
 		<ul>
-			<li v-for="user in team.members" :key="user.username" class="team-member">
-				{{ user.roles[0] }}:
+			<li v-for="participant in team.members" :key="participant.id" class="team-member">
+				{{ participant.part }}:
 				<span
-					:class="user.experience"
-					>{{ user.username }}</span
+					:class="experience[participant.username]"
+					>{{ participant.username }}</span
 				>
 			</li>
 		</ul>
@@ -23,7 +23,11 @@ export default {
 		team: {
 			type: Object,
 			required: true,
-		}
+		},
+      experience: {
+         type: Object,
+         required: true
+      }
 	}
 };
 </script>
