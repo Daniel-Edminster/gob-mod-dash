@@ -16,6 +16,7 @@
          :experience="metadata.experience"
          :parts="metadata.parts"
          :draggable="true"
+         :grabAngel="grabAngel"
       />
       <TeamsList :teams="teams" :obscure="!active" :experience="metadata.experience" />
    </div>
@@ -61,7 +62,6 @@ export default {
       return {
          clearHeldBandit: this.clearHeldBandit,
          getHeldBandit: this.getHeldBandit,
-         grabAngel: this.grabAngel,
          grabBandit: this.grabBandit
       }
    },

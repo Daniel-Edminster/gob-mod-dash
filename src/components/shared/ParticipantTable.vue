@@ -64,6 +64,11 @@ export default {
          type: Boolean,
          required: false,
          default: false
+      },
+      grabAngel: {
+         type: Function,
+         required: false,
+         default: () => console.log("Hello there")
       }
    },
    computed: {
@@ -86,7 +91,6 @@ export default {
          return obj;
       }
    },
-   inject: ['grabAngel'],
    methods: {
       getParticipant(username, part) {
          const participant = this.participants.find(

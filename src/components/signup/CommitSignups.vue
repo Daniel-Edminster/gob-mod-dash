@@ -52,6 +52,11 @@ export default {
       },
       ...mapState("bandits", ["bandits", "veterans"]),
    },
+   provide() {
+      return {
+         grabAngel: this.grabAngel
+      }
+   },
    inject: ["setProperty"],
    methods: {
       commitParticipants() {

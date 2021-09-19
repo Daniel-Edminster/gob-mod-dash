@@ -43,6 +43,7 @@ export default {
          message:
             "Fetch Teams from existing team comments in existing launch thread",
          placedUsers: null,
+         experience: {}
       };
    },
    computed: {
@@ -82,16 +83,18 @@ export default {
             !this.placedUsers.has(participant.username.toLowerCase())
       )},
       screenPlacedParticipants(teams) {
+         if (!this.screenReady) {
+            console.log("Bandit information unavailable. Check GOB Api connection.");
+            return;
+         }
          teams.forEach((team) => {
-            team.members.forEach((user) => {
-               user.experience = "noob";
-               if (this.bandits.includes(user.username.toLowerCase()))
-                  user.experience = "bandit";
-               if (this.veterans.includes(user.username.toLowerCase()))
-                  user.experience = "veteran";
+            team.members.forEach((participant) => {
+               this.experience[participant.username] = "noob";
+               if (this.bandits.includes(participant.username.toLowerCase())) this.experience[participant.username] = "bandit";
+               if (this.veterans.includes(participant.username.toLowerCase())) this.experience[participant.username] = "veteran";
             });
          });
-      },
+      }
    },
    created() {
       if (!this.screenReady) {

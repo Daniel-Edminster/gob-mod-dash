@@ -48,6 +48,8 @@ export function mapCommentsToTeams(comments) {
       return team.number && team.members.length > 0;
    })
 
+   console.log(teams)
+
    return { placedUsers, teams };
 
    function mapCommentToTeam(comment) {
@@ -63,7 +65,7 @@ export function mapCommentsToTeams(comments) {
          if (line.toLowerCase().includes("team")) {
             number = extractTeamNumber(line);
          } else if (line.includes("/u/")) {
-            members.push(extractNameAndRoles(line));
+            members.push(extractNameAndPart(line));
          }
       })
 
@@ -85,14 +87,12 @@ export function mapCommentsToTeams(comments) {
       return string;
    }
 
-   function extractNameAndRoles(string) {
+   function extractNameAndPart(string) {
       // string = string.replace('*', '');
       const array = string.split('/u/');
       const username = array[1];
       placedUsers.add(username.toLowerCase()); // necessary for comparisons
-      const roles = [];
-      const role = array[0].toLowerCase().replaceAll(':', '');
-      roles.push(role);
-      return { username, roles };
+      const part = array[0].toLowerCase().replaceAll(':', '');
+      return { username, part };
    }
 }
