@@ -89,8 +89,8 @@ const auth = {
             const reddit = new Reddit(instance);
             commit('saveReddit', reddit);
             // sync line where user will be redirected by router guards
-            const username = await reddit.getUsername();
-            const isMod = await reddit.isModerator('gameofbands');
+            const username = await reddit.getUsername().catch(err => console.log(err));
+            const isMod = await reddit.isModerator('gameofbands').catch(err => console.log(err));
             if (!username) {
                console.log("Previous session expired. Please login again.");
                localStorage.removeItem('mdSession');

@@ -5,9 +5,13 @@ export default class Reddit {
    }
 
    async isModerator(subredditName) {
-      const listing = await this.snoowrap.getModeratedSubreddits();
-      const isMod = listing.find(subreddit => subreddit.display_name == subredditName);
-      return isMod ? isMod : null;
+      try {
+         const listing = await this.snoowrap.getModeratedSubreddits();
+         const isMod = listing.find(subreddit => subreddit.display_name == subredditName);
+         return isMod ? true : null;
+      } catch (err) {
+         console.log(err)
+      }
    }
 
    async setSubreddit(name) {
