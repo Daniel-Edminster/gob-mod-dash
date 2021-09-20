@@ -65,11 +65,12 @@ export default function createTeams(parts, participants, multi, experience) {
       return team;
    }
 
+   // need to divide each singles array by the number of that role in the team
    function calculateUserScores(n) {
       const scores = {};
       multi[n].forEach(participant => {
          if (!scores[participant.username]) scores[participant.username] = 0;
-         scores[participant.username] += singles[participant.part].length;
+         scores[participant.username] += singles[participant.part].length / parts[participant.part];
       })
       return scores;
    }
