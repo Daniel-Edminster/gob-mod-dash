@@ -12,12 +12,10 @@
       />
    </div>
    <TeamAssignment v-if="!teams" :participants="participants" :metadata="metadata" />
-   <TeamManager v-if="teams" :teams="teams" :participants="participants" :active="active" :metadata="metadata" />
 </template>
 
 <script>
 import TeamAssignment from "./TeamAssignment";
-import TeamManager from "../shared/TeamManager";
 import FindThread from "../shared/FindThread";
 import FetchTeams from "./FetchTeams";
 
@@ -25,7 +23,6 @@ export default {
    name: "TeamIndex",
    components: {
       TeamAssignment,
-      TeamManager,
       FindThread,
       FetchTeams
    },

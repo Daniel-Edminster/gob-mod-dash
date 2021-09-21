@@ -1,4 +1,11 @@
 <template>
+   <TeamManager
+      v-if="teams && !launch?.source && !late?.source"
+      :teams="teams"
+      :participants="participants"
+      :active="active"
+      :metadata="metadata"
+   />
    <p v-if="comments && !launch?.source">{{ comments.length }} Comments Generated</p>
    <PostThread v-if="!launch?.source && comments" thread="launch" :metadata="metadata" />
    <div v-if="!allTeamsCommented">
@@ -20,7 +27,6 @@
          :metadata="metadata"
       />
    </div>
-   
 </template>
 
 <script>
