@@ -21,14 +21,14 @@ import { mapState } from "vuex";
 export default {
    name: "FindThread",
    props: {
+      metadata: {
+         type: Object,
+         required: true,
+      },
       thread: {
          type: String,
          required: true,
-      },
-      round: {
-         type: String,
-         required: true,
-      },
+      }
    },
    data() {
       return {
@@ -51,22 +51,22 @@ export default {
       async findThread() {
          this.message =
             "Searching... very old rounds may take up to a minute...";
-         const posts = await this.reddit.findPost(this.thread, this.round);
+         const posts = await this.reddit.findPost(this.thread, this.metadata.number);
          if (posts) this.submissions = posts;
       },
       selectThread(submission) {
          const obj = {
-            round: this.round,
+            instanceId: this.metadata.id,
             stage: this.thread,
             source: submission.name,
-            subreddit: submission.subreddit.display_name
+            parent: submission.subreddit.display_name
          }
          this.setThread(this.thread, obj);
       },
       async findThreadByRound() {
          this.isLoading = true;
          this.message = "Searching reddit, please wait..."
-         const listing = await this.reddit.searchPosts(this.round);
+         const listing = await this.reddit.searchPosts(this.metadata.number);
          this.isLoading = false;
          if (!listing) {
             this.message = "No threads found.";

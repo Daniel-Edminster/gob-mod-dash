@@ -1,6 +1,6 @@
 <template>
    <h3>No {{ thread }} thread detected. Find existing or post a new thread.</h3>
-   <FindThread :thread="thread" :round="metadata.number" />
+   <FindThread :thread="thread" :metadata="metadata" />
    <h4>Post Thread: {{ thread }}</h4>
    <TemplatePicker v-if="!forceTemplate" />
    <button v-if="template" @click="submitPost">Post to reddit</button>
@@ -70,10 +70,10 @@ export default {
          const submission = await this.reddit.submitPost(post);
          this.isLoading = false;
          const obj = {
-            round: this.metadata.number,
+            instanceId: this.metadata.id,
             stage: this.thread,
             source: submission.name,
-            subreddit: submission.subreddit.display_name
+            parent: submission.subreddit.display_name
          }
          if (submission) {
             this.setThread(this.thread, obj);

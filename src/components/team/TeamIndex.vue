@@ -1,5 +1,5 @@
 <template>
-   <FindThread v-if="!teams && !launch?.source" thread="launch" :round="metadata.number" />
+   <FindThread v-if="!teams && !launch?.source" thread="launch" :metadata="metadata" />
    <div v-if="launch?.source && !launch.id">
       <span class="needs-action">Please save Launch thread to database before organising teams.</span>
    </div>
