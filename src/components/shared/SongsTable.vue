@@ -50,6 +50,7 @@ table {
 
 td {
    padding: 3px;
+   text-align: left;
 }
 
 thead {

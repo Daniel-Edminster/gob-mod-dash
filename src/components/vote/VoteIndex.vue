@@ -32,8 +32,6 @@ import PostThread from "../shared/PostThread";
 import SongsTable from "../shared/SongsTable";
 import TabulateVotes from "./TabulateVotes";
 
-
-
 export default {
    name: "VoteIndex",
    components: {
