@@ -14,32 +14,43 @@ function mapSongToComment(song) {
 }
 
 export function mapCommentsToVotes(comments) {
-   const map = new Map();
+   console.log("Song comments:", comments);
+   const array = [];
    comments.forEach(comment => {
-      map.set(comment.id, { track: 0, music: 0, lyrics: 0, vocals: 0 })
       comment.replies.forEach(reply => {
-         const replyVotes = mapReplyToVotes(reply);
-         const votes = map.get(comment.id);
-         updateVotes(replyVotes, votes)
+         console.log(reply);
+         array.push(...mapCommentToVotes(reply));
       })
    })
-   return map;
+   return array;
 }
 
-function updateVotes(newVotes, votes) {
-   votes.track += newVotes.track;
-   votes.music += newVotes.music;
-   votes.lyrics += newVotes.lyrics;
-   votes.vocals += newVotes.vocals;
+function mapCommentToVotes(comment) {
+   return mapVoteSyntaxToPart(comment.body.replaceAll(" ", ""), comment);
 }
 
-function mapReplyToVotes(reply) {
-   const votes = { track: 0, music: 0, lyrics: 0, vocals: 0 };
-   if (reply.body.includes('[](/t)')) votes.track++;
-   if (reply.body.includes('[](/m)')) votes.music++;
-   if (reply.body.includes('[](/l)')) votes.lyrics++;
-   if (reply.body.includes('[](/v)')) votes.vocals++;
-   return votes;
+function mapVoteSyntaxToPart(string, comment) {
+   if (comment.edited) console.log("Edited!", comment);
+   const array = [];
+   if (string.includes('[](/t)')) array.push(createVote(comment, 'self'))
+   if (string.includes('[](/m)')) array.push(createVote(comment, 'music'))
+   if (string.includes('[](/l)')) array.push(createVote(comment, 'lyrics'))
+   if (string.includes('[](/v)')) array.push(createVote(comment, 'vocals'))
+   return array;
+}
+
+function createVote(comment, part) {
+   return {
+      song_comment: comment.parent_id,
+      username: comment.author.name,
+      part,
+      source: comment.name,
+      date: comment.edited ? formatDate(comment.edited) : formatDate(comment.created)
+   }
+}
+
+function formatDate(timestamp) {
+   return new Date(timestamp).toISOString();
 }
 
 export function mapCommentsToIds(comments) {
