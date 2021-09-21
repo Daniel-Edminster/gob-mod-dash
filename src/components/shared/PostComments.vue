@@ -1,6 +1,6 @@
 <template>
    <CommentWarning
-      v-if="post.subreddit === 'gameofbands'"
+      v-if="post.parent === 'gameofbands'"
       :thread="thread"
    />
    <div v-else>
