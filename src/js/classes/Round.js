@@ -1,38 +1,39 @@
 export default class Round {
-  // These should be changed to Type Objects later for customisability
-  static stages = ['theme', 'signup', 'launch', 'late', 'voting', 'congrats'];
+   // These should be changed to Type Objects later for customisability
+   static stages = ['theme', 'signup', 'launch', 'late', 'voting', 'congrats'];
 
-  constructor(number) {
-    this.number = number;
-    this.theme = null;
-    this.parts = {
-       music: 1,
-       lyrics: 1,
-       vocals: 1
-    },
-    this.votes = {
-       theme: null,
-       songs: null
-    };
-    this.participants = null;
-    this.teams = null;
-    this.active = false;
-    this.complete = false;
-    this.songs = null;
-    this.winners = null;
-    this.threads = {};
-    this.pools = {};
-    this.constructor.stages.forEach(stage => {
-      this.threads[stage] = null;
-      this.pools[stage] = null
-    })
-    this.dates = {
-      begin: null,
-      end: null,
-      endVote: null
-    }
-    this.experience = {}
-  }
+   constructor(number) {
+      this.id = null;
+      this.number = number;
+      this.theme = null;
+      this.parts = {
+         music: 1,
+         lyrics: 1,
+         vocals: 1
+      },
+         this.votes = {
+            theme: null,
+            songs: null
+         };
+      this.participants = null;
+      this.teams = null;
+      this.active = false;
+      this.complete = false;
+      this.songs = null;
+      this.winners = null;
+      this.threads = {};
+      this.pools = {};
+      this.constructor.stages.forEach(stage => {
+         this.threads[stage] = null;
+         this.pools[stage] = null
+      })
+      this.dates = {
+         begin: null,
+         end: null,
+         endVote: null
+      }
+      this.experience = {}
+   }
 }
 
 /* To clean this object up a bit, I'd probably move the following to an "assets" object:

@@ -1,5 +1,10 @@
 <template>
    <div id="stage-wrapper">
+      <DatasaveWarning 
+         v-if="stage === 'save-round'"
+         thing="Round"
+         action="continuing"
+      />
       <ThemeIndex
          v-if="stage === 'theme'"
          :metadata="metadata"
@@ -25,10 +30,10 @@
          :metadata="metadata"
          :launch="round.threads.launch"
          :late="round.threads.late"
+         :participants="round.participants"
          :teams="round.teams"
          :active="round.active"
          :complete="round.complete"
-         :participants="round.participants"
       />
       <RoundOver v-if="stage === 'round-over'" :number="metadata.number" />
       <VoteIndex
@@ -40,10 +45,10 @@
       />
       <CongratsIndex
          v-if="stage === 'congrats'"
-         :winners="round.winners"
-         :teams="round.teams"
          :metadata="metadata"
          :post="round.threads.congrats"
+         :teams="round.teams"
+         :winners="round.winners"
       />
       <p v-if="stage === 'wtf'">WTF</p>
    </div>
@@ -60,6 +65,7 @@ import LaunchIndex from "@/components/launch/LaunchIndex";
 import RoundOver from "./RoundOver";
 import VoteIndex from "@/components/vote/VoteIndex";
 import CongratsIndex from "@/components/congrats/CongratsIndex";
+import DatasaveWarning from "@/components/shared/DatasaveWarning";
 
 export default {
    name: "StageWrapper",
@@ -71,6 +77,7 @@ export default {
       RoundOver,
       VoteIndex,
       CongratsIndex,
+      DatasaveWarning
    },
    props: {
       round: {
@@ -78,20 +85,39 @@ export default {
          required: true,
       },
    },
+   data() {
+      return {
+         path: 'reverse'
+      }
+   },
    computed: {
-      stage() { // Yep, this is an absolute mess.
-         const { theme, participants, songs, active, complete, teams, winners} = this.round;
+      stage() {
+         return this[this.path];
+      },
+      standard() { // Note that active is not used here
+         const { id, theme, participants, songs, complete, teams, winners } = this.round;
+         if (!id) return "save-round";
          if (!theme) return "theme";
          if (!participants) return "signups";
-         if (!songs && !active && !complete) return "team";
-         if (teams && active) return "launch";
+         if (!teams) return "team";
+         if (!complete && !songs) return "launch";
          if (complete && !songs) return "round-over";
-         if (!active && complete && songs && !winners) return "voting";
+         if (songs && !winners) return "voting";
          if (winners) return "congrats";
          return "wtf";
       },
+      reverse() {
+         const { id, theme, songs, winners } = this.round;
+         if (!id) return "save-round";
+         if (!theme) return 'theme';
+         if (!songs) return 'round-over';
+         if (!winners) return 'voting';
+         if (winners) return 'congrats';
+         return 'wtf';
+      },
       metadata() {
          return {
+            id: this.round.id,
             number: this.round.number,
             theme: this.round.theme,
             dates: this.round.dates,
@@ -99,7 +125,7 @@ export default {
             experience: this.round.experience
          };
       },
-   },
+   }
 };
 </script>
 

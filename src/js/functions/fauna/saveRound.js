@@ -7,8 +7,8 @@ export default async function saveRoundToDatabase(round) {
    console.log(q);
    const doc = constructRoundDocument(round);
    const response = await saveRoundDocument(doc);
-   console.log(response);
-   return "Round saved to database";
+   const id = response.ref?.value?.id;
+   return id ? id : null;
 }
 
 function constructRoundDocument(round) {

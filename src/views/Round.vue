@@ -123,9 +123,12 @@ export default {
          this.saveRounds()
       },
       async saveRoundToDatabase() {
-         const response = await saveRoundToDatabase(this.round);
-         console.log(response);
-         // probably need to add the db id here at some point?
+         const id = await saveRoundToDatabase(this.round);
+         if (id) {
+            this.setProperty('id', id);
+         } else {
+            console.log("Could not save round to database.")
+         }
       },
       async saveThreadsToDatabase(threads) {
          console.log("Saving threads to database", threads);
