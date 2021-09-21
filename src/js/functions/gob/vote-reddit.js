@@ -3,14 +3,25 @@ export function mapSongsToComments(songs) {
       const comment = {};
       comment.body = mapSongToComment(song);
       comment.number = song.id;
-      comment.type = 'song';
+      comment.stage = 'song';
       return comment;
    })
 }
 
 function mapSongToComment(song) {
-   const gobUrl = 'http://beta.gameofbands.com/song/index.php?song=';
-   return `[${song.name}](${gobUrl}${song.id} "by /u/${song.music} - music, /u/${song.lyrics} - lyrics, /u/${song.vocals} - vocals")[Soundcloud Link](${song.url} "RES-inline-song")`;
+   const gobUrl = 'http://new.gameofbands.com/song/index.php?song=';
+   const head = `[${song.title}](${gobUrl}${song.number} `;
+   const tail = `[Soundcloud Link](${song.url} "RES-inline-song")`
+   const middle = createParticipantsString(song.participants);
+   return head + middle + tail;
+}
+
+function createParticipantsString(participants) {
+   const head = `"by`;
+   const tail = `")`;
+   const strings = participants.map(participant => ` /u/${participant.username} - ${participant.part}`);
+   const string = strings.join(",");
+   return head + string + tail;
 }
 
 export function mapCommentsToVotes(comments) {

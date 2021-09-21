@@ -7,14 +7,16 @@ export default async function saveSongsToDatabase(songs) {
 }
 
 function constructPayload(song) {
-   const songDoc = constructSongDocument(song.name, song.url);
+   const songDoc = constructSongDocument(song.id, song.name, song.url);
    const teamDoc = constructTeamDocument(song.round, song.teamnumber);
    const participantDocs = extractParticipants(song);
-   return { songDoc, teamDoc, participantDocs}
+   return { songDoc, teamDoc, participantDocs }
 }
 
-function constructSongDocument(title, url) {
-   return { title, url }
+function constructSongDocument(id, title, url) {
+   let number = null;
+   if (id.length < 5) number = id;
+   return { title, url, ...(number && { number }) }
 }
 
 function constructTeamDocument(round, number) {
@@ -44,7 +46,7 @@ async function saveSongDocumentsInReverse(payload) {
          q.Call("add_songs_in_reverse_prep", payload)
       )
       return response?.data;
-   } catch(err) {
+   } catch (err) {
       console.log(err);
    }
 }
