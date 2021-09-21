@@ -40,8 +40,7 @@ export default {
             this.message = "Votes collected."
 				const pool = mapCommentsToVotes(comments);
 				console.log(pool);
-				const array = Array.from(pool);
-				this.setPool("voting", array);
+				this.setPool("voting", pool);
 			}
 		},
 	},
