@@ -18,7 +18,7 @@
       :allSongsVotedOn="allSongsVotedOn"
    />
    <CommitWinners v-if="state === 6" :songs="songs" />
-   <SongsList :songs="songs" />
+   <SongsTable :songs="songs" />
 </template>
 
 <script>
@@ -27,10 +27,9 @@ import CommitWinners from "./CommitWinners";
 import DatasaveWarning from "../shared/DatasaveWarning";
 import FetchVotes from "./FetchVotes";
 import FindSongComments from "./FindSongComments";
-// import FindThread from "../shared/FindThread";
 import PostComments from "../shared/PostComments";
 import PostThread from "../shared/PostThread";
-import SongsList from "../shared/SongsList";
+import SongsTable from "../shared/SongsTable";
 import TabulateVotes from "./TabulateVotes";
 
 
@@ -43,10 +42,9 @@ export default {
       DatasaveWarning,
       FetchVotes,
       FindSongComments,
-      // FindThread,
       PostComments,
       PostThread,
-      SongsList,
+      SongsTable,
       TabulateVotes
    },
    props: {
