@@ -98,6 +98,7 @@ export default class Reddit {
       }
       try {
          const submission = await this.snoowrap.submitSelfpost(options);
+         submission.subreddit = { display_name: this.subreddit };
          console.log(submission);
          return submission;
       } catch (err) {
