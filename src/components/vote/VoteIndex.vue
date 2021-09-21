@@ -1,5 +1,5 @@
 <template>
-   <button @click="testSavingSongs">Save songs to database</button>
+   
    <PostThread v-if="state === 0" thread="voting" :metadata="metadata" />
    <DatasaveWarning
       v-if="state === 1"
@@ -33,7 +33,7 @@ import PostThread from "../shared/PostThread";
 import SongsList from "../shared/SongsList";
 import TabulateVotes from "./TabulateVotes";
 
-import testSavingSongs from "@/js/functions/fauna/saveSongs"
+
 
 export default {
    name: "VoteIndex",
@@ -106,13 +106,12 @@ export default {
          setComments: this.setComments,
       };
    },
+
    methods: {
       setComments(comments) {
          this.comments = comments;
       },
-      testSavingSongs() {
-         testSavingSongs(this.songs);
-      }
+      
    },
 };
 </script>

@@ -1,9 +1,14 @@
 <template>
-   <div v-if="!songs">
-      <button @click="fetchSongs()">Fetch Songs</button><span v-if="message">{{ message }}</span>
+   <div v-if="state === 0">
+      <button @click="fetchSongs()">Fetch Songs</button>
+      <span v-if="message">{{ message }}</span>
       <base-spinner v-if="isLoading" />
    </div>
-   <div v-else>
+   <div v-if="state === 1">
+      <button @click="saveSongsToDatabase">Save songs to database</button>
+      <DatasaveWarning thing="songs" action="continuing on to voting." />
+   </div>
+   <div v-if="state === 2">
       <button @click="setProperty('songs', songs)">Commit Songs to Round</button>
       <SongsList :songs="songs" />
    </div>
@@ -11,11 +16,15 @@
 
 <script>
 import SongsList from "../shared/SongsList";
+import DatasaveWarning from "../shared/DatasaveWarning"
+
+import saveSongsToDatabase from "@/js/functions/fauna/saveSongs"
 
 export default {
    name: "RoundOver",
    components: {
       SongsList,
+      DatasaveWarning
    },
    props: {
       number: {
@@ -29,6 +38,17 @@ export default {
          message: null,
          songs: null,
       };
+   },
+   computed: {
+      allSongsSavedToDatabase() {
+         return this.songs?.every(song => song.title);
+      },
+      state() {
+         let counter = 0;
+         if (this.songs) counter++;
+         if (this.allSongsSavedToDatabase) counter++;
+         return counter;
+      }
    },
    inject: ["setProperty"],
    methods: {
@@ -45,7 +65,15 @@ export default {
          if (status.code === 200) this.songs = data;
          this.message = `${status.code} ${status.text}.`;
       },
-      
+      async saveSongsToDatabase() {
+         const savedSongs = await saveSongsToDatabase(this.songs);
+         if (savedSongs) {
+            this.songs = savedSongs;
+            // this.setProperty("songs", savedSongs);
+         } else {
+            console.log("There was a problem saving songs to the database.");
+         }
+      }
    },
 };
 </script>

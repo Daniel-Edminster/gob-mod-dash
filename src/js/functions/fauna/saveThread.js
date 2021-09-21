@@ -12,7 +12,6 @@ export default async function saveThreadsToDatabase(threads) {
 }
 
 async function saveThreadDocuments(docs) {
-   
    try {
       const response = await client.query(
          q.Call("update_threads", docs)

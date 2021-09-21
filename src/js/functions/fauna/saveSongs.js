@@ -2,9 +2,12 @@ import { client, q } from '@/js/api/fauna'
 
 export default async function saveSongsToDatabase(songs) {
    const payload = songs.map(song => constructPayload(song));
-   console.log(payload);
    const savedDocs = await saveSongDocumentsInReverse(payload);
-   console.log(savedDocs);
+   if (savedDocs) {
+      const identifiedDocs = addIds(savedDocs);
+      return identifiedDocs;
+   }
+   return null;
 }
 
 function constructPayload(song) {
@@ -44,8 +47,17 @@ async function saveSongDocumentsInReverse(payload) {
       const response = await client.query(
          q.Call("add_songs_in_reverse_prep", payload)
       )
-      return response;
+      return response?.data;
    } catch(err) {
       console.log(err);
    }
+}
+
+function addIds(docs) {
+   return docs.map(doc => {
+      return {
+         ...doc.data,
+         id: doc.ref.value.id
+      }
+   })
 }
