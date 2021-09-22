@@ -13,7 +13,8 @@ import saveRoundToDatabase from "@/js/functions/fauna/saveRound"
 // Function imports below are for saving individual pools
 import saveThemesToDatabase from "@/js/functions/fauna/saveThemes"
 import saveSignupsToDatabase from "@/js/functions/fauna/saveParticipants"
-import saveThreadsToDatabase from "../js/functions/fauna/saveThread";
+import saveThreadsToDatabase from "@/js/functions/fauna/saveThread";
+import saveVotesToDatabase from "@/js/functions/fauna/saveVotes";
 
 export default {
    name: "Round",
@@ -115,6 +116,7 @@ export default {
             return (
                (stage === 'theme' && saveThemesToDatabase(pool)) ||
                (stage === 'signup' && saveSignupsToDatabase(pool, this.round.number)) ||
+               (stage === 'voting' && saveVotesToDatabase(pool)) ||
                pool
             )
          })()
@@ -212,6 +214,14 @@ export default {
          song.comment = value;
          this.saveRounds();
       },
+      setPool(key, value) {
+         this.round.pools[key] = value;
+         this.saveRounds();
+      },
+      setProperty(key, value) {
+         this.round[key] = value;
+         this.saveRounds();
+      },
       setThread(key, value) {
          if (typeof value === String) {
             const thread = this.round.threads[key];
@@ -223,14 +233,6 @@ export default {
          } else {
             this.round.threads[key] = value;
          }
-         this.saveRounds();
-      },
-      setPool(key, value) {
-         this.round.pools[key] = value;
-         this.saveRounds();
-      },
-      setProperty(key, value) {
-         this.round[key] = value;
          this.saveRounds();
       },
       setVotes(stage, votes) {

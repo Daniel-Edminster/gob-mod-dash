@@ -43,7 +43,7 @@ function mapCommentToVotes(comment) {
 function mapVoteSyntaxToPart(string, comment) {
    if (comment.edited) console.log("Edited!", comment);
    const array = [];
-   if (string.includes('[](/t)')) array.push(createVote(comment, 'self'))
+   if (string.includes('[](/t)')) array.push(createVote(comment, 'track'))
    if (string.includes('[](/m)')) array.push(createVote(comment, 'music'))
    if (string.includes('[](/l)')) array.push(createVote(comment, 'lyrics'))
    if (string.includes('[](/v)')) array.push(createVote(comment, 'vocals'))
@@ -52,16 +52,17 @@ function mapVoteSyntaxToPart(string, comment) {
 
 function createVote(comment, part) {
    return {
-      song_comment: comment.parent_id,
+      parent: comment.parent_id,
       username: comment.author.name,
       part,
       source: comment.name,
-      date: comment.edited ? formatDate(comment.edited) : formatDate(comment.created)
+      date: comment.edited === true ? formatDate(comment.edited) : formatDate(comment.created_utc)
    }
 }
 
 function formatDate(timestamp) {
-   return new Date(timestamp).toISOString();
+   // reddit's precision is lousy
+   return new Date(timestamp * 1000).toISOString();
 }
 
 export function mapCommentsToIds(comments) {
@@ -75,5 +76,5 @@ function extractSongId(comment) {
    string = string.substring(paramIndex);
    string = string.replaceAll(searchTerm, "");
    const array = string.split(" ");
-   return { comment: comment.id, song: array[0] };
+   return { comment: comment.name, song: array[0] };
 }
