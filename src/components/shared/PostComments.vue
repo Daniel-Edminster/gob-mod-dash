@@ -1,17 +1,13 @@
 <template>
-   <CommentWarning
-      v-if="post.parent === 'gameofbands'"
-      :thread="thread"
-   />
+   <div v-if="post.parent === 'gameofbands'">
+      <CommentWarning :thread="thread" />
+   </div>
    <div v-else>
       <button @click="postCommentsSlowly()">Post comments to {{ postId }}</button>
       <p v-if="posting">Posting comments, this will take {{ timeToPost }} seconds in total...</p>
       <base-spinner v-if="posting" />
       <ul>
-         <li
-            v-for="(comment, index) in commentLess"
-            :key="index"
-         >
+         <li v-for="(comment, index) in commentLess" :key="index">
             <TemplatePreview :template="comment" />
          </li>
       </ul>
@@ -98,18 +94,22 @@ export default {
                   this.postId,
                   comment.body
                );
-               if (result) this.setComment(comment, result.id);
+               if (result) {
+                  comment.source = result.name;
+                  comment.parent = this.postId;
+                  this.setComment(comment);
+               }
                await this.wait(5000);
             }
+            this.posting = false;
          }
-         this.posting = false;
       },
-   },
-   mounted() {
-      console.log(this.comments);
-      console.log(this.thread);
-   },
-};
+      mounted() {
+         console.log(this.comments);
+         console.log(this.thread);
+      }
+   }
+}
 </script>
 
 <style scoped>

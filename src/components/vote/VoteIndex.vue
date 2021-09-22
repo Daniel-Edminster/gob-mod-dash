@@ -1,5 +1,4 @@
 <template>
-   
    <PostThread v-if="state === 0" thread="voting" :metadata="metadata" />
    <DatasaveWarning
       v-if="state === 1"
@@ -10,14 +9,19 @@
    <CommentGenerator v-if="state === 2" :songs="songs" />
    <p v-if="state === 3">{{ comments?.length }} Comments Generated</p>
    <PostComments v-if="state === 3" :post="post" :comments="comments" thread="voting" />
-   <FetchVotes v-if="state === 4" :postId="post?.source" />
+   <DatasaveWarning
+      v-if="state === 4"
+      thing="Song voting comments"
+      action="fetching votes"
+   />
+   <FetchVotes v-if="state === 5" :postId="post?.source" />
    <TabulateVotes
-      v-if="state === 5"
+      v-if="state === 6"
       :votes="votes"
       :songs="songs"
       :allSongsVotedOn="allSongsVotedOn"
    />
-   <CommitWinners v-if="state === 6" :songs="songs" />
+   <CommitWinners v-if="state === 7" :songs="songs" />
    <SongsTable :songs="songs" />
 </template>
 
@@ -59,6 +63,11 @@ export default {
          type: Array,
          required: true,
       },
+      songComments: {
+         type: Array,
+         required: false,
+         default: null
+      },
       votes: {
          type: Array,
          required: false,
@@ -73,10 +82,14 @@ export default {
    computed: {
       allSongsCommented() {
          if (!this.post?.source) return false;
-         for (const song of this.songs) {
-            if (!song.comment) return false;
-         }
-         return true;
+         return this.songs.every(
+            song => this.songComments?.find(
+               comment => comment.instanceId === song.id
+            )
+         );
+      },
+      allSongCommentsSaved() {
+         return this.songComments?.every(comment => comment.id)
       },
       allSongsVotedOn() {
          if (!this.post?.source) return false;
@@ -91,7 +104,9 @@ export default {
          if (this.post?.id) counter++; // Find, or generate comments
          if (this.comments) counter++; // Post generated comments
          // At this stage not saving comments to database. That might change?
+         // Hello tomorrow Jim: time to save comments as threads to the database! :D
          if (this.allSongsCommented) counter = 4; // Fetch Votes OK I KNOW IT'S CHEATING
+         if (this.allSongCommentsSaved) counter++;
          if (this.votes) counter++; // Tabulate Votes
          if (this.allSongsVotedOn) counter++;
          return counter;
@@ -102,12 +117,11 @@ export default {
          setComments: this.setComments,
       };
    },
-
    methods: {
       setComments(comments) {
          this.comments = comments;
       },
-      
+
    },
 };
 </script>

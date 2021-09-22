@@ -2,8 +2,8 @@ export function mapSongsToComments(songs) {
    return songs.map(song => {
       const comment = {};
       comment.body = mapSongToComment(song);
-      comment.number = song.id;
-      comment.stage = 'song';
+      comment.instanceId = song.id;
+      comment.stage = "song"
       return comment;
    })
 }

@@ -6,7 +6,7 @@
    </div>
    <div v-else>
       <IdsTable :ids="ids" :deleteId="deleteId" :setId="setId" />
-      <button @click="setFoundSongComments(ids)">Commit Comments</button>
+      <button @click="setFoundSongComments(ids, postId)">Commit Comments</button>
    </div>
 </template>
 
@@ -39,21 +39,25 @@ export default {
    inject: ['setFoundSongComments'],
    methods: {
       async findComments() {
-         this.message = `Finding song comments...`;
-         this.isLoading = true;
-         const comments = await this.reddit.fetchComments(this.postId);
-         this.isLoading = false;
-         if (comments.length === 0) {
-            this.message =
-               "No comments found in voting thread. Please generate.";
-         } else {
-            this.message = `${comments.length} comments found. Please review and commit.`;
-            const ids = mapCommentsToIds(comments);
-            if (ids.length > 0) {
-               this.ids = ids;
+         try {
+            this.message = `Finding song comments...`;
+            this.isLoading = true;
+            const comments = await this.reddit.fetchComments(this.postId);
+            this.isLoading = false;
+            if (comments.length === 0) {
+               this.message =
+                  "No comments found in voting thread. Please generate.";
             } else {
-               this.message = `Unable to extract Song IDs from comments.`;
+               this.message = `${comments.length} comments found. Please review and commit.`;
+               const ids = mapCommentsToIds(comments);
+               if (ids.length > 0) {
+                  this.ids = ids;
+               } else {
+                  this.message = `Unable to extract Song IDs from comments.`;
+               }
             }
+         } catch (err) {
+            console.log(err)
          }
       },
       deleteId(commentId) {

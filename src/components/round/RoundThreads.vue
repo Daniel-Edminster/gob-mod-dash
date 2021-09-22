@@ -16,7 +16,8 @@
                   <input type="text" :id="`input-${key}`" :value="value?.source" />
                </td>
                <td v-else class="middle">
-                  <a :href="`http://www.reddit.com/by_id/${value?.source}`">{{ value?.source }}</a>
+                  <a v-if="value?.source" :href="`http://www.reddit.com/by_id/${value?.source}`">{{ value.source }}</a>
+                  <span v-if="value?.length"> {{ value.length }} </span>
                </td>
                <td class="controls">
                   <button v-if="!editing" :name="key" @click="setEditing($event)">Edit</button>
@@ -24,12 +25,13 @@
                   <button v-if="editing === key" @click="cancelEditing">Cancel</button>
                   <button v-if="editing === key" :name="key" @click="confirmEdit($event)">Confirm</button>
                </td>
-               <td class="controls" v-if="!value?.id">
-                  <button v-if="value" @click="saveThreadsToDatabase([value])">Save to DB</button>
-               </td>
-               <td v-else>
+               <td v-if="value?.id || value?.length && value.every(el => el.id)">
                   Saved
                </td>
+               <td v-else class="controls">
+                  <button v-if="value" @click="saveThreadsToDatabase(value)">Save to DB</button>
+               </td>
+               
             </tr>
          </tbody>
       </table>

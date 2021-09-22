@@ -132,9 +132,15 @@ export default {
       },
       async saveThreadsToDatabase(threads) {
          console.log("Saving threads to database", threads);
-         const updatedThreads = await saveThreadsToDatabase(threads);
-         updatedThreads.forEach(element => {
-            this.round.threads[element.stage].id = element.id;
+         const savedThreads = await saveThreadsToDatabase(threads);
+         savedThreads.forEach(saved => {
+            if (saved.stage === ("song" || "team")) {
+               const array = this.round.threads[saved.stage];
+               const thread = array.find(element => element.source === saved.source);
+               thread.id = saved.id;
+            } else {
+               this.round.threads[saved.stage].id = saved.id;
+            }
          })
          console.log(this.round.threads);
          this.saveRounds();
@@ -146,7 +152,7 @@ export default {
          this.round.active = true;
          this.saveRounds();
       },
-      setComment(comment, id) {
+      setCommentOLD(comment, id) {
          const { type, number } = comment;
          if (type === "team") {
             const team = this.round.teams.find(
@@ -160,12 +166,30 @@ export default {
             this.saveRounds();
          }
       },
-      setFoundSongComments(ids) {
+      setComment(comment) {
+         const threads = this.round.threads;
+         if (!threads[comment.stage]) threads[comment.stage] = [];
+         delete comment.body;
+         threads[comment.stage].push(comment);
+         this.saveRounds();
+      },
+      setFoundSongComments(ids, postId) {
+         const array = [];
          ids.forEach(id => {
-            const song = this.round.songs.find((song) => song.id === id.song);
-            song.comment = id.comment;
-            this.saveRounds();
+            const song = this.round.songs.find((song) => song.number === id.song);
+            // song.comment = id.comment; WE DON'T DO THIS HERE NO MORE
+            // this is where we add the song threads to the round threads object
+            const obj = {
+               instanceId: song.id,
+               stage: 'song',
+               source: id.comment,
+               parent: postId
+            }
+            array.push(obj);
          })
+         // I'm not sure we'll ever need to partially do this.
+         this.round.threads.song = array;
+         this.saveRounds();
       },
       setDate(key, value) {
          const date = new Date(value);

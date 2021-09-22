@@ -41,6 +41,7 @@
          :metadata="metadata"
          :post="round.threads.voting"
          :songs="round.songs"
+         :songComments="round.threads.song"
          :votes="round.pools.voting"
       />
       <CongratsIndex

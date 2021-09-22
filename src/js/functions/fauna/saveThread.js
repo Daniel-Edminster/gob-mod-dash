@@ -2,7 +2,7 @@ import { client, q } from '@/js/api/fauna'
 
 // probably best to receive an array of threads even with one
 export default async function saveThreadsToDatabase(threads) {
-   const array = Object.values(threads);
+   const array = threads.length ? [...threads] : [threads]; // handles single thread or multiple threads
    const formattedDocs = array.filter(element => element);
    const staticDocs = formattedDocs.filter(doc => doc.id);
    const filteredDocs = formattedDocs.filter(doc => !doc.id);
