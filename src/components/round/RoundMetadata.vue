@@ -28,7 +28,7 @@
                </tbody>
                <tfoot>
                   <tr>
-                     <td>
+                     <td colspan="2">
                         <button @click="addPart">Add Part</button>
                      </td>
                   </tr>
