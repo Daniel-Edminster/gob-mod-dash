@@ -1,6 +1,6 @@
 <template>
    <div id="round-metadata">
-      <RoundMetadata :round="round" />
+      <RoundMetadata :path="path" :round="round" />
       <RoundThreads :threads="round.threads" />
       <RoundPools :pools="round.pools" />
    </div>
@@ -19,6 +19,10 @@ export default {
       RoundThreads,
    },
    props: {
+      path: {
+         type: String,
+         required: true
+      },
       round: {
          type: Object,
          required: true,
@@ -32,8 +36,8 @@ div#round-metadata {
    background-color: #24252d;
    color: white;
    padding-bottom: 15px;
-   display: flex;
-   justify-content: space-evenly;
+   display: grid;
+   grid-template-columns: 4fr 5fr 5fr;
    margin-bottom: 30px;
 }
 </style>

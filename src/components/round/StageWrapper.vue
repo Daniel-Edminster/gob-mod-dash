@@ -80,15 +80,14 @@ export default {
       DatasaveWarning
    },
    props: {
+      path: {
+         type: String,
+         required: true
+      },
       round: {
          type: Object,
          required: true,
       },
-   },
-   data() {
-      return {
-         path: 'standard'
-      }
    },
    computed: {
       stage() {

@@ -1,6 +1,6 @@
 <template>
-   <RoundDashboard v-if="round" :round="round" />
-   <StageWrapper v-if="round" :round="round" />
+   <RoundDashboard v-if="round" :path="path" :round="round" />
+   <StageWrapper v-if="round" :path="path" :round="round" />
    <div v-else>Round {{ id }} does not exist</div>
 </template>
 
@@ -31,6 +31,7 @@ export default {
    data() {
       return {
          round: null,
+         path: 'standard'
       };
    },
    provide() {
@@ -56,7 +57,8 @@ export default {
          setVotes: this.setVotes,
          swapAngel: this.swapAngel,
          swapBandits: this.swapBandits,
-         themeVotes: computed(() => this.round.votes.theme)
+         themeVotes: computed(() => this.round.votes.theme),
+         togglePath: this.togglePath
       };
    },
    methods: {
@@ -263,6 +265,9 @@ export default {
          team.members[replacedIndex] = held.participant;
          held.team.members[heldIndex] = replacedParticipant;
       },
+      togglePath() {
+         this.path = this.path === 'standard' ? 'reverse' : 'standard';
+      }
    },
    created() {
       this.round = this.fetchRound(this.id);

@@ -1,41 +1,39 @@
 <template>
-   <div>
-      <table id="threads">
-         <thead>
-            <tr>
-               <th>Stage</th>
-               <th>Thread</th>
-               <th>Action</th>
-               <th>Database</th>
-            </tr>
-         </thead>
-         <tbody>
-            <tr v-for="(value, key) in threads" :key="key">
-               <td class="thread">{{ key }}</td>
-               <td v-if="editing === key" class="middle">
-                  <input type="text" :id="`input-${key}`" :value="value?.source" />
-               </td>
-               <td v-else class="middle">
-                  <a v-if="value?.source" :href="`http://www.reddit.com/by_id/${value?.source}`">{{ value.source }}</a>
-                  <span v-if="value?.length"> {{ value.length }} </span>
-               </td>
-               <td class="controls">
-                  <button v-if="!editing" :name="key" @click="setEditing($event)">Edit</button>
-                  <button v-if="value" class="delete" @click="deleteThread(key)">Delete</button>
-                  <button v-if="editing === key" @click="cancelEditing">Cancel</button>
-                  <button v-if="editing === key" :name="key" @click="confirmEdit($event)">Confirm</button>
-               </td>
-               <td v-if="value?.id || value?.length && value.every(el => el.id)">
-                  Saved
-               </td>
-               <td v-else class="controls">
-                  <button v-if="value" @click="saveThreadsToDatabase(value)">Save to DB</button>
-               </td>
-               
-            </tr>
-         </tbody>
-      </table>
-   </div>
+   <table id="threads">
+      <thead>
+         <tr>
+            <th>Stage</th>
+            <th>Thread</th>
+            <th>Action</th>
+            <th>Database</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr v-for="(value, key) in threads" :key="key">
+            <td class="thread">{{ key }}</td>
+            <td v-if="editing === key" class="middle">
+               <input type="text" :id="`input-${key}`" :value="value?.source" />
+            </td>
+            <td v-else class="middle">
+               <a
+                  v-if="value?.source"
+                  :href="`http://www.reddit.com/by_id/${value?.source}`"
+               >{{ value.source }}</a>
+               <span v-if="value?.length">{{ value.length }}</span>
+            </td>
+            <td class="controls">
+               <button v-if="!editing" :name="key" @click="setEditing($event)">Edit</button>
+               <button v-if="value" class="delete" @click="deleteThread(key)">Delete</button>
+               <button v-if="editing === key" @click="cancelEditing">Cancel</button>
+               <button v-if="editing === key" :name="key" @click="confirmEdit($event)">Confirm</button>
+            </td>
+            <td v-if="value?.id || value?.length && value.every(el => el.id)">Saved</td>
+            <td v-else class="controls">
+               <button v-if="value" @click="saveThreadsToDatabase(value)">Save to DB</button>
+            </td>
+         </tr>
+      </tbody>
+   </table>
 </template>
 
 <script>

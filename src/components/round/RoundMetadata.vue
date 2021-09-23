@@ -1,45 +1,45 @@
 <template>
-      <base-modal
-         :title="`Edit parts for round ${round.number}`"
-         :open="editing === 'parts'"
-         @close="clearEditing"
-      >
-         <template #default>
-            <table>
-               <thead>
-                  <tr>
-                     <th>Part</th>
-                     <th>Qty</th>
-                     <th>Action</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr v-for="(element, index) in parts" :key="index">
-                     <td>
-                        <input type="text" v-model="element.key" />
-                     </td>
-                     <td>
-                        <input type="number" v-model="element.value" />
-                     </td>
-                     <td>
-                        <button @click="deletePart(index)">Delete</button>
-                     </td>
-                  </tr>
-               </tbody>
-               <tfoot>
-                  <tr>
-                     <td colspan="2">
-                        <button @click="addPart">Add Part</button>
-                     </td>
-                  </tr>
-               </tfoot>
-            </table>
-         </template>
-         <template #actions>
-            <button @click="clearEditing">Cancel</button>
-            <button @click="setParts">Confirm</button>
-         </template>
-      </base-modal>
+   <base-modal
+      :title="`Edit parts for round ${round.number}`"
+      :open="editing === 'parts'"
+      @close="clearEditing"
+   >
+      <template #default>
+         <table>
+            <thead>
+               <tr>
+                  <th>Part</th>
+                  <th>Qty</th>
+                  <th>Action</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr v-for="(element, index) in parts" :key="index">
+                  <td>
+                     <input type="text" v-model="element.key" />
+                  </td>
+                  <td>
+                     <input type="number" v-model="element.value" />
+                  </td>
+                  <td>
+                     <button @click="deletePart(index)">Delete</button>
+                  </td>
+               </tr>
+            </tbody>
+            <tfoot>
+               <tr>
+                  <td colspan="2">
+                     <button @click="addPart">Add Part</button>
+                  </td>
+               </tr>
+            </tfoot>
+         </table>
+      </template>
+      <template #actions>
+         <button @click="clearEditing">Cancel</button>
+         <button @click="setParts">Confirm</button>
+      </template>
+   </base-modal>
 
    <div>
       <table id="metadata">
@@ -184,9 +184,19 @@
             </tr>
          </tfoot>
       </table>
-      <button v-if="round.active" @click="clearBoolean('active')">Clear Active</button>
-      <button v-if="round.complete" @click="clearBoolean('complete')">Clear Complete</button>
-      <button @click="saveRoundToDatabase">Save to Database</button>
+      <div id="controls">
+         <div>
+         <button v-if="round.active" @click="clearBoolean('active')">Clear Active</button>
+         <button v-if="round.complete" @click="clearBoolean('complete')">Clear Complete</button>
+         <button @click="saveRoundToDatabase">Save to Database</button>
+         <button @click="togglePath">Path: {{ path }}</button>
+      </div>
+      <div
+         class="tiny-text"
+      >Path determines in what order data will be added to the round. For rounds that already have songs, use <strong>reverse</strong>. For new and in progress rounds, use <strong>standard</strong>.
+      </div>
+      </div>
+      
    </div>
 </template>
 
@@ -205,12 +215,16 @@ export default {
       }
    },
    props: {
+      path: {
+         type: String,
+         required: true
+      },
       round: {
          type: Object,
          required: true,
       },
    },
-   inject: ["clearBoolean", "clearProperty", "saveRoundToDatabase", "setProperty"],
+   inject: ["clearBoolean", "clearProperty", "saveRoundToDatabase", "setProperty", "togglePath"],
    methods: {
       setEditing(value) {
          this.editing = value;
@@ -257,10 +271,20 @@ export default {
 </script>
 
 <style scoped>
+div {
+   margin: 3px;
+}
 table#metadata {
    border: 1px solid black;
    border-spacing: 1px;
-   margin: 15px;
+   width: 100%;
+}
+
+#controls {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
 }
 
 th,
@@ -308,5 +332,10 @@ td.neutral {
 
 td.static {
    color: grey;
+}
+
+.tiny-text {
+   font-size: 0.7rem;
+   width: 66%;
 }
 </style>
