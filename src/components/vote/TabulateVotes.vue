@@ -1,18 +1,9 @@
 <template>
-   <div>
-      <button
-         v-if="!allSongsVotedOn"
-         @click="tabulateVotes()"
-      >Tabulate Votes</button>
-      <button @click="clearSongVotes()">Clear Votes</button>
-   </div>
+   <button @click="tabulateVotes()">Tabulate Votes</button>
 </template>
 
 <script>
-import {
-   assignVotesToSongs,
-   clearVotesFromSongs,
-} from "@/js/functions/gob/vote";
+import { determineWinners, tabulateResults } from "@/js/functions/gob/vote";
 
 export default {
    name: "TabulateVotes",
@@ -24,22 +15,16 @@ export default {
       votes: {
          type: Array,
          required: true,
-      },
-      allSongsVotedOn: {
-         type: Boolean,
-         required: true,
-      },
+      }
    },
+   inject: ["setProperty"],
    methods: {
       tabulateVotes() {
-         console.log(this.songs);
-         console.log(this.votes);
-         assignVotesToSongs(this.songs, this.votes);
-      },
-      clearSongVotes() {
-         clearVotesFromSongs(this.songs);
-         console.log("Songs: ", this.songs);
-      },
+         const results = tabulateResults(this.votes);
+         console.log(results);
+         const winners = determineWinners(results, this.songs);
+         this.setProperty("winners", winners);
+      }
    },
 };
 </script>

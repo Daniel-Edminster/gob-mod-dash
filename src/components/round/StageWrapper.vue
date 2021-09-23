@@ -48,7 +48,6 @@
          v-if="stage === 'congrats'"
          :metadata="metadata"
          :post="round.threads.congrats"
-         :teams="round.teams"
          :winners="round.winners"
       />
       <p v-if="stage === 'wtf'">WTF</p>
@@ -88,7 +87,7 @@ export default {
    },
    data() {
       return {
-         path: 'reverse'
+         path: 'standard'
       }
    },
    computed: {

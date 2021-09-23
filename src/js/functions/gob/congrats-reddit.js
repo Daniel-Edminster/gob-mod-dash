@@ -1,98 +1,107 @@
-export function constructWinnersThread(winners, teams) {
-  const lines = constructHeader();
-  const awardLines = constructRoleWinners(winners, teams);
-  lines.push(...awardLines);
-  return lines.join('\n');
-}
-
-function constructRoleWinners(winners, teams) {
-  const lines = [];
-  for (const [role, songs] of Object.entries(winners)) {
-    songs.forEach(song => {
-      if (role === 'track') {
-        if (+song.teamnumber > 0 && teamExists(+song.teamnumber, teams)) {
-          const line = constructTrackWinner(song, teams);
-          addLineToLines(line, lines);
-        } else {
-          const line = constructTrackWinnerWithoutTeam(song);
-          addLineToLines(line, lines);
-        }
-      } else {
-        if (+song.teamnumber > 0 && teamExists(+song.teamnumber, teams)) {
-          const line = constructRoleWinner(song, role, teams);
-          addLineToLines(line, lines);
-        } else {
-          const line = constructRoleWinnerWithoutUser(song, role);
-          addLineToLines(line, lines);
-        }
+export default function constructWinnersThread(winners, roundNum) {
+   const url = `http://new.gameofbands.com/#/round/${roundNum}`;
+   const usernames = new Set();
+   const lines = constructHeader(url);
+   winners.track.forEach(song => {
+      lines.push(...constructTrackSection(song));
+      song.participants.forEach(participant => usernames.add(participant.username))
+   });
+   for (const [part, songs] of Object.entries(winners)) {
+      if (part !== 'track') {
+         songs.forEach(song => lines.push(...constructPartWinners(song, part)))
       }
-    })
-  }
-  return lines;
+   }
+   lines.push(...constructFooter(usernames));
+   return lines.join("\n");
+
+   // functions in scope for usernames set and url
+
+   function constructTrackSection(song) {
+      const lines = [];
+      lines.push(constructTrackWinner(song));
+      lines.push(constructTrackLink(song));
+      lines.push(...separator);
+      return lines;
+   }
+   
+   function constructTrackWinner(song) {
+      const participantString = constructParticipantsString(song.participants, false);
+      return `[*${song.title}* ${participantString}](${url} "Award Track")`;
+   }
+   
+   function constructTrackLink(song) {
+      const participantString = constructParticipantsString(song.participants, true);
+      return `[${song.title}](${url} ${participantString})[Soundcloud link](${song.url} "RES-inline-song")`;
+   }
+
+   function constructPartWinners(song, part) {
+      const winningParticipants = getWinningParticipants(song.participants, part);
+      const lines = [];
+      winningParticipants.forEach(participant => {
+         lines.push(constructPartWinner(song, participant))
+         lines.push(...separator);
+      })
+      return lines;
+   }
+
+   function constructPartWinner(song, participant) {
+      return `[**${participant.username}** for *${song.title}*](${url} "Award ${capitalise(participant.part)}")`;
+   }
+   
+   function getWinningParticipants(participants, part) {
+      const array = [];
+      participants.forEach(participant => {
+         if (participant.part === part) {
+            array.push(participant)
+            usernames.add(participant.username);
+         }
+      });
+      return array;
+   }
 }
 
-function constructRoleWinner(song, role, teams) {
-  const key = convertRoleToKey(role);
-  const team = teams.find(team => team.number === +song.teamnumber);
-  const user = team.members.find(user => {
-    return user.roles.includes(key.toLowerCase());
-  })
-  return `[**/u/${user.name}** for *${song.name}*](${song.url} "Award ${key}")`
+// inside scope not needed
+
+function constructHeader(url) {
+   const lines = [];
+   lines.push(`Congratulations to the winners of [Round %num: %theme](${url})!`);
+   lines.push('');
+   lines.push(`As a reminder, all bandits and "fandits" past and present should vote, and you can't win if you don't play!`);
+   lines.push('');
+   lines.push(`And now we present to you the winners:`);
+   lines.push(...separator);
+   return lines;
 }
 
-function constructRoleWinnerWithoutUser(song, role) {
-  const key = convertRoleToKey(role);
-  return `[*${song.name}*](${song.url} "Award ${key}")`;
+function constructFooter(usernames) {
+   const lines = [];
+   lines.push(`### Congratulations to all of our winners! Flair incoming to:`);
+   lines.push('');
+   usernames.forEach(username => {
+      lines.push(`* /u/${username}`)
+      lines.push('');
+   });
+   return lines;
 }
 
-function constructTrackWinner(song, teams) {
-  const team = teams.find(team => team.number === +song.teamnumber);
-  let string = `[${song.name} by `;
-  team.members.forEach((user, index, array) => {
-    if (index === array.length - 1) string+= 'and ';
-    string += `**/u/${user.name}**`;
-    if (index < array.length - 1) string += ', ';
-  })
-  string += `](${song.url} "Award Track")`;
-  return string;
+function constructParticipantsString(participants, isLink) {
+   const quote = isLink ? `"` : ``;
+   const style = !isLink ? "**" : "";
+   const head = `${quote}by `;
+   const tail = `${quote}`;
+   const strings = participants.map(participant => {
+      const suffix = isLink ? ` - ${participant.part}` : '';
+      return `${style}/u/${participant.username}${style}${suffix}`
+   });
+   const string = strings.join(",");
+   return head + string + tail;
 }
 
-function constructTrackWinnerWithoutTeam(song) {
-  return `[${song.name}](${song.url} "Award Track")`;
+function capitalise(string) {
+   const array = string.split('');
+   array[0] = array[0].toUpperCase();
+   return array.join('');
 }
 
-function convertRoleToKey(role) {
-  let key;
-  switch (role) {
-    case 'track': key = 'Track'; break;
-    case 'music': key = 'Music'; break;
-    case 'lyric': key = 'Lyrics'; break;
-    case 'vocal': key = 'Vocals'; break;
-  }
-  return key;
-}
+const separator = ['', '---', ''];
 
-function addLineToLines(line, lines) {
-  lines.push(line);
-  lines.push('');
-  lines.push('---');
-  lines.push('');
-}
-
-function constructHeader() {
-  const lines = [];
-  lines.push(`Congratulations to the winners of [Round %num: %theme](http://beta.gameofbands.com/round/?round=%num)!`);
-  lines.push('');
-  lines.push(`As a reminder, all bandits and "fandits" past and present should vote, and you can't win if you don't play!`);
-  lines.push('');
-  lines.push(`And now we present to you the winners:`);
-  lines.push('');
-  lines.push('---');
-  lines.push('');
-  return lines;
-}
-
-function teamExists(number, teams) {
-  const team = teams.find(team => team.number === number);
-  console.log(team);
-}

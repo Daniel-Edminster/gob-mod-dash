@@ -1,5 +1,5 @@
 <template>
-   <button v-if="state === 0" @click="constructWinnersThread">Construct Winners Thread</button>
+   <button v-if="state === 0 && !template" @click="constructWinnersThread">Construct Winners Thread</button>
    <PostThread v-if="state === 0 && template" thread="congrats" :metadata="metadata" :forceTemplate="template" />
    <DatasaveWarning v-if="state === 1" thing="Congrats thread" action="ending the round" />
    <p v-if="state === 2">Congrats thread has been posted and saved! This concludes the round.</p>
@@ -8,7 +8,7 @@
 <script>
 import PostThread from "../shared/PostThread";
 import DatasaveWarning from "../shared/DatasaveWarning"
-import { constructWinnersThread } from "@/js/functions/gob/congrats-reddit";
+import constructWinnersThread from "@/js/functions/gob/congrats-reddit";
 
 export default {
    name: "CongratsIndex",
@@ -19,10 +19,6 @@ export default {
    props: {
       winners: {
          type: Object,
-         required: true,
-      },
-      teams: {
-         type: Array,
          required: true,
       },
       metadata: {
@@ -52,7 +48,8 @@ export default {
    methods: {
       constructWinnersThread() {
          const title = `Congratulations to the Winners of Round %num: %theme`;
-         const body = constructWinnersThread(this.winners, this.teams);
+         const body = constructWinnersThread(this.winners, this.metadata.number);
+         console.log(body);
          this.template = { title, body };
          console.log("Saved Template", this.template);
       },
