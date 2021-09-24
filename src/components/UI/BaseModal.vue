@@ -1,5 +1,8 @@
 <template>
-   <div v-if="open" @click="$emit('close')"></div>
+   <transition name="background">
+      <div v-if="open" @click="$emit('close')"></div>
+   </transition>
+   
    <transition name="modal">
       <dialog open v-if="open">
          <header>
@@ -96,6 +99,19 @@ menu {
    }
 }
 
+div {
+   opacity: 1;
+   transition: opacity 0.3s;
+}
+
+.background-enter-active {
+   animation: background 0.3s ease;
+}
+
+.background-leave-active {
+   animation: background 0.3s ease reverse;
+}
+
 .modal-enter-active {
    animation: modal 0.3s ease-out;
 }
@@ -113,6 +129,16 @@ menu {
    to {
       opacity: 1;
       transform: translateY(0) scale(1);
+   }
+}
+
+@keyframes background {
+   from {
+      opacity: 0;
+   }
+
+   to {
+      opacity: 1;
    }
 }
 </style>
