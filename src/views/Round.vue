@@ -13,6 +13,7 @@ import saveRoundToDatabase from "@/js/functions/fauna/saveRound"
 // Function imports below are for saving individual pools
 import saveThemesToDatabase from "@/js/functions/fauna/saveThemes"
 import saveSignupsToDatabase from "@/js/functions/fauna/saveParticipants"
+import saveTeamsToDatabase from "@/js/functions/fauna/saveTeams";
 import saveThreadsToDatabase from "@/js/functions/fauna/saveThread";
 import saveVotesToDatabase from "@/js/functions/fauna/saveVotes";
 
@@ -45,6 +46,7 @@ export default {
          returnAngels: this.returnAngels,
          savePoolToDatabase: this.savePoolToDatabase,
          saveRoundToDatabase: this.saveRoundToDatabase,
+         saveTeamsToDatabase: this.saveTeamsToDatabase,
          saveThreadsToDatabase: this.saveThreadsToDatabase,
          setActive: this.setActive,
          setComment: this.setComment,
@@ -55,8 +57,6 @@ export default {
          setSongComment: this.setSongComment,
          setThread: this.setThread,
          setVotes: this.setVotes,
-         swapAngel: this.swapAngel,
-         swapBandits: this.swapBandits,
          themeVotes: computed(() => this.round.votes.theme),
          togglePath: this.togglePath
       };
@@ -133,6 +133,11 @@ export default {
          } else {
             console.log("Could not save round to database.")
          }
+      },
+      async saveTeamsToDatabase(teams) {
+         console.log("Saving teams to database", teams);
+         const savedTeams = await saveTeamsToDatabase(teams)
+         console.log("Teams saved", savedTeams);
       },
       async saveThreadsToDatabase(threads) {
          console.log("Saving threads to database", threads);
@@ -241,29 +246,6 @@ export default {
          this.round.votes[stage] = votes;
          console.log(this.round.votes);
          this.saveRounds();
-      },
-      swapAngel(held, team) {
-         console.log("Are you an angel", held, team);
-         const heldIndex = this.round.participants.findIndex(
-            (element) => element.id === held.participant.id
-         );
-         const replacedIndex = team.members.findIndex(
-            (element) => element.part === held.participant.part
-         );
-         const replacedParticipant = team.members[replacedIndex];
-         team.members[replacedIndex] = held.participant;
-         this.round.participants[heldIndex] = replacedParticipant;
-      },
-      swapBandits(held, team) {
-         const heldIndex = held.team.members.findIndex(
-            (element) => element.id === held.participant.id
-         );
-         const replacedIndex = team.members.findIndex(
-            (element) => element.part === held.participant.part
-         );
-         const replacedParticipant = team.members[replacedIndex];
-         team.members[replacedIndex] = held.participant;
-         held.team.members[heldIndex] = replacedParticipant;
       },
       togglePath() {
          this.path = this.path === 'standard' ? 'reverse' : 'standard';

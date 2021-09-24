@@ -2,24 +2,24 @@
    <li
       class="team-item"
       ref="teamItem"
-      @drop="catchBandit($event, team)"
+      @drop="catchBandit"
       @dragover.prevent
       @dragenter="dragEnter()"
       @dragleave="dragLeave()"
       @mouseup="clearHover()"
    >
-      <p @dragover.prevent>{{ team.number }}</p>
+      <p @dragover.prevent>{{ number }}</p>
       <ul @dragenter.prevent>
          <li
             class="team-member"
             @dragenter.prevent
-            v-for="participant in team.members"
+            v-for="participant in participants"
             :key="participant.username"
          >
             {{ participant.part }}:
             <span
                draggable="true"
-               @dragstart="startDrag(participant, team)"
+               @dragstart="startDrag(participant)"
                :class="experience[participant.username]"
                class="name"
             >{{ participant.username }}</span>
@@ -32,9 +32,13 @@
 export default {
    name: "TeamItem",
    props: {
-      team: {
-         type: Object,
+      number: {
+         type: Number,
          required: true,
+      },
+      participants: {
+         type: Array,
+         require: true
       },
       obscure: {
          type: Boolean,
@@ -55,17 +59,16 @@ export default {
       "grabBandit",
       "getHeldBandit",
       "clearHeldBandit",
-      "swapAngel",
-      "swapBandits",
+      "swapParticipants"
    ],
    methods: {
-      startDrag(participant, team) {
-         this.grabBandit(participant, team);
+      startDrag(participant) {
+         this.grabBandit(participant, this.number);
       },
-      catchBandit(_, team) {
+      catchBandit() {
          const held = this.getHeldBandit();
-         if (held.team) this.swapBandits(held, team);
-         if (!held.team) this.swapAngel(held, team);
+         const source = held.teamnumber ? "teams" : "rounds";
+         this.swapParticipants(held, this.number, source);
          this.$refs.teamItem.classList.remove("drag-hover");
       },
       dragEnter() {
@@ -74,8 +77,7 @@ export default {
       },
       dragLeave() {
          this.counter--;
-         if (this.counter <= 0)
-            this.$refs.teamItem.classList.remove("drag-hover");
+         if (this.counter <= 0) this.$refs.teamItem.classList.remove("drag-hover");
       },
       clearHover() {
          this.$refs.teamItem.classList.remove("drag-hover");
@@ -90,15 +92,12 @@ export default {
          });
       },
    },
-   created() {
-      console.log(this.team);
-   },
-   mounted() {
-      if (this.obscure === true) this.obscureText();
-   },
-   updated() {
-      if (this.obscure === true) this.obscureText();
-   },
+   // mounted() {
+   //    if (this.obscure === true) this.obscureText();
+   // },
+   // updated() {
+   //    if (this.obscure === true) this.obscureText();
+   // },
 };
 </script>
 
@@ -116,7 +115,7 @@ li.team-item {
 p {
    margin: 0;
    font-weight: bold;
-   text-align: right;
+   text-align: left;
 }
 
 ul {
@@ -135,7 +134,8 @@ li.team-member {
 }
 
 span.name:hover {
-   color: lightgrey;
+   background: lightblue;
+   color: lightblue;
 }
 
 .obscured {

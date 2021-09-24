@@ -9,7 +9,7 @@
    <p v-if="comments && !launch?.source">{{ comments.length }} Comments Generated</p>
    <PostThread v-if="!launch?.source && comments" thread="launch" :metadata="metadata" />
    <div v-if="!allTeamsCommented">
-      <CommentGenerator v-if="!comments" :teams="teams" />
+      <CommentGenerator v-if="!comments && allTeamsSavedToDatabase" :teams="teams" />
       <PostComments
          v-if="launch?.source && comments"
          :post="launch"
@@ -91,6 +91,9 @@ export default {
             if (!team.comment) return false;
          }
          return true;
+      },
+      allTeamsSavedToDatabase() {
+         return this.teams.every(team => team.id);
       }
    },
    provide() {

@@ -1,10 +1,7 @@
 import { client, q } from '@/js/api/fauna'
 
 export default async function saveRoundToDatabase(round) {
-   console.log(client);
    console.log(`Saving round ${round.number} to database...`);
-   console.log(round);
-   console.log(q);
    const doc = constructRoundDocument(round);
    const response = await saveRoundDocument(doc);
    const id = response.ref?.value?.id;

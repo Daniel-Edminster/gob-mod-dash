@@ -2,8 +2,9 @@
    <div id="team-manager">
       <h4>Team Manager</h4>
       <div v-if="!active">
-         <p>Make final changes to teams and angels before posting. Note that changes here are not saved until "Activate Round" is pressed, so if you want to start again, just refresh the page.</p>
-         <button @click="setActive()">Activate Round</button>
+         <p>Here you can make last minute changes to the allocated Teams, such as rebalancing experience levels. To undo your changes, refresh the page. When you're done, save the teams to the database in order to continue on to posting the launch thread.</p>
+         <button @click="resetTeams">Undo Changes</button>
+         <button @click="commitTeams">Commit Teams</button>
       </div>
       <div v-else>
          Round is currently active.
@@ -11,14 +12,19 @@
       </div>
       <ParticipantTable
          v-if="participants && participants.length > 0"
-         :participants="participants"
+         :participants="unplaced"
          heading="Unplaced"
          :experience="metadata.experience"
          :parts="metadata.parts"
          :draggable="true"
          :grabAngel="grabAngel"
       />
-      <TeamsList :teams="teams" :obscure="!active" :experience="metadata.experience" />
+      <TeamsList
+         :teams="managedTeams"
+         :participants="placed"
+         :obscure="!active"
+         :experience="metadata.experience"
+      />
    </div>
 </template>
 
@@ -35,13 +41,11 @@ export default {
    props: {
       participants: {
          type: Array,
-         required: false,
-         default: null,
+         required: true,
       },
       teams: {
          type: Array,
-         required: true,
-         default: null,
+         required: true
       },
       active: {
          type: Boolean,
@@ -54,34 +58,67 @@ export default {
    },
    data() {
       return {
-         heldBandit: null
+         heldBandit: null,
+         managedParticipants: null,
+         managedTeams: null
       }
    },
-   inject: ["endRound", "setActive"],
+   computed: {
+      placed() {
+         return this.managedParticipants.filter(participant => participant.instance.collection === 'teams');
+      },
+      unplaced() {
+         return this.managedParticipants.filter(participant => participant.instance.collection === 'rounds');
+      }
+   },
+   inject: ["endRound", "saveTeamsToDatabase", "setActive"],
    provide() {
       return {
          clearHeldBandit: this.clearHeldBandit,
          getHeldBandit: this.getHeldBandit,
-         grabBandit: this.grabBandit
+         grabBandit: this.grabBandit,
+         swapAngel: this.swapAngel,
+         swapBandits: this.swapBandits,
+         swapParticipants: this.swapParticipants
       }
    },
    methods: {
+      clearHeldBandit() {
+         this.heldBandit = null;
+      },
       grabAngel(participant) {
          this.heldBandit = { participant }
       },
-      grabBandit(participant, team) {
-         this.heldBandit = { participant, team }
+      grabBandit(participant, teamnumber) {
+         this.heldBandit = { participant, teamnumber }
       },
       getHeldBandit() {
-         if (this.heldBandit) {
-            return this.heldBandit;
-         } else {
-            return null;
-         }
+         return this.heldBandit ? this.heldBandit : null;
       },
-      clearHeldBandit() {
-         this.heldBandit = null;
+      swapParticipants(held, receivingTeamNumber, source) {
+         const replacedParticipant = this.managedParticipants.find(
+            el => el.instance.number === receivingTeamNumber && el.part === held.participant.part
+         );
+         held.participant.instance = { collection: "teams", number: receivingTeamNumber }
+         replacedParticipant.instance = { collection: source, number: this.metadata.number }
+      },
+      cloneArrayOfObjects(array) {
+         return array.map(el => { return {...el}})
+      },
+      resetTeams() {
+         this.managedTeams = this.cloneArrayOfObjects(this.teams);
+         this.managedParticipants = this.cloneArrayOfObjects(this.participants);
+      },
+      commitTeams() {
+         console.log("Committing teams...");
+         // save Teams to database
+         // receive documents with IDs
+         // save those teams to the round.
+         // profit!
       }
+   },
+   created() {
+      this.resetTeams();
    }
 };
 </script>

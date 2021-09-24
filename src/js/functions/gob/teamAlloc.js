@@ -1,17 +1,19 @@
-export default function createTeams(parts, participants, multi, experience) {
+export default function createTeams(parts, multi, experience) {
    console.log(multi, experience);
    const singles = divideIntoSingles(parts, multi[1]);
    const singlesCopy = Object.assign({}, singles);
    console.log(singlesCopy);
    const numParts = Object.keys(parts).length;
    const teams = [];
-   const angels = [];
+   const angels = []; // list of unused participants where the user was placed on another team
    mainLoop();
    const unplaced = flattenObjectOfArrays(singles);
-   console.log("Unplaced:", unplaced);
-   return { teams: buildTeamObjects(teams), angels, unplaced }
+   console.log("unplaced");
+   return { teams: buildTeamObjects(teams), unplaced };
 
    function mainLoop() {
+      // this "> 0" expression actually needs to be the number of each part
+      // need to use Object.entries, and reference number of that part using parts[key]
       while (Object.values(singles).every(entries => entries.length > 0)) {
          teams.push(assembleTeam())
       }

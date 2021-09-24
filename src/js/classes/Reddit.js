@@ -126,9 +126,4 @@ export default class Reddit {
          console.log(err);
       }
    }
-
-   getUsernameTwo = async () => {
-      const response = await this.snoowrap.getMe();
-      console.log(response);
-   }
 }

@@ -68,23 +68,33 @@ export default {
          return set;
       },
    },
-   inject: ["returnAngels", "setProperty"],
+   inject: ["setProperty"],
    methods: {
+      updateParticipants(teams) {
+         const updatedParticipants = [];
+         teams.forEach(team => {
+            team.members.forEach(member => {
+               member.instance.collection = "teams";
+               member.instance.number = team.number;
+               updatedParticipants.push(member);
+            })
+            delete team.members; // This should go well.
+         })
+         return updatedParticipants;
+      },
       assignTeams() {
-         const { teams, angels, unplaced } = createTeams(
+         const { teams, unplaced } = createTeams(
             this.parts,
-            this.participants,
             {...this.participantsByNumParts},
             this.metadata.experience
          );
          console.log("Teams: ", teams);
-         console.log("Angels:", angels);
-         this.teams = teams;
-         this.angels = angels;
-         this.unplaced = unplaced;
+         // this.teams = teams;
          if (teams.length > 0) {
-            this.setProperty('teams', teams);
-            this.returnAngels(unplaced);
+            const updatedMembers = this.updateParticipants(teams);
+            const array = [ ...updatedMembers, ...unplaced];
+            this.setProperty("participants", array);
+            this.setProperty("teams", teams);
          } else {
             console.log("No teams created. Insufficient Participants.");
          }
