@@ -74,7 +74,6 @@ export default {
 table {
    border: 1px solid black;
    border-spacing: 1px;
-   margin: 15px;
 }
 
 td {

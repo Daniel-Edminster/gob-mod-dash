@@ -186,17 +186,16 @@
       </table>
       <div id="controls">
          <div>
-         <button v-if="round.active" @click="clearBoolean('active')">Clear Active</button>
-         <button v-if="round.complete" @click="clearBoolean('complete')">Clear Complete</button>
+            <button @click="togglePath">Path: {{ path }}</button>
          <button @click="saveRoundToDatabase">Save to Database</button>
-         <button @click="togglePath">Path: {{ path }}</button>
+         <button v-if="round.active" @click="clearBoolean('active')">Clear Active</button>
+            <button v-if="round.complete" @click="clearBoolean('complete')">Clear Complete</button>
       </div>
       <div
          class="tiny-text"
       >Path determines in what order data will be added to the round. For rounds that already have songs, use <strong>reverse</strong>. For new and in progress rounds, use <strong>standard</strong>.
       </div>
       </div>
-      
    </div>
 </template>
 
@@ -271,9 +270,6 @@ export default {
 </script>
 
 <style scoped>
-div {
-   margin: 3px;
-}
 table#metadata {
    border: 1px solid black;
    border-spacing: 1px;
@@ -285,6 +281,7 @@ table#metadata {
    flex-direction: column;
    justify-content: center;
    align-items: center;
+   margin: 3px;
 }
 
 th,

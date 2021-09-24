@@ -35,9 +35,10 @@ export default {
 div#round-metadata {
    background-color: #24252d;
    color: white;
-   padding-bottom: 15px;
+   padding: 10px;
    display: grid;
    grid-template-columns: 4fr 5fr 5fr;
+   gap: 5px;
    margin-bottom: 30px;
 }
 </style>
