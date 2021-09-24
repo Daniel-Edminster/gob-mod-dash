@@ -99,8 +99,9 @@ export default {
          const replacedParticipant = this.managedParticipants.find(
             el => el.instance.number === receivingTeamNumber && el.part === held.participant.part
          );
+         const number = source === "teams" ? held.teamnumber : this.metadata.number;
          held.participant.instance = { collection: "teams", number: receivingTeamNumber }
-         replacedParticipant.instance = { collection: source, number: this.metadata.number }
+         replacedParticipant.instance = { collection: source, number }
       },
       cloneArrayOfObjects(array) {
          return array.map(el => { return {...el}})
