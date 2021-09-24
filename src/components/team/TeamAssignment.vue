@@ -78,7 +78,8 @@ export default {
                member.instance.number = team.number;
                updatedParticipants.push(member);
             })
-            delete team.members; // This should go well.
+            team.round = this.metadata.number;
+            delete team.members;
          })
          return updatedParticipants;
       },

@@ -13,7 +13,6 @@ import saveRoundToDatabase from "@/js/functions/fauna/saveRound"
 // Function imports below are for saving individual pools
 import saveThemesToDatabase from "@/js/functions/fauna/saveThemes"
 import saveSignupsToDatabase from "@/js/functions/fauna/saveParticipants"
-import saveTeamsToDatabase from "@/js/functions/fauna/saveTeams";
 import saveThreadsToDatabase from "@/js/functions/fauna/saveThread";
 import saveVotesToDatabase from "@/js/functions/fauna/saveVotes";
 
@@ -133,11 +132,6 @@ export default {
          } else {
             console.log("Could not save round to database.")
          }
-      },
-      async saveTeamsToDatabase(teams) {
-         console.log("Saving teams to database", teams);
-         const savedTeams = await saveTeamsToDatabase(teams)
-         console.log("Teams saved", savedTeams);
       },
       async saveThreadsToDatabase(threads) {
          console.log("Saving threads to database", threads);

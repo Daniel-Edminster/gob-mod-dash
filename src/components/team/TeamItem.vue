@@ -33,7 +33,7 @@ export default {
    name: "TeamItem",
    props: {
       number: {
-         type: Number,
+         type: String,
          required: true,
       },
       participants: {

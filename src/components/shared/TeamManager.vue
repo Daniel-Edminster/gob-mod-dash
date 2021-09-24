@@ -2,7 +2,7 @@
    <div id="team-manager">
       <h4>Team Manager</h4>
       <div v-if="!active">
-         <p>Here you can make last minute changes to the allocated Teams, such as rebalancing experience levels. To undo your changes, refresh the page. When you're done, save the teams to the database in order to continue on to posting the launch thread.</p>
+         <p>Make last minute changes to teams. Commit when done. This will save teams to the database and you can launch the round.</p>
          <button @click="resetTeams">Undo Changes</button>
          <button @click="commitTeams">Commit Teams</button>
       </div>
@@ -31,6 +31,7 @@
 <script>
 import ParticipantTable from "./ParticipantTable";
 import TeamsList from "../team/TeamsList";
+import saveTeamsToDatabase from "@/js/functions/fauna/saveTeams";
 
 export default {
    name: "TeamManager",
@@ -71,7 +72,7 @@ export default {
          return this.managedParticipants.filter(participant => participant.instance.collection === 'rounds');
       }
    },
-   inject: ["endRound", "saveTeamsToDatabase", "setActive"],
+   inject: ["endRound", "saveTeamsToDatabase", "setActive", "setProperty"],
    provide() {
       return {
          clearHeldBandit: this.clearHeldBandit,
@@ -104,17 +105,31 @@ export default {
          replacedParticipant.instance = { collection: source, number }
       },
       cloneArrayOfObjects(array) {
-         return array.map(el => { return {...el}})
+         return array.map(el => { return { ...el } })
       },
       resetTeams() {
          this.managedTeams = this.cloneArrayOfObjects(this.teams);
          this.managedParticipants = this.cloneArrayOfObjects(this.participants);
       },
-      commitTeams() {
+      async commitTeams() {
          console.log("Committing teams...");
+         try {
+            const savedTeams = await saveTeamsToDatabase(this.managedTeams, this.placed, this.metadata.number);
+            savedTeams.forEach(saved => {
+               const team = this.managedTeams.find(team => team.number === saved.number);
+               team.id = saved.id;
+            })
+            console.log(this.managedTeams);
+            this.setProperty("teams", this.managedTeams);
+            this.setProperty("participants", this.managedParticipants);
+         } catch (err) {
+            console.log(err);
+         }
          // save Teams to database
+         // need to pass Teams as well as placed Participants for update.
          // receive documents with IDs
          // save those teams to the round.
+         // set active flag
          // profit!
       }
    },

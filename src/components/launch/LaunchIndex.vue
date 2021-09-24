@@ -1,6 +1,6 @@
 <template>
    <TeamManager
-      v-if="teams && !launch?.source && !late?.source"
+      v-if="teams && !launch?.source && !late?.source && !allTeamsSavedToDatabase"
       :teams="teams"
       :participants="participants"
       :active="active"
