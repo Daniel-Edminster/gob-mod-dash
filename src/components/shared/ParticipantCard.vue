@@ -23,15 +23,30 @@ export default {
 </script>
 
 <style scoped>
+div {
+   cursor: grab;
+   padding: 3px;
+   border: 1px solid;
+   background-color: black;
+   font-weight: bold;
+}
+
+div:hover {
+   background-color: lightblue;
+   color: black;
+}
 .noob {
    color: white;
+   border-color: white;
 }
 
 .bandit {
    color: greenyellow;
+   border-color: greenyellow;
 }
 
 .veteran {
    color: orange;
+   border-color: orange;
 }
 </style>

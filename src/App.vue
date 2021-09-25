@@ -98,6 +98,12 @@ button:hover {
    cursor: pointer;
 }
 
+button:disabled {
+   background-color: grey;
+   color: lightgrey;
+   cursor: not-allowed;
+}
+
 input {
    background-color: black;
    color: white;

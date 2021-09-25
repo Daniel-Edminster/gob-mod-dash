@@ -19,6 +19,7 @@
    </div>
    <div v-else>
       <PostThread v-if="!late?.source" thread="late" :metadata="metadata" />
+      <button v-if="!active" @click="setActive">Activate Round</button>
       <TeamManager
          v-if="launch?.source && late?.source && active"
          :teams="teams"
@@ -103,6 +104,7 @@ export default {
          setComments: this.setComments,
       };
    },
+   inject: ["setActive"],
    methods: {
       setComments(comments) {
          this.comments = comments;

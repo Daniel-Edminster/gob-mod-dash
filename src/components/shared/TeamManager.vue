@@ -3,13 +3,18 @@
       <h4>Team Manager</h4>
       <div v-if="!active">
          <p>Make last minute changes to teams. Commit when done. This will save teams to the database and you can launch the round.</p>
-         <button @click="resetTeams">Undo Changes</button>
+         <button :disabled="!hasChanged" @click="resetTeams">Undo Changes</button>
          <button @click="commitTeams">Commit Teams</button>
       </div>
       <div v-else>
          Round is currently active.
          <button @click="endRound()">End Round</button>
+         <div id="controls">
+            <button :disabled="!hasChanged" @click="resetTeams">Undo Changes</button>
+            <button :disabled="!hasChanged" @click="commitTeams">Commit Changes</button>
+         </div>
       </div>
+
       <ParticipantTable
          v-if="participants && participants.length > 0"
          :participants="unplaced"
@@ -61,7 +66,8 @@ export default {
       return {
          heldBandit: null,
          managedParticipants: null,
-         managedTeams: null
+         managedTeams: null,
+         hasChanged: false
       }
    },
    computed: {
@@ -97,6 +103,7 @@ export default {
          return this.heldBandit ? this.heldBandit : null;
       },
       swapParticipants(held, receivingTeamNumber, source) {
+         this.hasChanged = true;
          const replacedParticipant = this.managedParticipants.find(
             el => el.instance.number === receivingTeamNumber && el.part === held.participant.part
          );
@@ -110,6 +117,7 @@ export default {
       resetTeams() {
          this.managedTeams = this.cloneArrayOfObjects(this.teams);
          this.managedParticipants = this.cloneArrayOfObjects(this.participants);
+         this.hasChanged = false;
       },
       async commitTeams() {
          console.log("Committing teams...");
@@ -139,5 +147,9 @@ div#team-manager {
    flex-direction: column;
    justify-content: center;
    align-items: center;
+}
+
+div#controls {
+   margin: 20px;
 }
 </style>
