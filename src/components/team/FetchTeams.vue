@@ -1,6 +1,7 @@
 <template>
    <div v-if="!screenReady">
-      Fetching <span class="bandit">bandit</span> and
+      Fetching
+      <span class="bandit">bandit</span> and
       <span class="veteran">veteran</span> information...
    </div>
    <div v-else>
@@ -11,7 +12,7 @@
       </div>
       <div v-else>
          <button @click="commitTeams">Commit Teams</button>
-         <TeamsListFixed :teams="teams" :experience="experience" />
+         <TeamsListFixed :teams="teams" :participants="placed" :experience="experience" />
       </div>
    </div>
 </template>
@@ -20,6 +21,8 @@
 import { mapState } from "vuex";
 import { mapCommentsToTeams } from "@/js/functions/gob/team-reddit";
 import TeamsListFixed from "./TeamsListFixed";
+import saveTeamsToDatabase from "@/js/functions/fauna/saveTeams"
+import saveThreadsToDatabase from "@/js/functions/fauna/saveThread"
 
 export default {
    name: "FetchTeams",
@@ -27,6 +30,10 @@ export default {
       TeamsListFixed,
    },
    props: {
+      metadata: {
+         type: Object,
+         required: true
+      },
       postId: {
          type: String,
          required: true,
@@ -47,23 +54,39 @@ export default {
          teams: null,
          message:
             "Fetch Teams from existing team comments in existing launch thread",
-         placedUsers: null
+         placedUsers: null,
+         comments: []
       };
    },
    computed: {
+      placed() {
+         return this.participants.filter(participant => participant.instance.collection === 'teams');
+      },
       screenReady() {
          return this.bandits.length > 0 && this.veterans.length > 0;
       },
       ...mapState("auth", ["reddit"]),
       ...mapState("bandits", ["bandits", "veterans"]),
    },
-   inject: ["returnAngels", "setProperty", "setActive"],
+   inject: ["setProperty", "setActive", "setTeamCommentThreads"],
    methods: {
-      commitTeams() {
-         this.setProperty("teams", this.teams);
-         const angels = this.filterAngels();
-         this.returnAngels(angels);
-         this.setActive();
+      async commitTeams() {
+         try {
+            const savedTeams = await saveTeamsToDatabase(this.teams, this.placed, this.metadata.number);
+            savedTeams.forEach(saved => {
+               const team = this.teams.find(team => team.number === saved.number);
+               team.id = saved.id;
+               const comment = this.comments.find(comment => comment.number === saved.number);
+               comment.instanceId = saved.id;
+               delete comment.number;
+            });
+            const savedThreads = await saveThreadsToDatabase(this.comments);
+            this.setProperty("teams", this.teams);
+            this.setTeamCommentThreads(savedThreads);
+            this.setActive();
+         } catch (err) {
+            console.log(err);
+         }
       },
       async fetchTeams() {
          this.message = "Fetching teams from comments...";
@@ -76,16 +99,31 @@ export default {
             this.message = `${comments.length} comments found. Please review and commit.`;
             const { placedUsers, teams } = mapCommentsToTeams(comments);
             this.screenPlacedParticipants(teams);
+            this.extractCommentsAndParticipants(teams);
             this.teams = teams;
             this.placedUsers = placedUsers;
          }
       },
-      filterAngels() {
-         console.log(this.participants);
-         console.log(this.placedUsers);
-         return this.participants.filter(participant => 
-            !this.placedUsers.has(participant.username.toLowerCase())
-      )},
+      extractCommentsAndParticipants(teams) {
+         teams.forEach(team => {
+            this.comments.push({
+               parent: this.postId,
+               source: team.comment,
+               stage: "team",
+               number: team.number // will be replaced with the id
+            });
+            team.members.forEach(member => {
+               const participant = this.participants.find(participant =>
+                  participant.username.toLowerCase() === member.username && participant.part === member.part
+               )
+               participant.instance.collection = "teams";
+               participant.instance.number = team.number;
+            })
+            team.round = this.metadata.number;
+            delete team.members;
+            delete team.comment;
+         })
+      },
       screenPlacedParticipants(teams) {
          if (!this.screenReady) {
             console.log("Bandit information unavailable. Check GOB Api connection.");

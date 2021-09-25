@@ -42,7 +42,6 @@ export default {
          deleteNomination: this.deleteNomination,
          deleteThread: this.deleteThread,
          endRound: this.endRound,
-         returnAngels: this.returnAngels,
          savePoolToDatabase: this.savePoolToDatabase,
          saveRoundToDatabase: this.saveRoundToDatabase,
          saveTeamsToDatabase: this.saveTeamsToDatabase,
@@ -54,6 +53,7 @@ export default {
          setProperty: this.setProperty,
          setPool: this.setPool,
          setSongComment: this.setSongComment,
+         setTeamCommentThreads: this.setTeamCommentThreads,
          setThread: this.setThread,
          setVotes: this.setVotes,
          themeVotes: computed(() => this.round.votes.theme),
@@ -103,10 +103,6 @@ export default {
       endRound() {
          this.round.active = false;
          this.round.complete = true;
-         this.saveRounds();
-      },
-      returnAngels(angels) {
-         this.round.participants = angels;
          this.saveRounds();
       },
       async savePoolToDatabase(stage, pool) {
@@ -175,6 +171,9 @@ export default {
          delete comment.body;
          threads[comment.stage].push(comment);
          this.saveRounds();
+      },
+      setTeamCommentThreads(threads) {
+         this.round.threads.team = threads;
       },
       setFoundSongComments(ids, postId) {
          const array = [];

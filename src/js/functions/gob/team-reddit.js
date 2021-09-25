@@ -69,7 +69,7 @@ export function mapCommentsToTeams(comments) {
          }
       })
 
-      return { number, members, comment: comment.id }
+      return { number, members, comment: comment.name }
    }
 
    function formatLine(line) {

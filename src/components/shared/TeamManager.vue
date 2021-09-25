@@ -125,12 +125,6 @@ export default {
          } catch (err) {
             console.log(err);
          }
-         // save Teams to database
-         // need to pass Teams as well as placed Participants for update.
-         // receive documents with IDs
-         // save those teams to the round.
-         // set active flag
-         // profit!
       }
    },
    created() {

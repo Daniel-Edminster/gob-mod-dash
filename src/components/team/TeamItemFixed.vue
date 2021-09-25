@@ -3,9 +3,9 @@
       class="team-item"
 		ref="teamItem"
 	>
-		<p>{{ team.number }}</p>
+		<p>{{ number }}</p>
 		<ul>
-			<li v-for="participant in team.members" :key="participant.id" class="team-member">
+			<li v-for="participant in participants" :key="participant.id" class="team-member">
 				{{ participant.part }}:
 				<span
 					:class="experience[participant.username]"
@@ -20,10 +20,14 @@
 export default {
 	name: "TeamItemFixed",
 	props: {
-		team: {
-			type: Object,
-			required: true,
-		},
+      number: {
+         type: String,
+         required: true
+      },
+      participants: {
+         type: Array,
+         required: true
+      },
       experience: {
          type: Object,
          required: true

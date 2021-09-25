@@ -6,6 +6,7 @@
    <div v-if="launch?.id">
       <FetchTeams
          v-if="launch?.source && launch.id"
+         :metadata="metadata"
          :postId="launch.source"
          :participants="participants"
          :experience="metadata.experience"

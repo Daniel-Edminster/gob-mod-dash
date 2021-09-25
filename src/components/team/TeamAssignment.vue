@@ -71,6 +71,8 @@ export default {
    inject: ["setProperty"],
    methods: {
       updateParticipants(teams) {
+         // since these members are references to the participant objects, we might not need
+         // the updatedParticipants array for this to work.
          const updatedParticipants = [];
          teams.forEach(team => {
             team.members.forEach(member => {
@@ -87,7 +89,7 @@ export default {
          const { teams, unplaced } = createTeams(
             this.parts,
             {...this.participantsByNumParts},
-            this.metadata.experience
+            this.metadata.experience 
          );
          console.log("Teams: ", teams);
          // this.teams = teams;

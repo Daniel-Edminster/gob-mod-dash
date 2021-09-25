@@ -94,7 +94,7 @@ function flattenObjectOfArrays(obj) {
 function buildTeamObjects(teams) {
    const array = [];
    teams.forEach((team, index) => {
-      array.push({ number: index + 1, members: team})
+      array.push({ number: (index + 1).toString(), members: team})
    })
    return array;
 }
