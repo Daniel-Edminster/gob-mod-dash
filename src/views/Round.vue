@@ -133,7 +133,7 @@ export default {
          console.log("Saving threads to database", threads);
          const savedThreads = await saveThreadsToDatabase(threads);
          savedThreads.forEach(saved => {
-            if (saved.stage === ("song" || "team")) {
+            if (saved.stage === "song" || saved.stage === "team") {
                const array = this.round.threads[saved.stage];
                const thread = array.find(element => element.source === saved.source);
                thread.id = saved.id;
@@ -174,6 +174,7 @@ export default {
       },
       setTeamCommentThreads(threads) {
          this.round.threads.team = threads;
+         this.saveRounds();
       },
       setFoundSongComments(ids, postId) {
          const array = [];
