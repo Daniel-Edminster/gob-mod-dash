@@ -6,20 +6,18 @@
 				<th>Theme</th>
 				<th>Participants</th>
 				<th>Teams</th>
-				<th>Songs</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr v-for="round in rounds" :key="round.number">
+			<tr v-for="round in roundsList" :key="round.number">
 				<td>
 					<router-link :to="`/rounds/${round.number}`">{{
 						round.number
 					}}</router-link>
 				</td>
-				<td><span v-if="round.theme"><router-link :to="`/rounds/${round.number}`">{{ round.theme.title }}</router-link></span></td>
-				<td><span v-if="round.participants">{{ round.participants.length }}</span></td>
-				<td><span v-if="round.teams">{{ round.teams.length }}</span></td>
-				<td><span v-if="round.songs">{{ round.songs.length }}</span></td>
+				<td><span><router-link :to="`/rounds/${round.number}`">{{ round.theme }}</router-link></span></td>
+				<td><span>{{ round.numParticipants }}</span></td>
+				<td><span>{{ round.numTeams }}</span></td>
 			</tr>
 		</tbody>
 	</table>
@@ -30,7 +28,7 @@ import { mapState } from "vuex";
 
 export default {
 	name: "RoundsList",
-	computed: mapState("rounds", ["rounds"]),
+	computed: mapState("rounds", ["roundsList"]),
 };
 </script>
 

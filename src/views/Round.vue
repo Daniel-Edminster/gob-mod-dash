@@ -1,7 +1,12 @@
 <template>
-   <RoundDashboard v-if="round" :path="path" :round="round" />
-   <StageWrapper v-if="round" :path="path" :round="round" />
-   <div v-else>Round {{ id }} does not exist</div>
+   <div v-if="isLoaded">
+      <RoundDashboard v-if="round && isLoaded" :path="path" :round="round" />
+      <StageWrapper v-if="round" :path="path" :round="round" />
+      <div v-else>Round {{ id }} does not exist</div>
+   </div>
+   <div v-else>
+      <button @click="loadRound">Load Round Information from Database</button>
+   </div>
 </template>
 
 <script>
@@ -31,6 +36,7 @@ export default {
    data() {
       return {
          round: null,
+         isLoaded: false,
          path: 'standard'
       };
    },
@@ -66,6 +72,10 @@ export default {
          const round = this.$store.getters["rounds/getRoundByNumber"](number);
          if (round) return round;
          return null;
+      },
+      // we'll do this in fetchRound on page load, but for now let's make it button-driven
+      loadRound() {
+         console.log(`Loading round ${this.round.number} from database...`);
       },
       checkComment(comment) {
          const { type, number } = comment;
