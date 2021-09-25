@@ -30,6 +30,7 @@
          :metadata="metadata"
          :launch="round.threads.launch"
          :late="round.threads.late"
+         :teamThreads='round.threads.team'
          :participants="round.participants"
          :teams="round.teams"
          :active="round.active"

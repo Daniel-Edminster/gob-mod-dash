@@ -92,12 +92,12 @@ export default {
          });
       },
    },
-   // mounted() {
-   //    if (this.obscure === true) this.obscureText();
-   // },
-   // updated() {
-   //    if (this.obscure === true) this.obscureText();
-   // },
+   mounted() {
+      if (this.obscure === true) this.obscureText();
+   },
+   updated() {
+      if (this.obscure === true) this.obscureText();
+   },
 };
 </script>
 

@@ -8,8 +8,8 @@
    />
    <p v-if="comments && !launch?.source">{{ comments.length }} Comments Generated</p>
    <PostThread v-if="!launch?.source && comments" thread="launch" :metadata="metadata" />
-   <div v-if="!allTeamsCommented">
-      <CommentGenerator v-if="!comments && allTeamsSavedToDatabase" :teams="teams" />
+   <div v-if="!teamThreads">
+      <CommentGenerator v-if="!comments && allTeamsSavedToDatabase" :participants="placed" :teams="teams" />
       <PostComments
          v-if="launch?.source && comments"
          :post="launch"
@@ -18,9 +18,9 @@
       />
    </div>
    <div v-else>
-      <PostThread v-if="!late?.source && allTeamsCommented" thread="late" :metadata="metadata" />
+      <PostThread v-if="!late?.source" thread="late" :metadata="metadata" />
       <TeamManager
-         v-if="allTeamsCommented && launch?.source && late?.source && active"
+         v-if="launch?.source && late?.source && active"
          :teams="teams"
          :participants="participants"
          :active="active"
@@ -62,6 +62,11 @@ export default {
          required: false,
          default: null,
       },
+      teamThreads: {
+         type: Array,
+         required: false,
+         default: null
+      },
       teams: {
          type: Array,
          required: true,
@@ -86,11 +91,8 @@ export default {
       };
    },
    computed: {
-      allTeamsCommented() {
-         for (const team of this.teams) {
-            if (!team.comment) return false;
-         }
-         return true;
+      placed() {
+         return this.participants.filter(participant => participant.instance.collection === 'teams');
       },
       allTeamsSavedToDatabase() {
          return this.teams.every(team => team.id);

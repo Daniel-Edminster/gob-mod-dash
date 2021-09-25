@@ -1,31 +1,20 @@
-// export function mapTeamsToComments(teams) {
-//   const comments = [];
-//   teams.forEach(team => {
-//     const comment = {};
-//     comment.body = mapTeamToComment(team);
-//     comment.number = team.number;
-//     comment.type = 'team';
-//     comments.push(comment);
-//   })
-//   return comments;
-// }
-
-export function mapTeamsToComments(teams) {
+export function mapTeamsToComments(teams, participants) {
    return teams.map(team => {
       const comment = {};
-      comment.body = mapTeamToComment(team);
-      comment.number = team.number;
-      comment.type = 'team';
+      const members = participants.filter(participant => participant.instance.number === team.number);
+      comment.body = mapTeamToComment(team, members);
+      comment.instanceId = team.id;
+      comment.stage = 'team';
       return comment;
    })
 }
 
 // we should make a template for this
-function mapTeamToComment(team) {
+function mapTeamToComment(team, members) {
    const lines = [];
    lines.push(`**Team ${team.number}**`);
    lines.push('');
-   team.members.forEach(participant => {
+   members.forEach(participant => {
       lines.push(`* ${participant.part}: [${participant.username}](https://www.reddit.com/u/${participant.username})`);
    })
    const string = lines.join('\n');
@@ -35,8 +24,6 @@ function mapTeamToComment(team) {
 export function mapCommentsToCheckIns(comments) {
    console.log(comments);
 }
-
-// Comments to Teams
 
 export function mapCommentsToTeams(comments) {
    // Slightly poor form running the set this way, can fix if in future
