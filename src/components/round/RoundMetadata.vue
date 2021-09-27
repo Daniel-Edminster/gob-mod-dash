@@ -1,46 +1,5 @@
 <template>
-   <base-modal
-      :title="`Edit parts for round ${round.number}`"
-      :open="editing === 'parts'"
-      @close="clearEditing"
-   >
-      <template #default>
-         <table>
-            <thead>
-               <tr>
-                  <th>Part</th>
-                  <th>Qty</th>
-                  <th>Action</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr v-for="(element, index) in parts" :key="index">
-                  <td>
-                     <input type="text" v-model="element.key" />
-                  </td>
-                  <td>
-                     <input type="number" v-model="element.value" />
-                  </td>
-                  <td>
-                     <button @click="deletePart(index)">Delete</button>
-                  </td>
-               </tr>
-            </tbody>
-            <tfoot>
-               <tr>
-                  <td colspan="2">
-                     <button @click="addPart">Add Part</button>
-                  </td>
-               </tr>
-            </tfoot>
-         </table>
-      </template>
-      <template #actions>
-         <button @click="clearEditing">Cancel</button>
-         <button @click="setParts">Confirm</button>
-      </template>
-   </base-modal>
-
+   <PartsEditor :open="editing === 'parts'" :roundNum="round.number" :roundParts="round.parts" />
    <div>
       <table id="metadata">
          <thead>
@@ -69,9 +28,9 @@
             <tr>
                <td>Begin Date</td>
                <td v-if="editing === 'begin'">
-                  <DatePickerWrapper :date="{ key: 'begin', value: round.dates.begin }" />
+                  <DatePickerWrapper :date="{ key: 'launch', value: round.dates.launch }" />
                </td>
-               <td v-else>{{ formatDate(round.dates.begin) }}</td>
+               <td v-else>{{ formatDate(round.dates.launch) }}</td>
                <td v-if="editing === 'begin'">
                   <button @click="clearEditing">Done</button>
                </td>
@@ -82,9 +41,9 @@
             <tr>
                <td>End Date</td>
                <td v-if="editing === 'end'">
-                  <DatePickerWrapper :date="{ key: 'end', value: round.dates.end }" />
+                  <DatePickerWrapper :date="{ key: 'deadline', value: round.dates.deadline }" />
                </td>
-               <td v-else>{{ formatDate(round.dates.end) }}</td>
+               <td v-else>{{ formatDate(round.dates.deadline) }}</td>
                <td v-if="editing === 'end'">
                   <button @click="clearEditing">Done</button>
                </td>
@@ -201,16 +160,17 @@
 
 <script>
 import DatePickerWrapper from '../shared/DatePickerWrapper'
+import PartsEditor from './PartsEditor'
 
 export default {
    name: "RoundMetadata",
    components: {
-      DatePickerWrapper
+      DatePickerWrapper,
+      PartsEditor
    },
    data() {
       return {
          editing: null,
-         parts: null
       }
    },
    props: {
@@ -223,13 +183,17 @@ export default {
          required: true,
       },
    },
+   provide() {
+      return {
+         clearEditing: this.clearEditing
+      }
+   },
    inject: ["clearBoolean", "clearProperty", "saveRoundToDatabase", "setProperty", "togglePath"],
    methods: {
       setEditing(value) {
          this.editing = value;
       },
       clearEditing() {
-         this.buildLocalPartsData();
          this.editing = null;
       },
       formatDate(string) {
@@ -243,28 +207,6 @@ export default {
          if (Object.prototype.toString.call(obj) === '[object Date]') return true;
          return false;
       },
-      setParts() {
-         const obj = {};
-         this.parts.forEach(el => { if (el.key.length > 0) obj[el.key] = el.value });
-         this.parts = this.round.parts;
-         this.setProperty("parts", obj);
-         this.buildLocalPartsData();
-         this.clearEditing();
-      },
-      addPart() {
-         this.parts.push({ key: "", value: 1 })
-      },
-      deletePart(index) {
-         this.parts.splice(index, 1);
-      },
-      buildLocalPartsData() {
-         const array = [];
-         for (const [key, value] of Object.entries(this.round.parts)) array.push({ key, value });
-         this.parts = array;
-      }
-   },
-   mounted() {
-      this.buildLocalPartsData();
    }
 };
 </script>
