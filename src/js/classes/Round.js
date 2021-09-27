@@ -1,5 +1,5 @@
 export default class Round {
-   
+
    static stages = ['theme', 'signup', 'launch', 'late', 'voting', 'congrats'];
 
    constructor(number) {
@@ -10,11 +10,11 @@ export default class Round {
          music: 1,
          lyrics: 1,
          vocals: 1
-      },
-         this.votes = {
-            theme: null,
-            songs: null
-         };
+      };
+      this.votes = {
+         theme: null,
+         songs: null
+      };
       this.participants = null;
       this.teams = null;
       this.active = false;
@@ -26,12 +26,12 @@ export default class Round {
       this.constructor.stages.forEach(stage => {
          this.threads[stage] = null;
          this.pools[stage] = null
-      })
+      });
       this.dates = {
          begin: null,
          end: null,
          endVote: null
-      }
+      };
       this.experience = {}
    }
 }

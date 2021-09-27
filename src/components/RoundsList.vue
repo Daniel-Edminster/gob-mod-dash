@@ -24,11 +24,14 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-
 export default {
 	name: "RoundsList",
-	computed: mapState("rounds", ["roundsList"]),
+   props: {
+      roundsList: {
+         type: Array,
+         required: true
+      }
+   }
 };
 </script>
 

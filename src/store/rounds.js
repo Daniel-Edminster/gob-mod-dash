@@ -1,20 +1,21 @@
 import Round from "@/js/classes/Round"
-import loadRoundsList from "@/js/functions/fauna/loadRounds"
+import { loadRoundsListFromDatabase } from "@/js/functions/fauna/loadRounds"
+import { loadRoundFromDatabase } from "@/js/functions/fauna/loadRounds";
 
-// const array = localStorage.rounds ? JSON.parse(localStorage.rounds) : [];
+const localRounds = localStorage.rounds ? JSON.parse(localStorage.rounds) : null;
+const localRoundsList = localStorage.roundsList ? JSON.parse(localStorage.roundsList) : null; 
 
 const rounds = {
    namespaced: true,
    state() {
       return {
-         rounds: null,
-         roundsList: []
+         rounds: localRounds || [],
+         roundsList: localRoundsList || []
       }
    },
    getters: {
       getRoundByNumber: (state) => (number) => {
-         const roundsList = state.roundsList;
-         const round = roundsList.find(round => {
+         const round = state.rounds.find(round => {
             return round.number === number;
          })
          if (round) {
@@ -26,28 +27,61 @@ const rounds = {
    },
    mutations: {
       createRound(state, number) {
-         const roundsList = [...state.roundsList];
          const round = new Round(number);
+         const rounds = [...state.rounds];
+         const roundsList = [...state.roundsList];
          roundsList.push(round);
          roundsList.sort((a, b) => b.number - a.number);
          state.roundsList = roundsList;
+         rounds.push(round);
+         state.rounds = rounds;
       },
       saveRoundsList(state, roundsList) {
          state.roundsList = roundsList;
+      },
+      storeRound(state, round) {
+         state.rounds.push(round);
       }
    },
    actions: {
-      async loadRounds({ commit }) {
+      async loadRoundsList({ commit, dispatch }) {
          try {
-            const response = await loadRoundsList();
-            if (response?.data) commit('saveRoundsList', response.data);
+            const response = await loadRoundsListFromDatabase();
+            if (response?.data) {
+               commit('saveRoundsList', response.data);
+               dispatch('saveRoundsList', response.data);
+            }
          } catch(err) {
             console.log(err);
          }
       },
+      async loadRound({ state, commit, dispatch }, number) {
+         const existingRound = state.roundsList.find(round => round.number === number);
+         console.log(existingRound);
+         if (!existingRound?.id) {
+            console.log("This round has no ID. Must be new.");
+            dispatch('createRound', number);
+            return;
+         }
+         try {
+            const response = await loadRoundFromDatabase(number);
+            if (response) {
+               commit('storeRound', response);
+               dispatch('saveRounds');
+            }
+         } catch(err) {
+            console.log(err);
+         }
+      },
+      storeRound({ commit, dispatch }, round) {
+         console.log("Storing round...", round.number);
+         commit('storeRound', round);
+         dispatch('saveRounds');
+         console.log(`Round ${round.number} stored.`);
+      },
       createRound({ state, commit, dispatch }, number) {
-         const rounds = state.roundsList;
-         const roundExists = rounds.find(round => {
+         const roundsList = state.roundsList;
+         const roundExists = roundsList.find(round => {
             return round.number === number;
          })
          if (roundExists) {
@@ -64,6 +98,10 @@ const rounds = {
          console.log("Saving Rounds");
          localStorage.setItem('rounds', JSON.stringify(state.rounds));
       },
+      saveRoundsList({state}) {
+         console.log("Saving RoundsList");
+         localStorage.setItem('roundsList', JSON.stringify(state.roundsList));
+      }
    }
 }
 

@@ -1,21 +1,21 @@
 <template>
-   <div v-if="isLoaded">
-      <RoundDashboard v-if="round && isLoaded" :path="path" :round="round" />
-      <StageWrapper v-if="round" :path="path" :round="round" />
-      <div v-else>Round {{ id }} does not exist</div>
+   <div v-if="round">
+      <RoundDashboard :path="path" :round="round" />
+      <StageWrapper :path="path" :round="round" />
    </div>
-   <div v-else>
-      <button @click="loadRound">Load Round Information from Database</button>
+   <div v-if="isLoading">
+      <base-spinner />
+      <p>Loading round...</p>
    </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import RoundDashboard from "@/components/round/RoundDashboard";
 import StageWrapper from "@/components/round/StageWrapper";
 import { addDays } from "@/js/functions/utils";
 import { computed } from 'vue'
 import saveRoundToDatabase from "@/js/functions/fauna/saveRound"
-// Function imports below are for saving individual pools
 import saveThemesToDatabase from "@/js/functions/fauna/saveThemes"
 import saveSignupsToDatabase from "@/js/functions/fauna/saveParticipants"
 import saveThreadsToDatabase from "@/js/functions/fauna/saveThread";
@@ -35,11 +35,16 @@ export default {
    },
    data() {
       return {
-         round: null,
-         isLoaded: false,
+         isLoading: false,
          path: 'standard'
       };
    },
+   computed: {
+      ...mapGetters('rounds', ['getRoundByNumber']),
+      round() {
+         return this.getRoundByNumber(this.id);
+      }
+   }, 
    provide() {
       return {
          checkComment: this.checkComment,
@@ -67,15 +72,17 @@ export default {
       };
    },
    methods: {
-      fetchRound(id) {
+      async loadRound(id) {
+         let round = null;
+         console.log("Loading round from store...");
          const number = id;
-         const round = this.$store.getters["rounds/getRoundByNumber"](number);
+         round = this.$store.getters["rounds/getRoundByNumber"](number);
          if (round) return round;
-         return null;
-      },
-      // we'll do this in fetchRound on page load, but for now let's make it button-driven
-      loadRound() {
-         console.log(`Loading round ${this.round.number} from database...`);
+         this.isLoading = true;
+         console.log(`Nothing found. Loading round ${number} from database...`);
+         round = await this.$store.dispatch('rounds/loadRound', number);
+         this.isLoading = false;
+         return round;
       },
       checkComment(comment) {
          const { type, number } = comment;
@@ -255,8 +262,8 @@ export default {
          this.path = this.path === 'standard' ? 'reverse' : 'standard';
       }
    },
-   created() {
-      this.round = this.fetchRound(this.id);
+   async created() {
+      if (!this.round) await this.loadRound(this.id);
    },
 };
 </script>
