@@ -1,5 +1,5 @@
 <template>
-   <base-modal :title="`Edit parts for round ${roundNum}`" :open="open" @close="closeEditor">
+   <base-modal :title="`Edit parts for round ${roundNum}`" :open="open" @close="clearEditing">
       <template #default>
          <table>
             <thead>
@@ -32,7 +32,7 @@
          </table>
       </template>
       <template #actions>
-         <button @click="closeEditor">Cancel</button>
+         <button @click="clearEditing">Cancel</button>
          <button @click="setParts">Confirm</button>
       </template>
    </base-modal>
@@ -60,17 +60,23 @@ export default {
          parts: null
       }
    },
+   computed: {
+      testValue() {
+         return this.roundParts;
+      }
+   },
+   watch: {
+      roundParts() {
+         this.buildLocalPartsData();
+      }
+   },
    inject: ["clearEditing", "setProperty"],
    methods: {
       setParts() {
          const obj = {};
          this.parts.forEach(el => { if (el.key.length > 0) obj[el.key] = el.value });
          this.setProperty("parts", obj);
-         // passing the obj to rebuild the local data directly
-         // since relying on the prop has a delay for some reason
-         // unsure why... a closure maybe?
-         this.buildLocalPartsData(obj);
-         this.closeEditor();
+         this.clearEditing();
       },
       addPart() {
          this.parts.push({ key: "", value: 1 })
@@ -78,18 +84,14 @@ export default {
       deletePart(index) {
          this.parts.splice(index, 1);
       },
-      buildLocalPartsData(obj) {
+      buildLocalPartsData() {
          const array = [];
-         for (const [key, value] of Object.entries(obj)) array.push({ key, value });
+         for (const [key, value] of Object.entries(this.roundParts)) array.push({ key, value });
          this.parts = array;
       },
-      closeEditor() {
-         // this.buildLocalPartsData(this.roundParts);
-         this.clearEditing();
-      }
    },
    mounted() {
-      this.buildLocalPartsData(this.roundParts);
+      this.buildLocalPartsData();
    }
 }
 </script>
