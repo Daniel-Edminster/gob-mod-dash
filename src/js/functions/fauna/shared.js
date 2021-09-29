@@ -7,7 +7,7 @@ export function addIds(docs) {
    })
 }
 
-export function isolateFaunaError(errors) {
+function isolateFaunaError(errors) {
    let error;
    error = errorDive(errors[0]);
 
@@ -21,7 +21,9 @@ export function isolateFaunaError(errors) {
    return error;
 }
 
-export function FaunaError(error) {
+export function FaunaError(err) {
+   const error = isolateFaunaError(err.errors());
+
    this.name = error.code;
    this.message = error.description;
 }

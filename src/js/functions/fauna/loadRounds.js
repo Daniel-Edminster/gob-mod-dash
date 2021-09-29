@@ -1,23 +1,26 @@
 import { client, q } from '@/js/api/fauna'
 import Round from "@/js/classes/Round"
+import { FaunaError } from "@/js/functions/fauna/shared"
 
 export async function loadRoundsListFromDatabase() {
    try {
       const response = await client.query(q.Call("get_rounds_list"));
       if (response) return formatRoundsList(response);
    } catch (err) {
-      console.log(err);
+      console.error(err);
+      throw new FaunaError(err);
    }
 }
 
 function formatRoundsList(data) {
-   console.log(data);
    const { roundsList, themesList } = data;
-   return roundsList.map(el => ({
+   return roundsList.map(el => {
+      const themeEl = themesList.find(theme => theme[0] === el[2]);
+      return {
       id: el[0],
       number: el[1],
-      theme: themesList.find(theme => theme[0] === el[2])[1]
-   }))
+      theme: themeEl ? themeEl[1] : null
+   }})
 }
 
 export async function loadRoundFromDatabase(roundNum) {
@@ -25,17 +28,17 @@ export async function loadRoundFromDatabase(roundNum) {
       const response = await client.query(q.Call("load_entire_round", roundNum));
       return response ? formatRound(response, roundNum) : null;
    } catch (err) {
-      console.log(err)
+      throw new FaunaError(err);
    }
 }
 
 function formatRound(data, roundNum) {
    const round = new Round(roundNum);
    round.id = data.id;
-   round.theme = data.theme;
+   round.theme = data.theme.data; // :D
    const loadedThreads = formatThreads(data.threads); // need the IDs to know they're saved to DB
    Object.keys(loadedThreads).forEach(key => round.threads[key] = loadedThreads[key]);
-   round.parts = formatParts(data.parts);
+   round.parts = data.parts.length ? formatParts(data.parts) : data.parts;
    round.participants = formatParticipants(data.participants, data.teams, data.users, data.parts, roundNum);
    round.teams = formatTeams(data.teams);
    round.songs = formatSongs(data.songs, data.teams); // need IDs to know they're saved to DB

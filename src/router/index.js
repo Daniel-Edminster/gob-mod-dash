@@ -25,7 +25,7 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
-    path: '/rounds/:id',
+    path: '/rounds/:number',
     name: 'Round',
     props: true,
     component: Round,

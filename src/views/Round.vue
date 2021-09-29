@@ -1,4 +1,5 @@
 <template>
+   <p v-if="failMessage">{{ failMessage }}</p>
    <div v-if="round">
       <RoundDashboard :path="path" :round="round" />
       <StageWrapper :path="path" :round="round" />
@@ -15,7 +16,6 @@ import RoundDashboard from "@/components/round/RoundDashboard";
 import StageWrapper from "@/components/round/StageWrapper";
 import { addDays } from "@/js/functions/utils";
 import { computed } from 'vue'
-import saveRoundToDatabase from "@/js/functions/fauna/saveRound"
 import saveThemesToDatabase from "@/js/functions/fauna/saveThemes"
 import saveSignupsToDatabase from "@/js/functions/fauna/saveParticipants"
 import saveThreadsToDatabase from "@/js/functions/fauna/saveThread";
@@ -28,13 +28,14 @@ export default {
       StageWrapper,
    },
    props: {
-      id: {
+      number: {
          type: String,
          required: true,
       },
    },
    data() {
       return {
+         failMessage: null,
          isLoading: false,
          path: 'standard'
       };
@@ -42,9 +43,9 @@ export default {
    computed: {
       ...mapGetters('rounds', ['getRoundByNumber']),
       round() {
-         return this.getRoundByNumber(this.id);
+         return this.getRoundByNumber(this.number);
       }
-   }, 
+   },
    provide() {
       return {
          checkComment: this.checkComment,
@@ -72,17 +73,11 @@ export default {
       };
    },
    methods: {
-      async loadRound(id) {
-         let round = null;
-         console.log("Loading round from store...");
-         const number = id;
-         round = this.$store.getters["rounds/getRoundByNumber"](number);
-         if (round) return round;
+      async loadRound(number) {
          this.isLoading = true;
-         console.log(`Nothing found. Loading round ${number} from database...`);
-         round = await this.$store.dispatch('rounds/loadRound', number);
+         const response = await this.$store.dispatch('rounds/loadRound', number);
+         if (response.name && response.message) this.failMessage = response.message;
          this.isLoading = false;
-         return round;
       },
       checkComment(comment) {
          const { type, number } = comment;
@@ -139,12 +134,7 @@ export default {
          this.saveRounds()
       },
       async saveRoundToDatabase() {
-         const id = await saveRoundToDatabase(this.round);
-         if (id) {
-            this.setProperty('id', id);
-         } else {
-            console.log("Could not save round to database.")
-         }
+         this.$store.dispatch("rounds/saveRoundToDatabase", this.number);
       },
       async saveThreadsToDatabase(threads) {
          console.log("Saving threads to database", threads);
@@ -263,7 +253,7 @@ export default {
       }
    },
    async created() {
-      if (!this.round) await this.loadRound(this.id);
+      if (!this.round) await this.loadRound(this.number);
    },
 };
 </script>
