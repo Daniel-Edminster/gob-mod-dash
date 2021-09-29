@@ -26,4 +26,5 @@ export function FaunaError(err) {
 
    this.name = error.code;
    this.message = error.description;
+   this.position = error.position;
 }
