@@ -4,10 +4,20 @@ import Round from "@/js/classes/Round"
 export async function loadRoundsListFromDatabase() {
    try {
       const response = await client.query(q.Call("get_rounds_list"));
-      if (response) return response;
+      if (response) return formatRoundsList(response);
    } catch (err) {
       console.log(err);
    }
+}
+
+function formatRoundsList(data) {
+   console.log(data);
+   const { roundsList, themesList } = data;
+   return roundsList.map(el => ({
+      id: el[0],
+      number: el[1],
+      theme: themesList.find(theme => theme[0] === el[2])[1]
+   }))
 }
 
 export async function loadRoundFromDatabase(roundNum) {

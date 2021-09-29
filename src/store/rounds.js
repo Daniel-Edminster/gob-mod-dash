@@ -47,10 +47,8 @@ const rounds = {
       async loadRoundsList({ commit, dispatch }) {
          try {
             const response = await loadRoundsListFromDatabase();
-            if (response?.data) {
-               commit('saveRoundsList', response.data);
-               dispatch('saveRoundsList', response.data);
-            }
+            commit('saveRoundsList', response);
+            dispatch('saveRoundsList', response);
          } catch(err) {
             console.log(err);
          }
