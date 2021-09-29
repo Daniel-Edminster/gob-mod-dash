@@ -35,7 +35,6 @@ export default class Round {
       this.pools = {};
       this.dates = {};
       Object.keys(this.constructor.stages).forEach(stage => {
-         console.log(stage);
          this.threads[stage] = null;
          this.pools[stage] = null;
          this.dates[stage] = createDate(this.constructor.stages[stage], 'standard');
