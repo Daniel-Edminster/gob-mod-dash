@@ -1,5 +1,6 @@
 <template>
    <PartsEditor :open="editing === 'parts'" :roundNum="round.number" :roundParts="round.parts" />
+   <DatesEditor :open="editing === 'dates'" :roundNum="round.number" :roundDates="round.dates" />
    <div>
       <table id="metadata">
          <thead>
@@ -20,45 +21,14 @@
             </tr>
             <tr>
                <td>Parts</td>
-               <td>{{ Object.keys(round.parts).length }}</td>
+               <td>{{ Object.values(round.parts) }}</td>
                <td>
                   <button @click="setEditing('parts')">Edit</button>
                </td>
             </tr>
-            <tr>
-               <td>Begin Date</td>
-               <td v-if="editing === 'begin'">
-                  <DatePickerWrapper :date="{ key: 'launch', value: round.dates.launch }" />
-               </td>
-               <td v-else>{{ formatDate(round.dates.launch) }}</td>
-               <td v-if="editing === 'begin'">
-                  <button @click="clearEditing">Done</button>
-               </td>
-               <td v-else>
-                  <button @click="setEditing('begin')">Edit</button>
-               </td>
-            </tr>
-            <tr>
-               <td>End Date</td>
-               <td v-if="editing === 'end'">
-                  <DatePickerWrapper :date="{ key: 'deadline', value: round.dates.deadline }" />
-               </td>
-               <td v-else>{{ formatDate(round.dates.deadline) }}</td>
-               <td v-if="editing === 'end'">
-                  <button @click="clearEditing">Done</button>
-               </td>
-               <td v-else>
-                  <button @click="setEditing('end')">Edit</button>
-               </td>
-            </tr>
-            <tr v-if="round.dates.endVote">
-               <td>Voting Cutoff</td>
-               <td>{{ formatDate(round.dates.endVote) }}</td>
-               <td>end + 8</td>
-            </tr>
             <tr v-if="round.theme">
                <td>Theme</td>
-               <td>{{ round.theme.title }}</td>
+               <td>{{ round.theme.title || round.theme.description }}</td>
                <td>
                   <button @click="clearProperty('theme')">Clear</button>
                </td>
@@ -90,6 +60,11 @@
                <td>
                   <button @click="clearProperty('winners')">Clear</button>
                </td>
+            </tr>
+            <tr>
+               <td>Next action</td>
+               <td>{{ formatDate(round.dates.theme)}}</td>
+               <td><button @click="setEditing('dates')">Edit</button></td>
             </tr>
          </tbody>
          <tfoot v-if="!round.active && !round.complete">
@@ -159,14 +134,15 @@
 </template>
 
 <script>
-import DatePickerWrapper from '../shared/DatePickerWrapper'
 import PartsEditor from './PartsEditor'
+import DatesEditor from './DatesEditor'
+import { formatDateToISOString } from '../../js/functions/utils';
 
 export default {
    name: "RoundMetadata",
    components: {
-      DatePickerWrapper,
-      PartsEditor
+      PartsEditor,
+      DatesEditor
    },
    data() {
       return {
@@ -185,28 +161,20 @@ export default {
    },
    provide() {
       return {
-         clearEditing: this.clearEditing
+         closeEditor: this.clearEditing
       }
    },
    inject: ["clearBoolean", "clearProperty", "saveRoundToDatabase", "setProperty", "togglePath"],
    methods: {
+      formatDate(date) {
+         return formatDateToISOString(date);
+      },
       setEditing(value) {
          this.editing = value;
       },
       clearEditing() {
          this.editing = null;
-      },
-      formatDate(string) {
-         let date = null;
-         if (string) date = new Date(string);
-         if (this.isDate(date)) return date.toDateString();
-         return 'enter date';
-      },
-      isDate(obj) {
-         // why there isn't a simple Date typeof check is beyond me :(
-         if (Object.prototype.toString.call(obj) === '[object Date]') return true;
-         return false;
-      },
+      }
    }
 };
 </script>

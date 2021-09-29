@@ -22,6 +22,19 @@ function formatDate(dateString) {
   return date.toDateString();
 }
 
+export function formatDateToISOString(string) {
+   let date = null;
+   if (string) date = new Date(string);
+   if (isDate(date)) return date.toDateString();
+   return false;
+}
+
+function isDate(obj) {
+   // why there isn't a simple Date typeof check is beyond me :(
+   if (Object.prototype.toString.call(obj) === '[object Date]') return true;
+   return false;
+}
+
 function worldTimeServerLink(dateString) {
   if (!dateString) return "No date"
   const date = new Date(dateString);

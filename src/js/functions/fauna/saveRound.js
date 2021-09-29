@@ -9,11 +9,12 @@ export default async function saveRoundToDatabase(round) {
 }
 
 function constructRoundDocument(round) {
-   const { number, theme, roles } = round;
+   const { number, theme, parts, dates } = round;
    return {
       number,
       ...(theme?.id && { theme: q.Ref(q.Collection('themes'), theme.id) }),
-      ...(roles && { roles })
+      parts,
+      dates
    }
 }
 

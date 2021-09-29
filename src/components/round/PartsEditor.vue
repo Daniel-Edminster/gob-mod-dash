@@ -1,5 +1,5 @@
 <template>
-   <base-modal :title="`Edit parts for round ${roundNum}`" :open="open" @close="clearEditing">
+   <base-modal :title="`Edit parts for round ${roundNum}`" :open="open" @close="closeEditor">
       <template #default>
          <table>
             <thead>
@@ -32,7 +32,7 @@
          </table>
       </template>
       <template #actions>
-         <button @click="clearEditing">Cancel</button>
+         <button @click="closeEditor">Cancel</button>
          <button @click="setParts">Confirm</button>
       </template>
    </base-modal>
@@ -70,13 +70,13 @@ export default {
          this.buildLocalPartsData();
       }
    },
-   inject: ["clearEditing", "setProperty"],
+   inject: ["closeEditor", "setProperty"],
    methods: {
       setParts() {
          const obj = {};
          this.parts.forEach(el => { if (el.key.length > 0) obj[el.key] = el.value });
          this.setProperty("parts", obj);
-         this.clearEditing();
+         this.closeEditor();
       },
       addPart() {
          this.parts.push({ key: "", value: 1 })
@@ -85,6 +85,7 @@ export default {
          this.parts.splice(index, 1);
       },
       buildLocalPartsData() {
+         // converting to array because the keys might change
          const array = [];
          for (const [key, value] of Object.entries(this.roundParts)) array.push({ key, value });
          this.parts = array;
@@ -96,7 +97,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 th {
    color: white
 }
