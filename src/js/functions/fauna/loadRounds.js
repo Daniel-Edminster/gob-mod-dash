@@ -28,6 +28,7 @@ export async function loadRoundFromDatabase(roundNum) {
       const response = await client.query(q.Call("load_entire_round", roundNum));
       return response ? formatRound(response, roundNum) : null;
    } catch (err) {
+      console.log(err);
       throw new FaunaError(err);
    }
 }
@@ -35,13 +36,16 @@ export async function loadRoundFromDatabase(roundNum) {
 function formatRound(data, roundNum) {
    const round = new Round(roundNum);
    round.id = data.id;
-   round.theme = data.theme.data; // :D
+   if (data.theme) {
+      round.theme = data.theme.data; // :D
+      round.theme.title = data.meta.title ? data.meta.title : null;
+   }
    const loadedThreads = formatThreads(data.threads); // need the IDs to know they're saved to DB
    Object.keys(loadedThreads).forEach(key => round.threads[key] = loadedThreads[key]);
    round.parts = data.parts.length ? formatParts(data.parts) : data.parts;
-   round.participants = formatParticipants(data.participants, data.teams, data.users, data.parts, roundNum);
-   round.teams = formatTeams(data.teams);
-   round.songs = formatSongs(data.songs, data.teams); // need IDs to know they're saved to DB
+   if (data.participants.length > 0) round.participants = formatParticipants(data.participants, data.teams, data.users, data.parts, roundNum);
+   if (data.teams.length > 0) round.teams = formatTeams(data.teams);
+   if (data.songs.length > 0) round.songs = formatSongs(data.songs, data.teams); // need IDs to know they're saved to DB
    return round;
 }
 

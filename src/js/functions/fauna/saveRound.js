@@ -13,6 +13,7 @@ function constructRoundDocument(round) {
    return {
       number,
       ...(theme?.id && { theme: q.Ref(q.Collection('themes'), theme.id) }),
+      ...(theme?.title && { title: theme.title }),
       parts,
       dates
    }
