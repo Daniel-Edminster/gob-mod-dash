@@ -1,23 +1,12 @@
 export default class Reddit {
-   constructor(snoowrapInstance) {
-      this.snoowrap = snoowrapInstance;
+   constructor(snoowrap) {
+      this.snoowrap = snoowrap;
       this.subreddit = process.env.VUE_APP_REDDIT_SUBREDDIT;
-   }
-
-   async isModerator(subredditName) {
-      try {
-         const listing = await this.snoowrap.getModeratedSubreddits();
-         const isMod = listing.find(subreddit => subreddit.display_name == subredditName);
-         return isMod ? true : null;
-      } catch (err) {
-         console.log(err)
-      }
    }
 
    async setSubreddit(name) {
       try {
          const check = await this.snoowrap.getSubreddit(name).fetch();
-         console.log(check);
          if (check) console.log("Subreddit exists");
          const listing = await this.snoowrap.getModeratedSubreddits();
          const isMod = listing.find(subreddit => subreddit.display_name == name);
@@ -46,38 +35,9 @@ export default class Reddit {
       }
    }
 
-   // unused: getSubmission is fine to use instead of fetchPost
    fetchPost = (postId) => {
       return this.snoowrap.getSubmission(postId);
    }
-
-   // Unused: see below
-   // fetchNew = (after = null) => {
-   //    console.log("Searching after", after);
-   //    return this.snoowrap.getNew('gameofbands', {after});
-   // }
-
-   // // Unused, since the reddit search endpoint can filter by round number in a single API call.
-   // async findPost(thread, roundNum) {
-   //    console.log(`Finding ${thread} thread for round ${roundNum}`);
-   //    console.log(`Search text: ${this.titles[thread]}`);
-   //    let found = [];
-   //    let listing;
-   //    let after;
-   //    let count = 0;
-   //    while (found.length === 0) {
-   //       console.log(`Searching next hundred posts, beginning at ${count * 100}`);
-   //       listing = await this.fetchNew(after);
-   //       found = listing.filter(submission => {
-   //          console.log(submission.title);
-   //          return submission.title.toLowerCase().includes(this.titles[thread]) &&
-   //          submission.title.includes(roundNum);
-   //       });
-   //       count++;
-   //       after = listing[listing.length-1].name;
-   //    }
-   //    return found;
-   // }
 
    async searchPosts(query) {
       const found = await this.snoowrap.search({
@@ -118,12 +78,36 @@ export default class Reddit {
       }
    }
 
+   verifyUser = async () => {
+      try {
+         const [ username, isMod ] = await Promise.all([
+            this.getUsername(),
+            this.isModerator('gameofbands')
+         ])
+         return { username, isMod };
+      } catch(err) {
+         console.log(err);
+         return null;
+      }
+   }
+
    getUsername = async () => {
       try {
          const username = await this.snoowrap.getMe();
          return username.name;
       } catch (err) {
          console.log(err);
+         return null;
+      }
+   }
+
+   async isModerator(subredditName) {
+      try {
+         const listing = await this.snoowrap.getModeratedSubreddits();
+         const isMod = listing.find(subreddit => subreddit.display_name == subredditName);
+         return isMod ? true : null;
+      } catch (err) {
+         console.log(err)
       }
    }
 }

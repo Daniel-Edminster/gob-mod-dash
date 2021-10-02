@@ -1,39 +1,37 @@
-import snoowrap from 'snoowrap';
-import Reddit from "@/js/classes/Reddit"
 import Snoowrap from 'snoowrap';
+import Reddit from "@/js/classes/Reddit"
 
 const auth = {
    namespaced: true,
    state() {
       return {
          reddit: null,
-         username: null,
-         isMod: null
+         user: null
       }
    },
    getters: {
+      getUsername(state) {
+         return state.user ? state.user.username : null;
+      },
       isAuthenticated(state) {
          return state.reddit ? true : false;
       },
       isModerator(state) {
-         return state.isMod;
+         return state.user?.isMod;
       }
    },
    mutations: {
-      saveReddit(state, reddit) {
+      setReddit(state, reddit) {
          state.reddit = reddit;
       },
-      saveUsername(state, username) {
-         state.username = username;
-      },
-      saveIsMod(state, isMod) {
-         state.isMod = isMod;
+      setUser(state, user) {
+         state.user = user;
       }
    },
    actions: {
       getLoginUrl() {
          try {
-            return snoowrap.getAuthUrl({
+            return Snoowrap.getAuthUrl({
                clientId: process.env.VUE_APP_REDDIT_CLIENT_ID_APP,
                scope: ['read', 'submit', 'mysubreddits', 'identity'],
                redirectUri: process.env.VUE_APP_REDDIT_REDIRECT_URI,
@@ -43,28 +41,41 @@ const auth = {
             console.log(err);
          }
       },
-      async instantiateReddit({ commit, dispatch }, code) {
-         try {
-            const instance = await snoowrap.fromAuthCode({
-               code,
+      async instantiateReddit(_, credentials) {
+         const { code, accessToken } = credentials;
+         let snoowrap;
+         if (code) {
+            snoowrap = await Snoowrap.fromAuthCode({
                userAgent: process.env.VUE_APP_REDDIT_USER_AGENT,
                clientId: process.env.VUE_APP_REDDIT_CLIENT_ID_APP,
-               redirectUri: process.env.VUE_APP_REDDIT_REDIRECT_URI
+               redirectUri: process.env.VUE_APP_REDDIT_REDIRECT_URI,
+               code
             });
-            const reddit = new Reddit(instance);
-            commit('saveReddit', reddit);
-            const username = await reddit.getUsername();
-            commit('saveUsername', username);
-            const isMod = await reddit.isModerator('gameofbands');
-            commit('saveIsMod', isMod);
-            const session = { accessToken: instance.accessToken, timestamp: Date.now() };
-            dispatch('saveSession', session);
-            return true;
-         } catch (err) {
+         } else if (accessToken) {
+            snoowrap = new Snoowrap({
+               userAgent: process.env.VUE_APP_REDDIT_USER_AGENT,
+               accessToken
+            });
+         } else {
+            throw new Error("Please pass either a code or accessToken to instantiate snoowrap.");
+         }
+         return new Reddit(snoowrap);
+      },
+      async authenticate({ commit, dispatch }, credentials) {
+         try {
+            const reddit = await dispatch('instantiateReddit', credentials);
+            commit('setReddit', reddit);
+            const user = await reddit.verifyUser();
+            console.log(user);
+            if (!user) dispatch('logout', 'There was an issue fetching your username from reddit. Please login again.');
+            commit('setUser', user);
+            dispatch(`saveSession`, reddit.snoowrap.accessToken);
+         } catch(err) {
             console.log(err);
          }
       },
-      saveSession(_, session) {
+      saveSession(_, accessToken) {
+         const session = { accessToken, timestamp: Date.now() };
          console.log("Storing Session", session);
          localStorage.setItem('mdSession', JSON.stringify(session));
       },
@@ -74,34 +85,15 @@ const auth = {
          const elapsedMin = (Date.now() - storedSession.timestamp) / 60000;
          if (elapsedMin < 60) {
             console.log(`Current session will expire in ${Math.floor(60 - elapsedMin)}min.`);
-            await dispatch('refreshReddit', storedSession.accessToken);
+            const { accessToken } = storedSession;
+            await dispatch('authenticate', { accessToken });
          } else {
-            console.log("Previous session expired. Please login again.");
-            localStorage.removeItem('mdSession');
+            dispatch('logout', "Previous session expired. Please login again.");
          }
       },
-      async refreshReddit({ commit }, accessToken) {
-         try {
-            const instance = new Snoowrap({
-               userAgent: process.env.VUE_APP_REDDIT_USER_AGENT,
-               accessToken
-            });
-            const reddit = new Reddit(instance);
-            commit('saveReddit', reddit);
-            // sync line where user will be redirected by router guards
-            const username = await reddit.getUsername().catch(err => console.log(err));
-            const isMod = await reddit.isModerator('gameofbands').catch(err => console.log(err));
-            if (!username) {
-               console.log("Previous session expired. Please login again.");
-               localStorage.removeItem('mdSession');
-               return;
-            }
-            commit('saveUsername', username);
-            commit('saveIsMod', isMod);
-            return true;
-         } catch (err) {
-            console.log(err);
-         }
+      logout(_, message) {
+         console.log('Logged out:', message);
+         localStorage.removeItem('mdSession');
       }
    }
 }

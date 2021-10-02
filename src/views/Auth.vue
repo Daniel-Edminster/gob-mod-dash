@@ -20,8 +20,8 @@ export default {
       try {
          const code = new URL(window.location.href).searchParams.get("code");
          const authenticated = await this.$store.dispatch(
-            "auth/instantiateReddit",
-            code
+            "auth/authenticate",
+            { code }
          );
          if (authenticated) {
             this.$router.replace("/");

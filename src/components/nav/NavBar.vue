@@ -1,45 +1,35 @@
 <template>
    <div id="nav">
-      <span id="logo">
-         Game of Bands Mod Dashboard
-      </span>
-      <span
-         id="protected"
-         v-if="isAuthenticated && isModerator"
-      >
-         <router-link to="/">Home</router-link> |
-         <router-link :to="{ name: 'Rounds' }">Rounds</router-link> |
-         <router-link :to="{ name: 'Templates' }">Templates</router-link> |
-         <router-link :to="{ name: 'Help' }">Help</router-link> |
+      <span id="logo">Game of Bands Mod Dashboard</span>
+      <span id="protected" v-if="isAuthenticated && isModerator">
+         <router-link to="/">Home</router-link>
+         <router-link :to="{ name: 'Rounds' }">Rounds</router-link>
+         <router-link :to="{ name: 'Templates' }">Templates</router-link>
+         <router-link :to="{ name: 'Help' }">Help</router-link>
          <router-link :to="{ name: 'Settings' }">Settings</router-link>
       </span>
-      <span v-else>
-         Please login to begin
-      </span>
+      <span v-else>Please login to begin</span>
       <span id="account">
-         <span
-            id="login"
-            v-if="!isAuthenticated"
-         >
+         <span id="login" v-if="!isAuthenticated">
             <router-link :to="{ name: 'Login' }">Login</router-link>
          </span>
-         <span
-            id="account"
-            v-else
-         >
-            Logged in as <strong>{{ username }}</strong>
+         <span id="account" v-else>
+            <span v-if="getUsername">
+               Logged in as
+               <strong>{{ getUsername }}</strong>
+            </span>
+            <span v-else>Fetching user information...</span>
          </span>
       </span>
    </div>
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
    computed: {
-      ...mapState("auth", ["username"]),
-      ...mapGetters("auth", ["isAuthenticated", "isModerator"]),
+      ...mapGetters("auth", ["getUsername", "isAuthenticated", "isModerator"]),
    },
 };
 </script>
@@ -56,5 +46,9 @@ span#logo {
 
 span#account {
    text-align: right;
+}
+
+a {
+   padding: 0 10px;
 }
 </style>
