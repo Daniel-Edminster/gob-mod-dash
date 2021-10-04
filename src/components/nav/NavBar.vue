@@ -13,12 +13,13 @@
          <span id="login" v-if="!isAuthenticated">
             <router-link :to="{ name: 'Login' }">Login</router-link>
          </span>
-         <span id="account" v-else>
+         <span v-else>
             <span v-if="getUsername">
                Logged in as
                <strong>{{ getUsername }}</strong>
             </span>
             <span v-else>Fetching user information...</span>
+            <button @click="logout">Logout</button>
          </span>
       </span>
    </div>
@@ -31,6 +32,11 @@ export default {
    computed: {
       ...mapGetters("auth", ["getUsername", "isAuthenticated", "isModerator"]),
    },
+   methods: {
+      logout() {
+         this.$store.dispatch('auth/logout', 'User logged out.')
+      }
+   }
 };
 </script>
 

@@ -53,6 +53,8 @@
 </template>
 
 <script>
+import gob from '@/js/classes/GOB'
+
 export default {
    name: "DebugGOB",
    data() {
@@ -65,18 +67,14 @@ export default {
    },
    methods: {
       async testGobApi(func) {
-         const rootUrl = process.env.VUE_APP_BASE_URL;
          this.isLoading = true;
-         const response = await fetch(`${rootUrl}/api/gob?${func}`);
-         const obj = await response.json();
+         const obj = await gob[func];
          this.isLoading = false;
          this.handleResponse(obj)
       },
       async testGobApiSongs() {
-         const rootUrl = process.env.VUE_APP_BASE_URL;
          this.isLoading = true;
-         const response = await fetch(`${rootUrl}/api/gob?fetchSongs=${this.songRoundNumber}`);
-         const obj = await response.json();
+         const obj = await gob.fetchSongs(this.songRoundNumber);
          this.isLoading = false;
          this.handleResponse(obj);
       },

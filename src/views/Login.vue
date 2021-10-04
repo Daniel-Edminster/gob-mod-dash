@@ -3,12 +3,10 @@
 </template>
 
 <script>
-// import reddit from "@/js/api/reddit.js";
 
 export default {
    methods: {
       async login() {
-         // const authenticationUrl = reddit.getLoginUrl();
          const authenticationUrl = await this.$store.dispatch("auth/getLoginUrl");
          window.location.href = authenticationUrl;
       },

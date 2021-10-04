@@ -1,4 +1,4 @@
-// import gob from "@/js/api/gob"
+import gob from "@/js/classes/GOB"
 
 const banditList = localStorage.bandits ? JSON.parse(localStorage.bandits) : [];
 const veterans = localStorage.veterans ? JSON.parse(localStorage.veterans) : [];
@@ -22,11 +22,7 @@ const bandits = {
    actions: {
       async fetchBandits({ commit, dispatch }) {
          console.log("Fetching bandits from gob api...")
-         const rootUrl = process.env.VUE_APP_BASE_URL;
-         const func = 'fetchBandits';
-         const response = await fetch(`${rootUrl}/api/gob?${func}`);
-         const obj = await response.json();
-         // const obj = await gob.fetchBandits();
+         const obj = await gob.fetchBandits();
          const { status, data } = obj;
          console.log(`${status.code} ${status.text}.`);
          if (status.code === 200) {
@@ -36,11 +32,7 @@ const bandits = {
       },
       async fetchVeterans({ commit, dispatch }) {
          console.log("Fetching veterans from gob api...")
-         const rootUrl = process.env.VUE_APP_BASE_URL;
-         const func = 'fetchVeterans';
-         const response = await fetch(`${rootUrl}/api/gob?${func}`);
-         const obj = await response.json();
-         // const obj = await gob.fetchVeterans();
+         const obj = await gob.fetchVeterans();
          const { status, data } = obj;
          console.log(`${status.code} ${status.text}.`);
          if (status.code === 200) {

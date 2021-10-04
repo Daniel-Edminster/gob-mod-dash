@@ -6,7 +6,7 @@ const auth = {
    state() {
       return {
          reddit: null,
-         user: null
+         user: null,
       }
    },
    getters: {
@@ -41,42 +41,50 @@ const auth = {
             console.log(err);
          }
       },
-      async instantiateReddit(_, credentials) {
-         const { code, accessToken } = credentials;
-         let snoowrap;
-         if (code) {
-            snoowrap = await Snoowrap.fromAuthCode({
-               userAgent: process.env.VUE_APP_REDDIT_USER_AGENT,
-               clientId: process.env.VUE_APP_REDDIT_CLIENT_ID_APP,
-               redirectUri: process.env.VUE_APP_REDDIT_REDIRECT_URI,
-               code
-            });
-         } else if (accessToken) {
-            snoowrap = new Snoowrap({
-               userAgent: process.env.VUE_APP_REDDIT_USER_AGENT,
-               accessToken
-            });
-         } else {
-            throw new Error("Please pass either a code or accessToken to instantiate snoowrap.");
-         }
+      async verifyAuth({ dispatch }, code) {
+         const rootUrl = process.env.VUE_APP_API_BASE_URL;
+         console.log(rootUrl);
+         const response = await fetch(`${rootUrl}/reddit/verify`, {
+            method: 'POST',
+            headers: {
+               'Accept': 'application/json',
+               'Content-Type': 'text/plain'
+            },
+            body: code
+         })
+         console.log(response);
+         const body = await response.json();
+         console.log(response, body);
+         const { token } = body;
+         if (token) return dispatch('instantiateReddit', token);
+         console.log(body);
+         throw new Error('Error TBD');
+      },
+      instantiateReddit(_, accessToken) {
+         const snoowrap = new Snoowrap({
+            userAgent: process.env.VUE_APP_REDDIT_USER_AGENT,
+            accessToken
+         })
          return new Reddit(snoowrap);
       },
       async authenticate({ commit, dispatch }, credentials) {
+         const { code, accessToken } = credentials;
          try {
-            const reddit = await dispatch('instantiateReddit', credentials);
+            const reddit = code ?
+               await dispatch('verifyAuth', code) :
+               await dispatch('instantiateReddit', accessToken);
             commit('setReddit', reddit);
             const user = await reddit.verifyUser();
-            console.log(user);
-            if (!user) dispatch('logout', 'There was an issue fetching your username from reddit. Please login again.');
+            if (!user) return dispatch('logout', 'There was an issue fetching your username from reddit. Please login again.');
             commit('setUser', user);
             dispatch(`saveSession`, reddit.snoowrap.accessToken);
-         } catch(err) {
+            return true;
+         } catch (err) {
             console.log(err);
          }
       },
       saveSession(_, accessToken) {
          const session = { accessToken, timestamp: Date.now() };
-         console.log("Storing Session", session);
          localStorage.setItem('mdSession', JSON.stringify(session));
       },
       async checkExistingSession({ dispatch }) {
@@ -87,13 +95,16 @@ const auth = {
             console.log(`Current session will expire in ${Math.floor(60 - elapsedMin)}min.`);
             const { accessToken } = storedSession;
             await dispatch('authenticate', { accessToken });
+            return "Now logged in."
          } else {
             dispatch('logout', "Previous session expired. Please login again.");
+            return "Session expired."
          }
       },
-      logout(_, message) {
+      async logout(_, message) {
          console.log('Logged out:', message);
          localStorage.removeItem('mdSession');
+         location.reload();
       }
    }
 }

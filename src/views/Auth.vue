@@ -23,9 +23,8 @@ export default {
             "auth/authenticate",
             { code }
          );
-         if (authenticated) {
-            this.$router.replace("/");
-         }
+         if (authenticated) this.$router.replace("/");
+         this.$router.replace("login");
       } catch (err) {
          console.log(err);
       }

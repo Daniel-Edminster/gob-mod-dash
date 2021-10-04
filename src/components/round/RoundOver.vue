@@ -19,6 +19,7 @@ import SongsList from "../shared/SongsList";
 import DatasaveWarning from "../shared/DatasaveWarning"
 
 import saveSongsToDatabase from "@/js/functions/fauna/saveSongs"
+import gob from "@/js/classes/GOB";
 
 export default {
    name: "RoundOver",
@@ -55,11 +56,7 @@ export default {
       async fetchSongs() {
          this.message = "Fetching songs...";
          this.isLoading = true;
-         const rootUrl = process.env.VUE_APP_BASE_URL;
-         const response = await fetch(
-            `${rootUrl}/api/gob?fetchSongs=${this.number}`
-         );
-         const obj = await response.json();
+         const obj = await gob.fetchSongs(this.number);
          this.isLoading = false;
          const { status, data } = obj;
          if (status.code === 200) this.songs = data;
